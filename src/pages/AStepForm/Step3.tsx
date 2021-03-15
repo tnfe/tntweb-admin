@@ -123,7 +123,7 @@ function Step3(props: IProps) {
       <Button type="link">分组字段设置</Button>
       <VerticalBlank height="8px" />
       {state.groupFields.map((f, i) => (
-        <MyCard title={se.uiGroupTitle(f, i)} headStyle={se.stInnerCard} style={{ marginBottom: '12px' }}>
+        <MyCard key={i} title={se.uiGroupTitle(f, i)} headStyle={se.stInnerCard} style={{ marginBottom: '12px' }}>
           <DiSelect title="数据字段:" value={f.fields} onChange={sync(`groupFields.${i}.fields`)}
             mode="multiple" data={mcu.exampleData.options} extraStyle={seGroupFieldsEx}
           />

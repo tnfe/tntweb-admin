@@ -3,4 +3,4 @@ mock
 config
 public
 scripts
-src
+#src

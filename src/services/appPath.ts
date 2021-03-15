@@ -11,7 +11,7 @@ export function getBasename() {
 
 export function getApiHost() {
   // 是本地调试机器，携带者端口号
-  if (location.port !== '') return '';
+  if (window.location.port !== '') return '';
   return cachedApiHost || '';
 };
 

@@ -9,7 +9,6 @@ import { useConcent } from 'concent';
 import { CtxDe } from 'types/store';
 import SiderSwitchIcon from 'components/biz-dumb/SiderSwitchIcon';
 import { getBasename, getRelativeRootPath } from 'services/appPath';
-import { sys } from 'configs/constant';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
 // +++ local modules +++
 import styles from './App.module.css';

@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  extends: ['plugin:react/recommended'],
+  extends: ['plugin:react/recommended', "react-app"],
   env: {
     jest: true,
   },
