@@ -91,7 +91,7 @@
     "build": "node scripts/build.js",
     "lint": "eslint ./src --ext ts,tsx",
     "lintfix": "eslint ./src --ext ts,tsx --fix",
-    "test": "node scripts/test.js",
+    "test": "jest",
     "snap": "jest -u"
   },
   "eslintConfig": {

@@ -19,12 +19,43 @@ exports[`Demo Render generate Demo snapshot 1`] = `
       <h1>
         2
       </h1>
-      <button
+      <Button
         onClick={[Function]}
+        type="primary"
       >
-        toogleIsOk 
-        true
-      </button>
+        <Wave>
+          <button
+            className="ant-btn ant-btn-primary"
+            onClick={[Function]}
+            type="button"
+          >
+            <LoadingIcon
+              existIcon={false}
+              loading={false}
+              prefixCls="ant-btn"
+            >
+              <CSSMotion
+                motionName="ant-btn-loading-icon-motion"
+                onAppearActive={[Function]}
+                onAppearStart={[Function]}
+                onEnterActive={[Function]}
+                onEnterStart={[Function]}
+                onLeaveActive={[Function]}
+                onLeaveStart={[Function]}
+                removeOnLeave={true}
+                visible={false}
+              >
+                <DomWrapper />
+              </CSSMotion>
+            </LoadingIcon>
+            <span
+              key=".0"
+            >
+              toogleIsOk true
+            </span>
+          </button>
+        </Wave>
+      </Button>
     </div>
   </DemoUseSetup>
 </Memo(DemoPageTodoList)>
