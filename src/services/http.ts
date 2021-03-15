@@ -20,6 +20,11 @@ export interface IReqOptions {
    * default = true
    */
   check?: boolean,
+    /**
+   * default = true
+   * 当check为true时生效，是否alert提示错误信息
+   */
+  alertErrorMsg?: boolean,
 }
 
 type DataParams = Record<string, any> | null;
@@ -65,12 +70,12 @@ const generalOptions = {
 
 function seperateOptions(options:any = {}) {
   const {
-    returnLogicData, defaultValue = '', check = true,
+    returnLogicData, defaultValue = '', check = true, alertErrorMsg = true,
     failStrategy = cute.const.KEEP_ALL_BEEN_EXECUTED, ...cuteOptions
   } = options;
   // cute-http的调用相关可选参数
   cuteOptions.failStrategy = failStrategy;
-  return { logicOptions: { returnLogicData, defaultValue, check }, cuteOptions };
+  return { logicOptions: { returnLogicData, defaultValue, check, alertErrorMsg }, cuteOptions };
 }
 
 const checkCode = (axiosReply: any, url = '', checkOptions: IReqOptions = {}) => {
@@ -125,6 +130,7 @@ const attachPrefixAndData = (url: string, data: DataParams | '') => {
 
 function handleError(error: any, options: any, defaultValue: any) {
   if (!defaultValue) {
+    if (options.check && options.alertErrorMsg) messageService.error(error.message);
     throw error;
   }
   if (error && error.response && error.response.status >= 400) {
