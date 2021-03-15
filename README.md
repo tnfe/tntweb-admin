@@ -3,7 +3,7 @@ concet-pro主要是为了用户整合concent和react相关生态库，并给出�
 - 测试用例书写示范
 - 常用concent api示范
 - model目录组织示范
-= ts整合示范
+- ts整合示范
 
 ## 如何运行
 - step 1  
