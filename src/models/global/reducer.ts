@@ -1,7 +1,5 @@
-import { St } from './state';
+import { St } from './meta';
 import * as colorServ from 'services/color';
-import http from 'services/http';
-import cookie from 'react-cookies';
 
 export function toggleSiderVisible(p: any, moduleState: St): Partial<St> {
   return { siderVisible: !moduleState.siderVisible }
