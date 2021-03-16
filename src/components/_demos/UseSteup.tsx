@@ -22,7 +22,7 @@ function setup(ctx: CtxDe) {
   });
 
   return {
-    cu, // 导出结算结果wrap对象
+    cu, // 导出计算结果wrap对象
     state: ins.state,
     changeName: ins.syncer.name,
     toogleIsOk: ins.syncerOfBool.isOk,
