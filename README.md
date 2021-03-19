@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png)
+
 ## 概述
 concent-pro主要是为了帮助用户整合concent和react相关生态库，并给出最佳实践指导，包括但不局限于以下功能：
 - 测试用例书写示范
