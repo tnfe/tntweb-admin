@@ -65,6 +65,8 @@ git push (触发 husky钩子 pre-commit: npm run test)
 * eslint
 * webpack
 * typescript
+* jest
+* husky
 
 ## 根目录结构
 ```
