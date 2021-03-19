@@ -7,29 +7,30 @@ concent-pro主要是为了帮助用户整合concent和react相关生态库，并
 - model目录组织示范
 - ts整合示范
 
-## 如何运行
-- step 1  
-进入项目根目录，安装项目依赖
+## 安装与运行
+- 拉取项目代码
+```bash
+git clone https://github.com/tnfe/concent-pro.git
+cd concent-pro
+```
+
+- 安装相关依赖
 ```bash
 npm i
 ```  
 
-- step 2  
-启动项目，开始开发与调试
+- 启动与调试项目
 ```bash
 npm start （包含启动前端 和 mock服务）
-```
-
-如需分开启动
-```bash
+// 如需分开启动
 npm run api （启动mock服务）
 npm run app （启动前端）
 ```
 
-## 快速开始
-- step 1  
+## 添加页面
+- 添加菜单与路由 
 `src/configs/menus`里添加路由对应的菜单信息
-- step 2
+- 添加路由页面
 `src/pages`目录下添加页面组件
 > 可参考 `src/pages/_DemoTempalte`查看示例代码，启动项目后 访问 localhost:3000/template可以访问该组件页面
 
@@ -40,23 +41,18 @@ npm run app （启动前端）
 
 ## 技术栈
 ### 运行时依赖
-* [react 16.13.1](https://github.com/facebook/create-react-app)   
-  组件化编程ui基础库
-* [react-router v5](https://github.com/ReactTraining/react-router)  
-  react路由方案
-* [concent v2](https://github.com/concentjs/concent)  
-  内置依赖收集，高性能、渐进式的react开发框架
-* [react-router-concent v2](https://github.com/concentjs/react-router-concent)  
-  桥接react-router和concent的中间库
-* [ant-design v4](https://github.com/ant-design/ant-design)   
-  react 基础ui组件库
+* [react 16.13.1](https://github.com/facebook/create-react-app) 组件化编程ui基础库   
+* [react-router v5](https://github.com/ReactTraining/react-router) react路由方案 
+* [concent v2](https://github.com/concentjs/concent) 内置依赖收集，高性能、渐进式的react开发框架
+* [react-router-concent v2](https://github.com/concentjs/react-router-concent) 桥接react-router和concent的中间库
+* [ant-design v4](https://github.com/ant-design/ant-design) react基础ui组件库
 
 ### 开发依赖
 * [create-react-app v3](https://github.com/facebook/create-react-app)   
-  react工程手脚架
 * [mocker-api v1.13](https://github.com/jaywcjlove/mocker-api)    
-  api模拟服务
-
+* eslint
+* webpack
+* typescript
 
 ## 根目录结构
 ```
@@ -122,3 +118,11 @@ npm run app （启动前端）
 | |____http               # 其他业务基础服务
 | |____...
 ```
+
+## 浏览器兼容
+
+Modern browsers and IE10.
+
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera |
+| --- | --- | --- | --- | --- |
+| IE10, Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
