@@ -18,6 +18,7 @@ export interface IMenuItem {
   exact?: boolean;
   /**
    * 是否在边栏里展示，默认是true
+   * 为false时，只是菜单里看不到入口了，通过路由依然能访问
    */
   showInSider?: boolean;
   Component: React.MemoExoticComponent<(props: any) => JSX.Element> | React.LazyExoticComponent<React.MemoExoticComponent<(props: any) => JSX.Element>>,
@@ -36,9 +37,11 @@ export interface IMenuGroup {
 }
 
 const showDevPage = process.env.REACT_APP_IS_LOCAL === 'true';
+const showUnderLocalMode = window.location.port !== '';
 
 const menus: Array<IMenuItem | IMenuGroup> = [
   {
+    showInSider: showUnderLocalMode,
     label: 'todoList',
     path: '/todolist',
     Component: DemoTodoList,

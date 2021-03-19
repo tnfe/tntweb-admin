@@ -1,5 +1,6 @@
 
-export function okeys<T = any>(map: Record<string, T>) {
+export function okeys<T extends Record<string, any>>(map: T) {
+  // 外部需要自己 as (keyof T)[]
   return Object.keys(map);
 }
 
@@ -9,7 +10,7 @@ export function isValidVal(val: any) {
 
 /**
  * 判断是否是对象 {} []
- * @param {*} val 
+ * @param {*} val
  */
 export function isObject(val: any, allowArr = true) {
   // 防止 typeof null === 'object' 成立
@@ -22,9 +23,9 @@ export function isObject(val: any, allowArr = true) {
 
 export function clone(obj: Record<string, any>) {
   if (obj) return JSON.parse(JSON.stringify(obj));
-  else {
-    throw new Error('empty object');
-  };
+
+  throw new Error('empty object');
+  ;
 }
 
 export function safeGetItemFromArray<T = any>(arr: T[], idx: number, defaultValue: T) {
@@ -51,14 +52,15 @@ export function safeAssign(obj: Record<string, any>, toMod: Record<string, any> 
 
 /**
  * 指定了 defaultValue 时才不会抛出解析字符串失败的错误
- * @param jsonStr 
- * @param defaultValue 
+ * @param jsonStr
+ * @param defaultValue
  */
-export function safeParse<T = any>(jsonStr: string, defaultValue?: T): T {
+export function safeParse<T = any>(jsonStr: string, defaultValue?: T, errMsg?: string): T {
   try {
     return JSON.parse(jsonStr);
   } catch (err) {
     if (defaultValue) return defaultValue;
+    if (errMsg) throw new Error(errMsg);
     throw err;
   }
 }
@@ -73,8 +75,8 @@ interface NullDef {
 }
 /**
  *
- * @param value 
- * @param nullDef 
+ * @param value
+ * @param nullDef
  */
 export function isNull(value: any, nullDef: NullDef = {}) {
   const {
@@ -89,7 +91,7 @@ export function isNull(value: any, nullDef: NullDef = {}) {
 
   if (Array.isArray(value)) {
     if (emptyArrIsNull) return value.length === 0;
-    else return false;
+    return false;
   }
 
   if (typeof value === 'object') {
@@ -108,10 +110,9 @@ export function isNull(value: any, nullDef: NullDef = {}) {
       }
 
       return allIsNull;
-    } else {
-      if (emptyObjIsNull) return keyLen === 0;
-      else return false;
     }
+    if (emptyObjIsNull) return keyLen === 0;
+    return false;
   }
 
   return false;
@@ -138,17 +139,17 @@ export function ensureMap(obj: Record<string, any>, key: string) {
 
 /**
  * 从一个已存在的map里按规则变异出一个新的map
- * @param map 
- * @param getValue 
- * @param getKey 
+ * @param map
+ * @param getValue
+ * @param getKey
  */
 export function transformMap(map: Record<string, any>, getValue?: (value: any, key: string) => any, getKey?: (key: string, value: any) => string) {
   const newMap = {} as Record<string, any>;
-  const _getKey = getKey || (key => key);
+  const targetGetKey = getKey || (key => key);
 
   okeys(map).forEach(key => {
     const value = map[key];
-    const mapKey = _getKey(key, value);
+    const mapKey = targetGetKey(key, value);
     newMap[mapKey] = getValue ? getValue(value, key) : value;
   });
   return newMap;
@@ -156,7 +157,7 @@ export function transformMap(map: Record<string, any>, getValue?: (value: any, k
 
 /**
  * map 转为 list
- * @param map 
+ * @param map
  * @param keyName
  * @param valueName
  */
@@ -165,7 +166,7 @@ export function toList<V, Item>(map: Record<string, V>, getItem: (key: string, v
   okeys(map).forEach(key => {
     const item = getItem(key, map[key]);
     list.push(item);
-  })
+  });
   return list;
 }
 
@@ -215,18 +216,18 @@ export function hasProperty(obj: Record<string, any>, property: string) {
 
 export function purify(obj: Record<string, any>, isValueInvalid?: (val: any) => boolean): Record<string, any> {
   // isValidVal or isNull
-  const _isInvalid = isValueInvalid || (value => !isNull(value));
+  const targetIsInvalid = isValueInvalid || (value => !isNull(value));
   const pureObj = {} as Record<string, any>;
   okeys(obj).forEach(key => {
-    if (_isInvalid(obj[key])) pureObj[key] = obj[key];
+    if (targetIsInvalid(obj[key])) pureObj[key] = obj[key];
   });
   return pureObj;
 }
 
 /**
  * 针对string 或则 number 元素的数组做不重复添加
- * @param arr 
- * @param item 
+ * @param arr
+ * @param item
  */
 export function noDupPush(arr: (string | number)[], item: string | number) {
   if (!arr.includes(item)) arr.push(item);
@@ -238,16 +239,16 @@ export function getVal(obj: Record<string, any>, key: string) {
 
 
 export function getDepth(obj: Record<string, any>) {
-  var depth = 0;
+  let depth = 0;
   if (obj.children) {
-    obj.children.forEach(function (d:any) {
-      var tmpDepth = getDepth(d);
+    obj.children.forEach((d: any) => {
+      const tmpDepth = getDepth(d);
       if (tmpDepth > depth) {
         depth = tmpDepth;
       }
     });
   }
-  return 1 + depth
+  return 1 + depth;
 }
 
 export function getObjDepth(obj: Record<string, any>) {

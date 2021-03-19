@@ -2,11 +2,11 @@
 
 /**
  * 将list转为map
- * @param list 
+ * @param list
  * @param keyNameOrFn 选择哪个key的值作为map的key，也可以是一个动态生成key的函数
- * @param getValue 
+ * @param getValue
 */
-export function toMap<T, V>(list: T[], keyNameOrFn: string | ((value: T) => string), getValue?: (value: T) => any): Record<string, V> {
+export function toMap<T, V extends any = T>(list: T[], keyNameOrFn: keyof T | ((value: T) => string), getValue?: (value: T) => any): Record<string, V> {
   const map = {} as Record<string, V>;
   if (!list) return map;
   list.forEach(v => {
@@ -27,3 +27,12 @@ export function removeDupStrItem(oriList: string[], toRemoveList: string[]) {
   oriList.forEach(item => !toRemoveList.includes(item) && newList.push(item));
   return newList;
 }
+
+
+export function lastItem<T>(arr: T[]): T {
+  return arr[arr.length - 1];
+}
+
+export function nodupStrPush(oriList: string[], toPush: string) {
+  if (!oriList.includes(toPush)) oriList.push(toPush);
+};
