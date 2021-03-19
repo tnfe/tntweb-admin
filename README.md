@@ -1,11 +1,11 @@
 ![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png)
 
 ## 概述
-concent-pro主要是为了帮助用户整合concent和react相关生态库，并给出最佳实践指导，包括但不局限于以下功能：
-- 测试用例书写示范
+concent-pro是一个帮用户整合concent和react相关生态库并内置了最佳实践指导的项目，以便提供给用户开箱即用的体验，包括但不局限于以下功能：
 - 常用concent api示范
 - model目录组织示范
 - ts整合示范
+- 测试用例书写示范
 
 ## 安装与运行
 - 拉取项目代码
