@@ -8,7 +8,7 @@ concent-pro是一个帮用户整合concent和react相关生态库并内置了最
 - 测试用例书写示范
 
 ## 预览
-![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-site.png)
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-site2.png)
 
 ## 安装与运行
 - 拉取项目代码
