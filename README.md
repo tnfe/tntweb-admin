@@ -1,5 +1,5 @@
 <p align="center">
-   <img width="260" src="https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png">
+   <img width="380" src="https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png">
 </p>
 
 ## 概述
