@@ -1,7 +1,7 @@
 ![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png)
 
 ## 概述
-concent-pro是一个帮用户整合concent和react相关生态库并内置了最佳实践指导的项目，以便提供给用户开箱即用的体验，包括但不局限于以下功能：
+concent-pro是一个帮用户整合[concent](https://github.com/concentjs/concent)和[react](https://github.com/facebook/react)相关生态库并内置了最佳实践指导的项目，以便提供给用户开箱即用的体验，包括但不局限于以下功能：
 - 常用concent api示范
 - model目录组织示范
 - ts整合示范
@@ -56,7 +56,7 @@ git push (触发 husky钩子 pre-commit: npm run test)
 
 ## 技术栈
 ### 运行时依赖
-* [react 16.13.1](https://github.com/facebook/create-react-app) 组件化编程ui基础库   
+* [react 16.13.1](https://github.com/facebook/react) 组件化编程ui基础库   
 * [react-router v5](https://github.com/ReactTraining/react-router) react路由方案 
 * [concent v2](https://github.com/concentjs/concent) 内置依赖收集，高性能、渐进式的react开发框架
 * [react-router-concent v2](https://github.com/concentjs/react-router-concent) 桥接react-router和concent的中间库
