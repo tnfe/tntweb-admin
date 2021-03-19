@@ -1,4 +1,6 @@
-![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png)
+<p align="center">
+   <img width="260" src="https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png">
+</p>
 
 ## 概述
 concent-pro是一个帮用户整合[concent](https://github.com/concentjs/concent)和[react](https://github.com/facebook/react)相关生态库并内置了最佳实践指导的项目，以便提供给用户开箱即用的体验，包括但不局限于以下功能：
