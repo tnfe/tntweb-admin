@@ -28,9 +28,9 @@ npm run app （启动前端）
 ```
 
 ## 添加页面
-- 添加菜单与路由 
+- 添加菜单与路由   
 `src/configs/menus`里添加路由对应的菜单信息
-- 添加路由页面
+- 添加路由页面    
 `src/pages`目录下添加页面组件
 > 可参考 `src/pages/_DemoTempalte`查看示例代码，启动项目后 访问 localhost:3000/template可以访问该组件页面
 
