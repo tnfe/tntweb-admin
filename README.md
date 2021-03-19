@@ -27,6 +27,18 @@ npm run api （启动mock服务）
 npm run app （启动前端）
 ```
 
+- 测试与格式校验
+```bash
+npm run test (jest测试)
+npm run lint (eslint校验)
+npm run lintfix (eslint修复)
+```
+- 代码提交与推送
+```
+git commit -am 'xxxx_msg' (触发 husky钩子 pre-commit: npm run lintfix)
+git push (触发 husky钩子 pre-commit: npm run test)
+```
+
 ## 添加页面
 - 添加菜单与路由   
 `src/configs/menus`里添加路由对应的菜单信息
