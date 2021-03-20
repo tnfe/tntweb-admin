@@ -33,16 +33,16 @@ class Routes extends React.Component {
     });
 
     this.ctx.effect(() => {
-      this.setAppPathLabel();
+      this.changeNavData();
     }, []);
 
     this.ctx.on(getUrlChangedEvName(), (param, action, history) => {
       console.log(param, action, history);
-      this.setAppPathLabel();
+      this.changeNavData();
     });
   }
 
-  setAppPathLabel = () => {
+  changeNavData = () => {
     const curAppPath = getRelativeRootPath();
     const menuItem = path2menuItem[curAppPath];
     if (menuItem) {
@@ -61,6 +61,7 @@ class Routes extends React.Component {
     this.setState({ err: err.message });
   }
 
+  // 提示当前路由页崩溃
   renderCrashTip = () => {
     return (
       <h1 style={{ color: 'red' }}>
@@ -70,12 +71,13 @@ class Routes extends React.Component {
     );
   }
 
+  // 渲染导航面包屑
   renderNavBreadcrumb = () => {
     return (
       <Breadcrumb style={{ paddingLeft: '16px', height: '32px', lineHeight: '32px', backgroundColor: 'white' }}>
         {this.state.curMenus.map((item, i) => {
-          let uiIcon = item.Icon ? <item.Icon /> : '';
-          return <Breadcrumb.Item key={i}>{uiIcon}<NormalBlank/>{item.label}</Breadcrumb.Item>;
+          const uiIcon = item.Icon ? <item.Icon /> : '';
+          return <Breadcrumb.Item key={i}>{uiIcon}<NormalBlank />{item.label}</Breadcrumb.Item>;
         })}
       </Breadcrumb>
     );
@@ -84,17 +86,19 @@ class Routes extends React.Component {
   makeCompWrap = (item: IMenuItem) => {
     return (props: RouteComponentProps) => {
       const { showBreadcrumb = true, setContentLayout = true } = item;
+      const uiPageComp = <item.Component {...props} />;
+
       let uiBreadcrumb = '' as React.ReactNode;
       if (showBreadcrumb) uiBreadcrumb = this.renderNavBreadcrumb();
-      const { contentLayoutStyleNoPadding } = this.ctx.globalComputed;
+      const { contentLayoutStyle } = this.ctx.globalComputed;
 
       if (setContentLayout) {
         return (
-          <Layout style={contentLayoutStyleNoPadding}>
+          <Layout style={contentLayoutStyle}>
             {uiBreadcrumb}
             <Layout style={{ padding: '24px' }}>
               <Content id="appContentArea" className={styles.contentWrap}>
-                <item.Component {...props} />
+                {uiPageComp}
               </Content>
             </Layout>
           </Layout>
@@ -102,45 +106,51 @@ class Routes extends React.Component {
       }
 
       return (
-        <Layout style={contentLayoutStyleNoPadding}>
+        <Layout style={contentLayoutStyle}>
           {uiBreadcrumb}
-          <item.Component {...props} />
+          {uiPageComp}
         </Layout>
       );
     };
   }
 
-buildRouteUi = () => {
-  let homeMenuItem = null as IMenuItem | null;
-  const uiRoutes = flatedMenus.map((item) => {
-    if (item.isHomePage) homeMenuItem = item;
-    const CompWrap = this.makeCompWrap(item);
-    return <Route key={item.path} exact={item.exact} path={item.path} component={CompWrap} />;
-  });
+  // 构建一次后就缓存路由组件，否则会在边栏收起时造成页面组件卸载并再挂载
+  cachedUi = { uiRoutes: null, uiHomeRoute: null } as Record<string, any>;
+  // 根据配置构造路由
+  buildRouteUi = () => {
+    if (this.cachedUi.uiRoutes) return this.cachedUi;
 
-  let uiHomeRoute = '' as React.ReactNode;
-  if (homeMenuItem) {
-    const CompWrap = this.makeCompWrap(homeMenuItem);
-    uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;
-  }
-  return { uiRoutes, uiHomeRoute };
-}
+    let homeMenuItem = null as IMenuItem | null;
+    const uiRoutes = flatedMenus.map((item) => {
+      if (item.isHomePage) homeMenuItem = item;
+      const CompWrap = this.makeCompWrap(item);
+      return <Route key={item.path} exact={item.exact} path={item.path} component={CompWrap} />;
+    });
 
-render() {
-  if (this.errOccurred) {
-    return this.renderCrashTip();
+    let uiHomeRoute = '' as React.ReactNode;
+    if (homeMenuItem) {
+      const CompWrap = this.makeCompWrap(homeMenuItem);
+      uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;
+    }
+    this.cachedUi = { uiRoutes, uiHomeRoute };
+    return this.cachedUi;
   }
-  const { uiRoutes, uiHomeRoute } = this.buildRouteUi();
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        {uiRoutes}
-        {uiHomeRoute}
-        <Route component={NotFound} />
-      </Switch>
-    </Suspense>
-  );
-}
+
+  render() {
+    if (this.errOccurred) {
+      return this.renderCrashTip();
+    }
+    const { uiRoutes, uiHomeRoute } = this.buildRouteUi();
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          {uiRoutes}
+          {uiHomeRoute}
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+    );
+  }
 }
 
 export default register(cst.MODULE_DEFAULT)(Routes);

@@ -1,38 +1,48 @@
-import 'configs/runConcent';
 // +++ node modules +++
 import React from 'react';
-import { getUrlChangedEvName, ConnectRouter } from 'react-router-concent';
+import { ConnectRouter } from 'react-router-concent';
 import { BrowserRouter } from 'react-router-dom';
-import { Layout, Spin } from 'antd';
-import { useConcent } from 'concent';
+import { Layout, Spin, Skeleton } from 'antd';
+import { cst } from 'concent';
 // +++ project modules +++
 import { CtxDe } from 'types/store';
 import SiderSwitchIcon from 'components/biz-dumb/SiderSwitchIcon';
-import { getBasename, getRelativeRootPath } from 'services/appPath';
-import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
+import { getBasename } from 'services/appPath';
+import { useC2Mod } from 'services/concent';
 // +++ local modules +++
 import Routes from './Routes';
 import Sider from './Sider';
 import Footer from './Footer';
 import Header from './Header';
 
-function setup({ effect, globalReducer }: CtxDe) {
+function setup({ effect, globalReducer, globalState, globalComputed }: CtxDe) {
   effect(() => {
-    globalReducer.prepareApp()
+    globalReducer.prepareApp();
   }, []);
+
+  return {
+    renderContentArea() {
+      const { contentLayoutStyle } = globalComputed;
+      let uiContentArea = '' as React.ReactNode;
+      if (!globalState.isAppReady) {
+        uiContentArea = <Layout style={{ ...contentLayoutStyle, padding: '64px' }}>
+          <Skeleton avatar paragraph={{ rows: 4 }} />
+          <Skeleton avatar paragraph={{ rows: 4 }} />
+          <Spin>
+            <div style={{ textAlign: 'center' }}>系统初始化中...</div>
+          </Spin>
+        </Layout>;
+      } else {
+        // 给一个最小高度，确保路由组件在异步加载过程中，Footer出现在底部
+        uiContentArea = <div style={{ minHeight: 'calc(100vh - 120px)' }}><Routes /></div>;
+      }
+      return uiContentArea;
+    }
+  };
 }
 
 function App() {
-  const { globalReducer, globalState, globalComputed } = useConcent<{}, CtxDe>({ setup, tag: 'App' });
-  const siderVisible = globalState.siderVisible;
-
-  let uiContentArea = '' as React.ReactNode;
-  if (!globalState.isAppReady) {
-    uiContentArea = <Spin>系统初始化中...</Spin>
-  } else {
-    uiContentArea = <Routes />;
-  }
-
+  const { globalReducer, globalState, globalComputed, settings } = useC2Mod(cst.MODULE_DEFAULT, { setup, tag: 'App' });
   return (
     <Layout>
       <Layout>
@@ -40,9 +50,9 @@ function App() {
       </Layout>
       <Layout>
         <SiderSwitchIcon des={globalComputed.siderIconDes} onClick={globalReducer.toggleSiderVisible} />
-        {siderVisible && <Sider />}
+        {globalState.siderVisible && <Sider />}
       </Layout>
-      {uiContentArea}
+      {settings.renderContentArea()}
       <Footer />
     </Layout>
   );

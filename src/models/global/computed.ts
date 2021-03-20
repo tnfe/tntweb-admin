@@ -2,15 +2,10 @@ import { St } from './state';
 import { sys } from 'configs/constant';
 
 export function contentLayoutStyle(n: St) {
+  const minHeight = 'calc(100vh - 120px)';
   return n.siderVisible
-    ? { marginLeft: sys.siderWidthPx, padding: '24px' }
-    : { marginLeft: '0', padding: '24px' };
-}
-
-export function contentLayoutStyleNoPadding(n: St) {
-  return n.siderVisible
-    ? { marginLeft: sys.siderWidthPx }
-    : { marginLeft: '0' };
+    ? { marginLeft: sys.siderWidthPx, minHeight }
+    : { marginLeft: '0', minHeight };
 }
 
 export function headerStyle(n: St) {
