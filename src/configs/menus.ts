@@ -52,7 +52,7 @@ const menus: Array<IMenuItem | IMenuGroup> = [
     Component: DemoTemplate,
   },
   {
-    label: '分布表单',
+    label: '分步表单',
     path: '/step-form',
     Component: lazy(() => import('pages/AStepForm')),
   },

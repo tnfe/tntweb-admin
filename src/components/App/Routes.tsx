@@ -10,8 +10,7 @@ import { IMenuItem } from 'configs/menus';
 import NotFound from 'pages/NotFound';
 import { CtxDe } from 'types/store';
 
-class Routes extends React.PureComponent {
-
+class Routes extends React.Component {
   ctx = {} as CtxDe;
   errOccurred = false;
 
