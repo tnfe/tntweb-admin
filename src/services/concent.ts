@@ -83,24 +83,18 @@ export interface Options<
  * 如需要全局任意地方可通过 useC2Mod('xx') 导出xx模块上下文来使用，
  * 需要在 src/models/index.js 显式的导出该模块
  * -----------------------[Code example]-----------------------
- *  // models/index.ts 里导出
- *  import somePageModel from 'pages/SomePage/model';
- *  import someCompModel from 'components/SomeComp/model';
- *
- *  const allModels = {
- *    ...somePageModel,
- *    ...someCompModel,
- *  }
- *
- *
- *  export default allModels;
- *
- *  // 某些组件里使用
- *  import { useC2Mod } from 'services/concent';
- *  function DemoComp(){
- *    const ctx = useC2Mod('xxxMod');
- *    return <h1>{ctx.state.hello}</h1>
- *  }
+   // models/index.ts 里导出
+    import somePageModel from 'pages/SomePage/model';
+    import someCompModel from 'components/SomeComp/model';
+    const allModels = {...somePageModel,  ...someCompModel};
+
+    export default allModels;
+   // 某些组件里使用
+    import { useC2Mod } from 'services/concent';
+    function DemoComp(){
+      const ctx = useC2Mod('xxxMod');
+      return <h1>{ctx.state.hello}</h1>
+    }
  * --------------------------------------------------------------
  * @param moduleName
  * @param options {Options} - 可选参数，见 Options定义
@@ -138,11 +132,52 @@ export function useC2Conn<
   return useConcent<{}, Ctx>(regOpt, ccClassKey);
 }
 
+/**
+ * useC2Mod的工厂函数，返回钩子函数的同时，也提供了帮助推导setup函数的ctx参数类型的辅助函数
+ * 注意! 此工厂函数仅适用于 setup函数ctx参数不需要感知 props, extra 类型时，方可使用
+ * @param moduleName
+ * @param options
+ * -----------------------[Code example]-----------------------
+    const ret = makeUseC2Mod("Counter");
+    function setupA1(c: any) {
+      const ctx = ret.typeCtx(c);
+      const cu = ctx.computed({countX6: (n) => n.value * 6 });
+      return { cu };
+    }
+    export function UseC2ModByFactory() {
+      const ctx = ret.useC2Mod({ setup: setupA1 });
+      return <h1>{ctx.state.bigValue} {ctx.settings.cu.countX6}</h1>
+    }
+ * --------------------------------------------------------------
+ */
+export function makeUseC2Mod<M extends Modules>(moduleName: M) {
+  return {
+    /**
+     * 需要传入的 setup 函数
+     */
+    useC2Mod: <Setup extends ValidSetup, P extends IAnyObj, CuDesc extends MultiComputed<any>,
+      Extra extends IAnyObj, StaticExtra extends any, Mp extends ValidMapProps,
+      >(options?: Options<P, Setup, CuDesc, Extra, StaticExtra, Mp>) => {
+      const { regOpt, ccClassKey } = priBuildCallParams(moduleName, [], options);
+      type Ctx = CtxM<P, M, SettingsType<Setup>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
+      return useConcent<P, Ctx>(regOpt, ccClassKey);
+    },
+    /**
+     * 推导setup函数的ctx参数类型
+     */
+    typeCtx: (ctx: ICtxBase) => {
+      return ctx as CtxM<{}, M>;
+    }
+  };
+}
+
+
 export const ccReducer = (reducer as unknown) as RootRd;
 
 /**
- * 获取 globa模块的状态
- * 在已拥有concent model上下文、action上线文的地方，推荐直接获取，代替调用此函数
+ * 获取 global模块的状态
+ * 在已拥有 concent model 上下文、action 上下文的地方，
+ * 推荐直接获取，代替调用此函数，因为直接获取数据时组件并不会订阅数据变化
  */
 export function getGlobalState() {
   const globalState = getGst<RootState>();
@@ -151,6 +186,7 @@ export function getGlobalState() {
 
 /**
  * 获取整个根状态
+ * 注意直接获取数据时组件并不会订阅数据变化
  */
 export function getRootState() {
   const rootState = getSt() as RootState;
@@ -159,6 +195,7 @@ export function getRootState() {
 
 /**
  * 获取目标模块状态
+ * 注意直接获取数据时组件并不会订阅数据变化
  */
 export function getModelState<T extends Modules>(modelName: T) {
   const modelState = getSt(modelName) as RootState[T];
@@ -177,11 +214,11 @@ export function ccEmit<E extends EvKeys, T extends EvMap[E]>(eventName: E, ...ar
 
 /**
  * 携带id的发射事件
- * @param eventdesc - [eventName, id]
+ * @param eventDesc - [eventName, id]
  * @param args
  */
-export function ccEmitId<E extends EvKeys, T extends EvMap[E]>(eventdesc: [E, string], ...args: T) {
-  emit(eventdesc, ...args);
+export function ccEmitId<E extends EvKeys, T extends EvMap[E]>(eventDesc: [E, string], ...args: T) {
+  emit(eventDesc, ...args);
 }
 
 type OnFn = <E extends EvKeys>(eventName: E, cb: (...args: EvMap[E]) => void) => void;
@@ -189,19 +226,18 @@ type OnFn = <E extends EvKeys>(eventName: E, cb: (...args: EvMap[E]) => void) =>
  * 配合EvMap，为ctx.on装配类型
  * 外部调用时传入具体的事件名就推导出cb函数的参数列表类型
  *
- *  function setup(ctx: Ctx){
- *    const on = ctxOn(ctx);
- *    on('xxx',(a, b)=>{
- *      // 此处ts能感知a、b的具体类型
- *    })
- *  }
- *
+    function setup(ctx: Ctx){
+      const on = ctxOn(ctx);
+      on('xxx',(a, b)=>{
+       // 此处ts能感知a、b的具体类型
+      })
+    }
  */
 export function ctxOn(ctx: ICtxBase) {
   return ctx.on as OnFn;
 }
 
-type OnIdFn = <E extends EvKeys>(eventdesc: [E, string], cb: (...args: EvMap[E]) => void) => void;
+type OnIdFn = <E extends EvKeys>(eventDesc: [E, string], cb: (...args: EvMap[E]) => void) => void;
 /**
  * 可以携带id的ctx.on
  * @param ctx

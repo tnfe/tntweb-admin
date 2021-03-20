@@ -7,6 +7,12 @@ export function contentLayoutStyle(n: St) {
     : { marginLeft: '0', padding: '24px' };
 }
 
+export function contentLayoutStyleNoPadding(n: St) {
+  return n.siderVisible
+    ? { marginLeft: sys.siderWidthPx }
+    : { marginLeft: '0' };
+}
+
 export function headerStyle(n: St) {
   const { headerTheme, themeColor, siderVisible } = n;
   const hstyle = { marginLeft: '', color: '', backgroundColor: '' };

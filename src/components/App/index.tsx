@@ -11,41 +11,15 @@ import SiderSwitchIcon from 'components/biz-dumb/SiderSwitchIcon';
 import { getBasename, getRelativeRootPath } from 'services/appPath';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
 // +++ local modules +++
-import styles from './App.module.css';
 import Routes from './Routes';
 import Sider from './Sider';
 import Footer from './Footer';
 import Header from './Header';
 
-const { Content } = Layout;
-
-function setup({ effect, on, globalReducer }: CtxDe) {
-
-  const setAppPathLabel = ()=>{
-    const curAppPath = getRelativeRootPath();
-    const menuItem = path2menuItem[curAppPath];
-    if (menuItem) {
-      const label2 = menuItem.label;
-      const menuGroup = path2menuGroup[curAppPath];
-      let label1 = '';
-      if (menuGroup) {
-        label1 = `${menuGroup.label}/`;
-      }
-      const dom = document.querySelector('#appPathLabel') as any;
-      if (!dom) return;
-      dom.innerText = `${label1}${label2}`;
-    }
-  };
-
+function setup({ effect, globalReducer }: CtxDe) {
   effect(() => {
-    setAppPathLabel();
     globalReducer.prepareApp()
   }, []);
-
-  on(getUrlChangedEvName(), (param, action, history) => {
-    console.log(param, action, history);
-    setAppPathLabel();
-  });
 }
 
 function App() {
@@ -68,13 +42,8 @@ function App() {
         <SiderSwitchIcon des={globalComputed.siderIconDes} onClick={globalReducer.toggleSiderVisible} />
         {siderVisible && <Sider />}
       </Layout>
-      <Layout style={globalComputed.contentLayoutStyle}>
-        <h5 id="appPathLabel"></h5>
-        <Content id="appContentArea" className={styles.contentWrap}>
-          {uiContentArea}
-        </Content>
-        <Footer />
-      </Layout>
+      {uiContentArea}
+      <Footer />
     </Layout>
   );
 }

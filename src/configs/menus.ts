@@ -21,7 +21,20 @@ export interface IMenuItem {
    * 为false时，只是菜单里看不到入口了，通过路由依然能访问
    */
   showInSider?: boolean;
+  /**
+   * 菜单对应的页面组件
+   */
   Component: React.MemoExoticComponent<(props: any) => JSX.Element> | React.LazyExoticComponent<React.MemoExoticComponent<(props: any) => JSX.Element>>,
+  /**
+   * 页面组件头部是否出现面包屑，提示用户当前所处的页面路径
+   * 默认值：true
+   */
+  showBreadcrumb?: boolean;
+  /**
+   * 页面组件是否包一层统一的默认布局组件
+   * 默认值：true
+   */
+  setContentLayout?: boolean;
   label: string;
   Icon?: React.SFC;
   /** 是否是首页，匹配路径 / 时也能访问，默认 false */
@@ -45,6 +58,8 @@ const menus: Array<IMenuItem | IMenuGroup> = [
     label: 'todoList',
     path: '/todolist',
     Component: DemoTodoList,
+    // setContentLayout: false,
+    // showBreadcrumb: false,
   },
   {
     label: 'template',
