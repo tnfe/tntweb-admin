@@ -1,7 +1,7 @@
 /**
  * concent 相关的一些公共封装函数
  */
- import {
+import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
