@@ -6,6 +6,7 @@ import {
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
 } from 'concent';
+import { noop } from 'utils/fn';
 import { CtxM, CtxMConn, CtxConn, Modules, RootRd, RootState, CtxDe } from 'types/store';
 import { EvMap } from 'types/eventMap';
 
@@ -130,6 +131,20 @@ export function useC2Conn<
   const { regOpt, ccClassKey } = priBuildCallParams(cst.MODULE_DEFAULT, connect, options);
   type Ctx = CtxConn<P, Conn[number], SettingsType<Setup>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
   return useConcent<{}, Ctx>(regOpt, ccClassKey);
+}
+
+
+/**
+ * 为属于某个模块的 ctx 标记类型, 通常使用在class成员变量上
+ * 返回是一个无意义的对象，但实际运行时会被替换为 concent 注入的ctx
+ */
+export function typeCtxM<
+  M extends Modules, Setup extends ValidSetup, P extends IAnyObj, CuDesc extends MultiComputed<any>,
+  Extra extends IAnyObj, StaticExtra extends any, Mp extends ValidMapProps,
+  >(moduleName: M, options?: Options<P, Setup, CuDesc, Extra, StaticExtra, Mp>) {
+  noop(moduleName, options);
+  type Ctx = CtxM<P, M, SettingsType<Setup>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
+  return {} as Ctx;
 }
 
 /**
