@@ -1,13 +1,13 @@
 /**
  * concent 相关的一些公共封装函数
  */
-import {
-  useConcent, reducer, getState as getSt, getGlobalState as getGst, emit,
+ import {
+  useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
 } from 'concent';
 import { noop } from 'utils/fn';
-import { CtxM, CtxMConn, CtxConn, Modules, RootRd, RootState, CtxDe } from 'types/store';
+import { CtxM, CtxMConn, CtxConn, Modules, RootRd, RootState, RootCu, CtxDe } from 'types/store';
 import { EvMap } from 'types/eventMap';
 
 function priBuildCallParams(moduleName: string, connect: Array<Modules>, options?: Options<any, any, any, any, any, any>) {
@@ -215,6 +215,14 @@ export function getRootState() {
 export function getModelState<T extends Modules>(modelName: T) {
   const modelState = getSt(modelName) as RootState[T];
   return modelState;
+}
+
+/**
+ * 获取目标模块状态
+ */
+export function getModelComputed<T extends Modules>(modelName: T) {
+  const modelComputed = getComputed(modelName) as RootCu[T];
+  return modelComputed;
 }
 
 type EvKeys = keyof EvMap;
