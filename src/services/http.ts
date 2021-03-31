@@ -4,6 +4,7 @@ import qs from 'qs';
 import axios from 'axios';
 import * as messageService from './message';
 import * as objUtil from 'utils/obj';
+import * as c2Serv from 'services/concent';
 // import resData from 'assets/response-data';
 
 export interface IReqOptions {
@@ -13,18 +14,18 @@ export interface IReqOptions {
    * true：返回reply.data
    * false：返回reply,
    */
-  returnLogicData?: boolean,
-  defaultValue?: any,
+  returnLogicData?: boolean;
+  defaultValue?: any;
   /**
    * 是否检查服务返回code，并做错误提示
    * default = true
    */
-  check?: boolean,
-    /**
+  check?: boolean;
+  /**
    * default = true
    * 当check为true时生效，是否alert提示错误信息
    */
-  alertErrorMsg?: boolean,
+  alertErrorMsg?: boolean;
 }
 
 type DataParams = Record<string, any> | null;
@@ -68,7 +69,7 @@ const generalOptions = {
 //   }
 // }
 
-function seperateOptions(options:any = {}) {
+function seperateOptions(options: any = {}) {
   const {
     returnLogicData, defaultValue = '', check = true, alertErrorMsg = true,
     failStrategy = cute.const.KEEP_ALL_BEEN_EXECUTED, ...cuteOptions
@@ -148,10 +149,22 @@ async function sendRequest(method: string, url: string, data?: DataParams, optio
   try {
     const mergedOpt = { ...generalOptions, ...cuteOptions };
     let reply;
-    if (method === 'get') {
-      reply = await cute[method](attachPrefixAndData(url, data || ''), '', mergedOpt);
+    const { isInnerMock, innerMockApis } = c2Serv.getGlobalState();
+    if (isInnerMock && innerMockApis.includes(`${method} ${url}`)) {
+      const { mockImpl } = await import('../assets//mock/mockHttpService');
+      if (method === 'get' || method === 'post') {
+        const fakeHttp = mockImpl();
+        // 包裹成类 axiosReply 对象
+        reply = { statusCode: 200, data: fakeHttp[method](url, data) };
+      } else {
+        throw new Error(`method[${method}] not implemented in mockHttpService`);
+      }
     } else {
-      reply = await cute[method](attachPrefixAndData(url, ''), data, mergedOpt);
+      if (method === 'get') {
+        reply = await cute[method](attachPrefixAndData(url, data || ''), '', mergedOpt);
+      } else {
+        reply = await cute[method](attachPrefixAndData(url, ''), data, mergedOpt);
+      }
     }
 
     return checkCode(reply, url, { returnLogicData, check });
@@ -271,7 +284,7 @@ async function postFormData(url: string, data: DataParams, options: IReqOptions)
 }
 
 /**
- * 
+ *
  * @param {string} url - 请求地址
  * @param {Record<string, any>} data - ost请求需要的参数
  */

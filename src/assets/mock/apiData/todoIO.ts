@@ -14,5 +14,5 @@ export function getTodoList(url: string, data: any) {
     "msg": "",
     "code": "0"
   };
-  return resp.data;
+  return resp;
 }
