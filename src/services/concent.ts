@@ -3,7 +3,7 @@
  */
 import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
-  ReducerCallerParams, IReducerFn, IActionCtxBase, cst,
+  ReducerCallerParams, IReducerFn, IActionCtxBase, cst, MODULE_DEFAULT,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
 } from 'concent';
 import { noop } from 'utils/fn';
@@ -38,27 +38,20 @@ export async function callTarget(callerParams: ReducerCallerParams | [IReducerFn
   }
 }
 
-/**
- * 适用于不属于任何模块，只是设置setup函数的场景
- * @param setup
- */
-export function useSetup<T extends SetupFn>(setup: T, props?: any) {
-  const { settings } = useConcent<{}, CtxDe<{}, SettingsType<T>>>({ setup, props });
-  return settings;
-}
-
 export interface ValidSetup {
   (ctx: ICtxBase): IAnyObj | void;
 }
 export interface ValidMapProps {
   (ctx: ICtxBase): IAnyObj;
 }
-export interface Options<
-  P extends IAnyObj, Setup extends ValidSetup, CuDesc extends MultiComputed<any>,
-  Extra extends IAnyObj, StaticExtra extends any, Mp extends ValidMapProps,
+export interface OptionsBase<
+  P extends IAnyObj,
+  CuDesc extends MultiComputed<any>,
+  Extra extends IAnyObj,
+  StaticExtra extends any,
+  Mp extends ValidMapProps
   > {
   props?: P;
-  setup?: Setup,
   tag?: string;
   ccClassKey?: string;
   extra?: Extra;
@@ -69,13 +62,23 @@ export interface Options<
   mapProps?: Mp;
   cuDesc?: CuDesc;
   /**
- * 是否透传 cuSpec 给 useConcent函数，默认为true，
- * 表示需要透传，此时用户不需要再setup函数体内调用 ctx.computed(cuSpec)
- * 如果用户设置passCuSpec为false，表示传入 cuSpec 仅为了方便推导出refComputed类型，但不透传 cuSpec 给 useConcent函数
- * 注意此时用户需要在 setup函数体内调用 ctx.computed(cuSpec) 来完成示例计算函数的定义，
- * 否则 refComputed 里拿不到真正的计算结果
- */
+   * 是否透传 cuSpec 给 useConcent函数，默认为true，
+   * 表示需要透传，此时用户不需要再setup函数体内调用 ctx.computed(cuSpec)
+   * 如果用户设置passCuSpec为false，表示传入 cuSpec 仅为了方便推导出refComputed类型，但不透传 cuSpec 给 useConcent函数
+   * 注意此时用户需要在 setup函数体内调用 ctx.computed(cuSpec) 来完成示例计算函数的定义，
+   * 否则 refComputed 里拿不到真正的计算结果
+   */
   passCuDesc?: boolean;
+}
+export interface Options<
+  P extends IAnyObj,
+  Setup extends ValidSetup,
+  CuDesc extends MultiComputed<any>,
+  Extra extends IAnyObj,
+  StaticExtra extends any,
+  Mp extends ValidMapProps
+  > extends OptionsBase<P, CuDesc, Extra, StaticExtra, Mp> {
+  setup?: Setup;
 }
 
 /**
@@ -133,18 +136,35 @@ export function useC2Conn<
   return useConcent<{}, Ctx>(regOpt, ccClassKey);
 }
 
+/**
+ * 适用于不属于任何模块，只是设置setup函数的场景
+ * @param setup
+ * @param options - see OptionsBase
+ */
+export function useSetup<
+  T extends SetupFn, P extends IAnyObj, CuDesc extends MultiComputed<any>,
+  Extra extends IAnyObj, StaticExtra extends any, Mp extends ValidMapProps,
+  >(setup: T, options?: OptionsBase<P, CuDesc, Extra, StaticExtra, Mp>) {
+  const mergedOptions = { setup, ...options };
+  const { regOpt, ccClassKey } = priBuildCallParams(cst.MODULE_DEFAULT, [], mergedOptions);
+  type Ctx = CtxM<P, MODULE_DEFAULT, SettingsType<T>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
+  const { settings } = useConcent<{}, Ctx>(regOpt, ccClassKey);
+  return settings;
+}
+
 
 /**
- * 为属于某个模块的 ctx 标记类型, 通常使用在class成员变量上
- * 返回是一个无意义的对象，但实际运行时会被替换为 concent 注入的ctx
+ * 为属于某个模块的 ctx 标记类型, 通常使用在class成员变量上 和 setup函数体内
+ * 在class组件成员变量使用时不需要传递第三位参数ctx，组件实例化时会由concent注入并替换
+ * 在setup函数里使用时，可直接传入已经创建好的ctx
  */
 export function typeCtxM<
   M extends Modules, Setup extends ValidSetup, P extends IAnyObj, CuDesc extends MultiComputed<any>,
   Extra extends IAnyObj, StaticExtra extends any, Mp extends ValidMapProps,
-  >(moduleName: M, options?: Options<P, Setup, CuDesc, Extra, StaticExtra, Mp>) {
+  >(moduleName: M, options?: Options<P, Setup, CuDesc, Extra, StaticExtra, Mp>, ctx?: any) {
   noop(moduleName, options);
   type Ctx = CtxM<P, M, SettingsType<Setup>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
-  return {} as Ctx;
+  return (ctx || {}) as Ctx;
 }
 
 /**
@@ -182,7 +202,7 @@ export function makeUseC2Mod<M extends Modules>(moduleName: M) {
      */
     typeCtx: (ctx: ICtxBase) => {
       return ctx as CtxM<{}, M>;
-    }
+    },
   };
 }
 
