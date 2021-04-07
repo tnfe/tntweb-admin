@@ -136,7 +136,7 @@ class Routes extends React.Component {
       uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;
     }
 
-    let CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' });
+    const CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' });
     const uiNotFoundRoute = <Route component={CompNotFoundWrap} />;
 
     this.cachedUi = { uiRoutes, uiHomeRoute, uiNotFoundRoute };
