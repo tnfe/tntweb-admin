@@ -29,6 +29,9 @@ class Routes extends React.Component {
     curMenus: [] as Array<IMenuGroup | IMenuItem>,
   };
 
+  // 构建一次后就缓存路由组件，否则会在边栏收起时造成页面组件卸载并再挂载
+  cachedUi = { uiRoutes: null, uiHomeRoute: null, uiNotFound: null } as Record<string, any>;
+
   $$setup() {
     this.ctx.effect(() => {
       this.changeNavData();
@@ -116,8 +119,6 @@ class Routes extends React.Component {
     };
   }
 
-  // 构建一次后就缓存路由组件，否则会在边栏收起时造成页面组件卸载并再挂载
-  cachedUi = { uiRoutes: null, uiHomeRoute: null } as Record<string, any>;
   // 根据配置构造路由
   buildRouteUi = () => {
     if (this.cachedUi.uiRoutes) return this.cachedUi;
@@ -134,7 +135,11 @@ class Routes extends React.Component {
       const CompWrap = this.makeCompWrap(homeMenuItem);
       uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;
     }
-    this.cachedUi = { uiRoutes, uiHomeRoute };
+
+    let CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' });
+    const uiNotFoundRoute = <Route component={CompNotFoundWrap} />;
+
+    this.cachedUi = { uiRoutes, uiHomeRoute, uiNotFoundRoute };
     return this.cachedUi;
   }
 
@@ -142,13 +147,13 @@ class Routes extends React.Component {
     if (this.errOccurred) {
       return this.renderCrashTip();
     }
-    const { uiRoutes, uiHomeRoute } = this.buildRouteUi();
+    const { uiRoutes, uiHomeRoute, uiNotFoundRoute } = this.buildRouteUi();
     return (
       <Suspense fallback={<Fallback />}>
         <Switch>
           {uiRoutes}
           {uiHomeRoute}
-          <Route component={NotFound} />
+          {uiNotFoundRoute}
         </Switch>
       </Suspense>
     );
