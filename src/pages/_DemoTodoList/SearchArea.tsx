@@ -10,7 +10,7 @@ function SearArea() {
     <div>
       <Input onChange={sync('keyword')} value={state.keyword} />
       <span id="bigValue">{state.bigValue}</span>
-      <Button id="addBigBtn" onClick={mr.queryList}>button</Button>
+      <Button id="addBigBtn" onClick={mr.addBig}>addBig</Button>
     </div>
   );
 }

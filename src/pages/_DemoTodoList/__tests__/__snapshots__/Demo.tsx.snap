@@ -120,6 +120,11 @@ exports[`Demo Render generate Demo snapshot 1`] = `
                   <DomWrapper />
                 </CSSMotion>
               </LoadingIcon>
+              <span
+                key=".0"
+              >
+                addBig
+              </span>
             </button>
           </Wave>
         </Button>
