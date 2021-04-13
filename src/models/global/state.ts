@@ -22,10 +22,9 @@ function getInitialState() {
     isAdmin: false,
     /** 处于innerMock时，httpService的请求结果会直接从模拟文件获取（同时还会配合 innerMockApis 名单），注意此时不会从浏览器发出请求 */
     isInnerMock: true,
-    /** isInnerMock 为 true 时，在名单里的请求才会直接获取模拟文件的结果 */
-    innerMockApis: [
-      'get /api/todo/list',
-    ],
+    /** isInnerMock 为 true 时，只要实现了的mock函数，如果没有在 excludedMockApis 名单里， 都会去被调用 */
+    excludedMockApis: [
+    ] as string[],
   };
 }
 

@@ -4,6 +4,8 @@ import qs from 'qs';
 import axios from 'axios';
 import * as messageService from './message';
 import * as objUtil from 'utils/obj';
+import * as timerUtil from 'utils/timer';
+import * as urlUtil from 'utils/url';
 import * as c2Serv from 'services/concent';
 // import resData from 'assets/response-data';
 
@@ -149,22 +151,37 @@ async function sendRequest(method: string, url: string, data?: DataParams, optio
   try {
     const mergedOpt = { ...generalOptions, ...cuteOptions };
     let reply;
-    const { isInnerMock, innerMockApis } = c2Serv.getGlobalState();
-    if (isInnerMock && innerMockApis.includes(`${method} ${url}`)) {
-      const { mockImpl } = await import('../assets//mock/mockHttpService');
-      if (method === 'get' || method === 'post') {
-        const fakeHttp = mockImpl();
-        // 包裹成类 axiosReply 对象
-        reply = { statusCode: 200, data: fakeHttp[method](url, data) };
-      } else {
-        throw new Error(`method[${method}] not implemented in mockHttpService`);
-      }
-    } else {
+    const { isInnerMock, excludedMockApis } = c2Serv.getGlobalState();
+
+    const getRealReply = async () => {
+      let reply;
       if (method === 'get') {
         reply = await cute[method](attachPrefixAndData(url, data || ''), '', mergedOpt);
       } else {
         reply = await cute[method](attachPrefixAndData(url, ''), data, mergedOpt);
       }
+      return reply;
+    };
+
+    if (isInnerMock) {
+      const { mockImpl } = await import('../assets/mock/mockHttpService');
+      if (method === 'get' || method === 'post') {
+        await timerUtil.delay(300);
+        const fakeHttp = mockImpl();
+        const isUrlBeenMocked = fakeHttp.hasMockedFn(method, url);
+        // 已实现mock、没在排除名单里
+        if (isUrlBeenMocked && !excludedMockApis.includes(`${method} ${urlUtil.purify(url)}`)) {
+          const mockResult = fakeHttp[method](url, data);
+          // 包裹成类 axiosReply 对象
+          reply = { statusCode: 200, data: mockResult };
+        } else {
+          reply = await getRealReply();
+        }
+      } else {
+        throw new Error(`method[${method}] not implemented in mockHttpService`);
+      }
+    } else {
+      reply = await getRealReply();
     }
 
     return checkCode(reply, url, { returnLogicData, check });
