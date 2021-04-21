@@ -3,7 +3,7 @@
 import { DEMO_CLONED } from 'configs/c2Mods';
 import globalModel from './global';
 import demoModel from './_demo';
-import counterModel from 'components/_demos/CounterWithModel/model';
+import counterModel from './counter';
 import todoListModel from 'pages/_DemoTodoList/model';
 import homeModel from 'pages/Home/model';
 

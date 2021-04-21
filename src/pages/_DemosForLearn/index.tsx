@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useConcent, SettingsType, StateType } from 'concent';
 import { CtxDeS, MouseEv } from 'types/store';
-import CounterWithModel from 'components/_demos/CounterWithModel';
+import Counter from 'components/_demos/Counter';
 import D0Module from 'components/_demos/D0Module';
 import D1Module from 'components/_demos/D1Module';
 import D2ModuleRefCu from 'components/_demos/D2ModuleRefCu';
@@ -15,7 +15,7 @@ type CtxPre = CtxDeS<{}, St>;
 type Ctx = CtxDeS<{}, St, SettingsType<typeof setup>>;
 
 const key2comp: Record<string, React.SFC<any>> = {
-  CounterWithModel,
+  Counter,
   D0Module,
   D1Module,
   D2ModuleRefCu,
@@ -26,7 +26,7 @@ const key2comp: Record<string, React.SFC<any>> = {
 
 function iState() {
   return {
-    selectedKey: 'CounterWithModel',
+    selectedKey: 'Counter',
   };
 }
 
