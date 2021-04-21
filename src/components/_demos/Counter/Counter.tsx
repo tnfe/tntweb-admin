@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useC2Mod } from 'services/concent';
 import { COUNTER } from "configs/c2Mods";
 import styles from "./Counter.module.css";

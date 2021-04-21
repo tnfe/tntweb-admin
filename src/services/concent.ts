@@ -1,13 +1,16 @@
 /**
  * concent 相关的一些公共封装函数
  */
+// 仅用于辅助函数示例说明的跳转
+// eslint-disable-next-line
+import * as useC2ModDemos from 'components/_demosOfHook/useC2Mod';
 import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst, MODULE_DEFAULT,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
 } from 'concent';
 import { noop } from 'utils/fn';
-import { CtxM, CtxMConn, CtxConn, Modules, RootRd, RootState, RootCu, CtxDe } from 'types/store';
+import { CtxM, CtxMConn, CtxConn, Modules, RootRd, RootState, RootCu } from 'types/store';
 import { EvMap } from 'types/eventMap';
 
 function priBuildCallParams(moduleName: string, connect: Array<Modules>, options?: Options<any, any, any, any, any, any>) {
@@ -86,20 +89,21 @@ export interface Options<
  * use the target model context you want by passing a module name
  * 如需要全局任意地方可通过 useC2Mod('xx') 导出xx模块上下文来使用，
  * 需要在 src/models/index.js 显式的导出该模块
- * -----------------------[Code example]-----------------------
-   // models/index.ts 里导出
-    import somePageModel from 'pages/SomePage/model';
-    import someCompModel from 'components/SomeComp/model';
-    const allModels = {...somePageModel,  ...someCompModel};
-
-    export default allModels;
-   // 某些组件里使用
-    import { useC2Mod } from 'services/concent';
-    function DemoComp(){
-      const ctx = useC2Mod('xxxMod');
-      return <h1>{ctx.state.hello}</h1>
-    }
- * --------------------------------------------------------------
+ *
+ * -----------------------[Export example]-----------------------
+ * ```js
+ * import somePageModel from 'pages/SomePage/model';
+ * import someCompModel from 'components/SomeComp/model';
+ * const allModels = {...somePageModel,  ...someCompModel};
+ * ```
+ * ---------------------------------------------------------------
+ *
+ * 各种调用示例：
+ * @see {useC2ModDemos.Example} - 简单示例
+ * @see {useC2ModDemos.ExampleCallMr} - 调用moduleReducer
+ * @see {useC2ModDemos.ExampleReadMcu} - 读取模块计算结果
+ * @see {useC2ModDemos.ExampleSetup} - 配置setup
+ * @see {useC2ModDemos.ExampleRefCu} - 定义实例计算
  * @param moduleName
  * @param options {Options} - 可选参数，见 Options定义
  */
