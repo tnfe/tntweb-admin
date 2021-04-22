@@ -2,8 +2,6 @@
  * concent 相关的一些公共封装函数
  */
 // 仅用于辅助函数示例说明的跳转
-// eslint-disable-next-line
-import * as useC2ModDemos from 'components/_demosOfHook/useC2Mod';
 import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst, MODULE_DEFAULT,
@@ -177,16 +175,18 @@ export function typeCtxM<
  * @param moduleName
  * @param options
  * -----------------------[Code example]-----------------------
-    const ret = makeUseC2Mod("Counter");
-    function setupA1(c: any) {
-      const ctx = ret.typeCtx(c);
-      const cu = ctx.computed({countX6: (n) => n.value * 6 });
-      return { cu };
-    }
-    export function UseC2ModByFactory() {
-      const ctx = ret.useC2Mod({ setup: setupA1 });
-      return <h1>{ctx.state.bigValue} {ctx.settings.cu.countX6}</h1>
-    }
+ * ```js
+ *  const ret = makeUseC2Mod("Counter");
+ *   function setupA1(c: any) {
+ *    const ctx = ret.typeCtx(c);
+ *     const cu = ctx.computed({countX6: (n) => n.value * 6 });
+ *     return { cu };
+ *   }
+ *   export function UseC2ModByFactory() {
+ *     const ctx = ret.useC2Mod({ setup: setupA1 });
+ *     return <h1>{ctx.state.bigValue} {ctx.settings.cu.countX6}</h1>
+ *   }
+ * ```
  * --------------------------------------------------------------
  */
 export function makeUseC2Mod<M extends Modules>(moduleName: M) {
