@@ -7,7 +7,7 @@ import * as reducer from './reducer';
 import * as lifecycle from './lifecycle';
 
 // export const moduleName = 'GeneralTable';
-export const moduleName = 'GeneralTable' + Math.random();
+export const moduleName = 'GeneralTable' + Math.ceil(Math.random() * 100);
 
 export const modelDesc = {
   state,
