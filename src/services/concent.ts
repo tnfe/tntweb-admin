@@ -96,12 +96,10 @@ export interface Options<
  * ```
  * ---------------------------------------------------------------
  *
- * 各种调用示例：
- * @see {useC2ModDemos.Example} - 简单示例
- * @see {useC2ModDemos.ExampleCallMr} - 调用moduleReducer
- * @see {useC2ModDemos.ExampleReadMcu} - 读取模块计算结果
- * @see {useC2ModDemos.ExampleSetup} - 配置setup
- * @see {useC2ModDemos.ExampleRefCu} - 定义实例计算
+ * 代码原文件：
+ * @see https://github.com/tnfe/concent-pro/blob/main/src/components/_demosOfHook/UseC2Mod.tsx
+ * 调用示例说明：
+ * @see https://github.com/tnfe/concent-pro/blob/main/CODE_SNIPPET.md#example
  * @param moduleName
  * @param options {Options} - 可选参数，见 Options定义
  */
