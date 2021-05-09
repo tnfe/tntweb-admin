@@ -39,11 +39,11 @@ export default function DiSelect(props: IProps) {
   const {
     required = true, block, title, value, onChange, onSearch, data = [],
     hasEmpty, emptyLabel = '不限', emptyValue = '', smartEmpty = false,
-    extraStyle = {}, placeholder = '', mode, error = '',
+    extraStyle = {}, placeholder = '', mode, error = '', disabled = false,
   } = props;
   const style = { display: 'inline-block' };
   if (block) style.display = 'block';
-  const uiRequred = <pre style={stPre}>{required ? '* ' : '  '}</pre>;
+  const uiRequired = <pre style={stPre}>{required ? '* ' : '  '}</pre>;
 
   const {
     title: titleSt = {},
@@ -53,14 +53,14 @@ export default function DiSelect(props: IProps) {
   } = extraStyle;
   const mergedItemSt = { ...style, ...itemSt }
 
-  let uiEmtpy = '' as React.ReactNode;
+  let uiEmpty = '' as React.ReactNode;
   if (hasEmpty) {
     const tmpEmptyUI = <Option key="__hasEmpty__" value={emptyValue}>{emptyLabel}</Option>;
     if (smartEmpty) {
       // 仅当传入value等于emptyValue时，显示空选项，否则就不显示
-      if (value === emptyValue) uiEmtpy = tmpEmptyUI;
+      if (value === emptyValue) uiEmpty = tmpEmptyUI;
     } else {
-      uiEmtpy = tmpEmptyUI;
+      uiEmpty = tmpEmptyUI;
     }
   }
 
@@ -77,12 +77,12 @@ export default function DiSelect(props: IProps) {
   return (
     <div className={styles.diItemWrap} style={mergedItemSt}>
       <span className={styles.diItemTitle} style={titleSt}>
-        {uiRequred}{title}
+        {uiRequired}{title}
       </span>
       <MySelect mode={mode} value={value} size={inputSize} style={inputSt} onChange={onChange}
-        placeholder={placeholder} onSearch={onSearch} showArrow
+        placeholder={placeholder} onSearch={onSearch} showArrow disabled={disabled}
       >
-        {uiEmtpy}
+        {uiEmpty}
         {data.map((v: any, i: number) => <Option key={i} value={v.value}>{v.label}</Option>)}
       </MySelect>
       {uiError}
