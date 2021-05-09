@@ -47,6 +47,7 @@ export function safeAssign(obj: Record<string, any>, toMod: Record<string, any> 
   Object.keys(toMod).forEach((key) => {
     obj[key] = toMod[key];
   });
+  return obj;
 }
 
 /**
