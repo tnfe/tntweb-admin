@@ -113,6 +113,21 @@ export function useC2Mod<
 }
 
 /**
+ * 使用默认模块（在没有重写$$default模块的情况下，默认模块是一个空模块）
+ * @param options
+ * @returns
+ */
+export function useC2DefaultMod<
+  Setup extends ValidSetup, P extends IAnyObj, CuDesc extends MultiComputed<any>,
+  Extra extends IAnyObj, StaticExtra extends any, Mp extends ValidMapProps,
+  >(options?: Options<P, Setup, CuDesc, Extra, StaticExtra, Mp>) {
+  const { regOpt, ccClassKey } = priBuildCallParams(cst.MODULE_DEFAULT, [], options);
+  type Ctx = CtxM<P, MODULE_DEFAULT, SettingsType<Setup>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
+  return useConcent<{}, Ctx>(regOpt, ccClassKey);
+}
+
+
+/**
  * 属于某个模块，连接多个模块
  */
 export function useC2ModConn<
