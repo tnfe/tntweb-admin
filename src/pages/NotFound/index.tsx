@@ -1,9 +1,9 @@
 import React from 'react';
 
-function NotFound() {
+function App() {
   return (
     <h1> not found</h1>
   );
 }
 
-export default React.memo(NotFound);
+export default React.memo(App);

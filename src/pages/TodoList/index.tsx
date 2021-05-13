@@ -1,25 +1,18 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Alert } from 'antd';
-import { makeUseC2Mod } from 'services/concent';
+import { ctxOn } from 'services/concent';
+import * as ev from 'configs/constant/event';
 import { useModelWithSetup, CtxPre } from './model/meta';
 import ListArea from './ListArea';
 import SearchArea from './SearchArea';
 
-const ret = makeUseC2Mod("Counter");
-function setupA1(c: any) {
-  const ctx = ret.typeCtx(c);
-  const cu = ctx.computed({
-    countX6: (n) => n.value * 6
-  });
-  return { cu };
-}
-export function UseC2ModByFactory() {
-  const ctx = ret.useC2Mod({ setup: setupA1 });
-  return <h1>{ctx.state.bigValue}&nbsp;{ctx.settings.cu.countX6}</h1>
-}
-
 export function setup(ctx: CtxPre) {
+  const on = ctxOn(ctx);
+  on(ev.someEvent, (p1) => {
+    console.log('move mouse pointer to p1 to see type: number');
+  });
+
   return {
     hiThere() {
       return 'hiThere';

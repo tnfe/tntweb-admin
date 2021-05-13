@@ -85,6 +85,44 @@ exports[`Demo Render generate Demo snapshot 1`] = `
             />
           </ClearableLabeledInput>
         </Input>
+        <Input
+          onChange={[Function]}
+          type="text"
+          value=""
+        >
+          <ClearableLabeledInput
+            bordered={true}
+            element={
+              <input
+                className="ant-input"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                type="text"
+                value=""
+              />
+            }
+            focused={false}
+            handleReset={[Function]}
+            inputType="input"
+            onChange={[Function]}
+            prefixCls="ant-input"
+            triggerFocus={[Function]}
+            type="text"
+            value=""
+          >
+            <input
+              className="ant-input"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              type="text"
+              value=""
+            />
+          </ClearableLabeledInput>
+        </Input>
         <span
           id="bigValue"
         >
@@ -120,11 +158,6 @@ exports[`Demo Render generate Demo snapshot 1`] = `
                   <DomWrapper />
                 </CSSMotion>
               </LoadingIcon>
-              <span
-                key=".0"
-              >
-                addBig
-              </span>
             </button>
           </Wave>
         </Button>

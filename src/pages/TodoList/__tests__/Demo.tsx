@@ -42,7 +42,7 @@ describe('Demo Render', () => {
     expect(`${big + 1}` === newVal).toBeTruthy();
   });
 
-  test('sttings.hiThere', () => {
+  test('settings.hiThere', () => {
     const ret = ref.ctx.settings.hiThere();
     expect(ret).toBe('hiThere');
 

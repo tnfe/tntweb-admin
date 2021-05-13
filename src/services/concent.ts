@@ -1,7 +1,6 @@
 /**
  * concent 相关的一些公共封装函数
  */
-// 仅用于辅助函数示例说明的跳转
 import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst, MODULE_DEFAULT,
@@ -96,10 +95,13 @@ export interface Options<
  * ```
  * ---------------------------------------------------------------
  *
- * 代码原文件：
- * @see https://github.com/tnfe/concent-pro/blob/main/src/components/_demosOfHook/UseC2Mod.tsx
- * 调用示例说明：
- * @see https://github.com/tnfe/concent-pro/blob/main/CODE_SNIPPET.md#example
+ * 各种调用示例：
+ * 需自己跳转到 components/_demosOfHook/useC2Mod 文件里查看
+ * @see {useC2ModDemos.Example} - 简单示例
+ * @see {useC2ModDemos.ExampleCallMr} - 调用moduleReducer
+ * @see {useC2ModDemos.ExampleReadMcu} - 读取模块计算结果
+ * @see {useC2ModDemos.ExampleSetup} - 配置setup
+ * @see {useC2ModDemos.ExampleRefCu} - 定义实例计算
  * @param moduleName
  * @param options {Options} - 可选参数，见 Options定义
  */
@@ -126,7 +128,6 @@ export function useC2DefaultMod<
   return useConcent<{}, Ctx>(regOpt, ccClassKey);
 }
 
-
 /**
  * 属于某个模块，连接多个模块
  */
@@ -141,6 +142,12 @@ export function useC2ModConn<
 
 /**
  * 连接多个模块
+ * ```js
+ *  const { connectedState, cr } = useC2Conn(['mod1', 'mod2']);
+ *  // connectedState.mod1.stateXxx
+ *  // cr.mod1.methodXxx
+ *
+ * ```
  */
 export function useC2Conn<
   Conn extends Array<Modules>, Setup extends ValidSetup, P extends IAnyObj, CuDesc extends MultiComputed<any>,
@@ -222,7 +229,6 @@ export function makeUseC2Mod<M extends Modules>(moduleName: M) {
     },
   };
 }
-
 
 export const ccReducer = (reducer as unknown) as RootRd;
 

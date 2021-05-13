@@ -5,12 +5,13 @@ import { Input, Button } from 'antd';
 import { useModel } from './model/meta';
 
 function SearArea() {
-  const { sync, state, mr } = useModel();
+  const { sync, syncer, state, mr } = useModel();
   return (
     <div>
       <Input onChange={sync('keyword')} value={state.keyword} />
+      <Input onChange={syncer.keyword} value={state.keyword} />
       <span id="bigValue">{state.bigValue}</span>
-      <Button id="addBigBtn" onClick={mr.addBig}>addBig</Button>
+      <Button id="addBigBtn" onClick={mr.addBig} />
     </div>
   );
 }

@@ -1,6 +1,8 @@
-import { VoidPayload } from 'types/store';
 import { St } from './state';
-import { IAC } from './meta';
+import { VoidPayload, AC } from 'types/store';
+import { T_COUNTER } from 'configs/c2Mods';
+
+type IAC = AC<T_COUNTER>;
 
 export function forCopy(payload: VoidPayload, moduleState: St, ac: IAC) {
   console.log('call ac.setState or ac.dispatch when needed', ac.setState);
@@ -31,10 +33,10 @@ export async function incrementAsync(amount: number, moduleState: St): Promise<P
   return { value: moduleState.value + amount };
 }
 
-export function foo() {
+export function foo(){
   console.log('call foo');
 }
 
-export function clear() {
+export function clear(){
   console.log('clear');
 }

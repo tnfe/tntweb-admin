@@ -4,7 +4,6 @@ import { history } from 'react-router-concent';
 import { routerPath } from 'configs/constant';
 import * as mods from 'configs/c2Mods';
 import { useC2Mod } from 'services/concent';
-import * as sys from 'configs/constant/sys';
 import { Button } from 'antd';
 import { NormalBlank } from 'components/dumb/general';
 import { GeneralTable } from 'components/smart/GeneralTable';
@@ -17,7 +16,7 @@ function Home(props: RouteComponentProps) {
     <div style={{ paddingTop: '150px' }}>
       <AsyncButton>Welcome to visit concent pro</AsyncButton>
       <h3>mods.COUNTER.state.value {state.value}</h3>
-      <button onClick={() => history.push(routerPath.DEMO)}>to demo page</button>
+      <button onClick={() => history.push(routerPath.SIMPLE_LIST)}>to simple-list page</button>
       <Button type="primary">查看</Button>
       <NormalBlank />
       <Button type="dashed" danger>删除</Button>

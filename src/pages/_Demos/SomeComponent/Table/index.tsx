@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useConcent, SettingsType, StateType } from 'concent';
 import { CtxDeS, MouseEv } from 'types/store';
-import Counter from 'components/_demos/Counter';
+import Counter from 'pages/Counter';
 import D0Module from 'components/_demos/D0Module';
 import D1Module from 'components/_demos/D1Module';
 import D2ModuleRefCu from 'components/_demos/D2ModuleRefCu';

@@ -1,23 +1,18 @@
+/**
+ * 不生成meta文件的话，需要将model提升到顶层 models/index.ts 里暴露出去集中注册
+ * 然后任务地方的子组件可使用 services/concent 的 useC2Mod 方法来使用模块
+ * 如 useC2Mod('CounterOneFileModel')
+ */
 import {
   getComputed, getState, ComputedValType, StateType,
   IModActionCtx, IRefCtxM, ReducerCallerParams, IReducerFn, IAnyObj, ICtxBase, SettingsType
 } from 'concent';
 import { makeUseModel, makeUseModelWithSetup, makeUseModelWithSetupCuf } from 'concent-utils';
 import { RootState, RootCu } from 'types/store';
-import { HOME } from 'configs/c2Mods';
-import state, { St as ModuleState } from './state';
-import * as computed from './computed';
-import * as reducer from './reducer';
-import * as lifecycle from './lifecycle';
 
-export const moduleName = HOME;
+import { modelDesc } from './index';
 
-export const modelDesc = {
-  state,
-  computed,
-  reducer,
-  lifecycle,
-};
+export const moduleName = 'CounterOneFileModel';
 
 export const model = { [moduleName]: modelDesc };
 
@@ -25,7 +20,7 @@ export type ModelDesc = typeof modelDesc;
 export type ModuleName = typeof moduleName;
 export type CallerParams = ReducerCallerParams | [IReducerFn, any];
 export type ReducerFn = IReducerFn;
-export type St = ModuleState;
+export type St = StateType<typeof modelDesc.state>;
 export type RootInfo = { state: RootState, computed: RootCu };
 // export type RootInfo = { state: {}, computed: {} };
 /** 用于描述 reducer 函数第3位参数 actionCtx 的类型 */
@@ -37,7 +32,7 @@ export type Ctx<Setup extends ValidSetup> = IRefCtxM<RootInfo, {}, ModelDesc, Se
 export const useModelWithSetup = makeUseModelWithSetup<RootInfo, ModelDesc>(moduleName);
 export const useModelWithSetupCuf = makeUseModelWithSetupCuf<RootInfo, ModelDesc>(moduleName);
 export const useModel = makeUseModel<RootInfo, ModelDesc>(moduleName);
-export const getModelComputed = () => getComputed(moduleName) as ComputedValType<typeof computed>;
-export const getModelState = () => getState(moduleName) as StateType<typeof state>;
+export const getModelComputed = () => getComputed(moduleName) as ComputedValType<typeof modelDesc.computed>;
+export const getModelState = () => getState(moduleName) as St;
 
 export default model;

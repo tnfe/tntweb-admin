@@ -4,7 +4,6 @@ import { COUNTER, T_COUNTER } from 'configs/c2Mods';
 import { CtxM } from 'types/store';
 
 /**
- * 简单示例
  * a very simple example
  */
 export function Example() {
@@ -13,7 +12,6 @@ export function Example() {
 }
 
 /**
- * 调用moduleReducer
  * an example call mr(moduleReducer) to change state
  */
 export function ExampleCallMr() {
@@ -22,7 +20,6 @@ export function ExampleCallMr() {
 }
 
 /**
- * 读取模块计算结果
  * an example read moduleComputed
  */
 export function ExampleReadMcu() {
@@ -33,7 +30,6 @@ export function ExampleReadMcu() {
 
 
 /**
- * 配置setup
  * an example define setup and call settings method to change state
  */
 function setup1(ctx: CtxM<{}, T_COUNTER>) {
@@ -47,7 +43,6 @@ export function ExampleSetup() {
 }
 
 /**
- * 定义实例计算
  * define ref computed in setup
  */
 function setup2(ctx: CtxM<{}, T_COUNTER>) {

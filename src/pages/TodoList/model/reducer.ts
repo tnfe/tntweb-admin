@@ -1,4 +1,3 @@
-import { modTableMeta } from 'components/smart/GeneralTable/model/reducer';
 import * as todoServ from 'services/domain/todo';
 import { VoidPayload } from 'types/store';
 import { IAC, St } from './meta';
@@ -28,10 +27,4 @@ export function clear() {
 export function addBig(payload: VoidPayload, moduleState: St) {
   const { bigValue } = moduleState;
   return { bigValue: bigValue + 1 };
-}
-
-export async function queryList(p:VoidPayload, moduleState: St) {
-  const { keyword } = moduleState;
-  const ret = await todoServ.queryTodoList({ keyword });
-  return { pageList: ret.list, total: ret.total };
 }
