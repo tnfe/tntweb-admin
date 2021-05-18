@@ -3,8 +3,7 @@ import './model';
 import React, { Fragment } from 'react';
 import { Table, Pagination, Button } from 'antd';
 import { getInitMetaData } from './model/state';
-import { CtxPre, createUseModelWithSetup, modelDesc as desc } from './model/meta';
-import * as m from './model';
+import { CtxPre, useModelWithSetup } from './model/meta';
 import * as t from './type';
 
 const setup = (ctx: CtxPre) => {
@@ -40,7 +39,7 @@ const setup = (ctx: CtxPre) => {
   }, []);
 
   const handlePageCurrentChange = (current: number) => {
-    const { fetchFn } = ctx.props;// fetchFn有可能会变，这里每次取最新的
+    const { fetchFn } = ctx.props; // fetchFn有可能会变，这里每次取最新的
     ctx.mr.handlePageCurrentChange({ tableId, current, fetchFn }, ccUniqueKey)
   };
   const handelPageSizeChange = (page: number, pageSize: number) => {
@@ -63,21 +62,17 @@ const setup = (ctx: CtxPre) => {
 export type Props = t.Props;
 export type FetchFn = t.FetchFn;
 export type FetchFnParams = t.FetchFnParams;
-export const configureModule = m.configureModule;
-export const modelDesc = desc;
 
 /**
  * #################[Code example]#####################
- *
+ * ```js
  *  const fetcher = ()=> xxxService.fetchData();
  *  <GeneralTable tid="xxxId" fetchFn={fetcher} columns={yourColumnsDef} />
- *
+ * ```
  * ####################################################
  */
 export function GeneralTable(props: t.Props) {
-  const useModelWithSetup = createUseModelWithSetup();
   const { state, settings } = useModelWithSetup(setup, { props });
-
   const {
     tid, columns, rowKey = 'id', scroll = { x: '100%' }, hasMoreMode = false,
     disableBtnWhenNoMore, size,

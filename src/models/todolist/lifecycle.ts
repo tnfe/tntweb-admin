@@ -19,11 +19,11 @@ import * as reducer from './reducer';
 // 默认只触发一次，如需满足条件反复触发，return false即可
 // 注意此函数触发时机和实例相关，如果没有任何属于此模块的组件实例化，该函数不会被触发
 export function mounted(dispatch: IDispatch) {
-  // dispatch(reducer.foo);
+  dispatch(reducer.foo);
 }
 
 // 当前模块的最后一个组件实例卸载时触发
 // 默认只触发一次，如需满足条件反复触发，return false即可
 export function willUnmount(dispatch: IDispatch) {
-  // dispatch(reducer.clear);
+  dispatch(reducer.clear);
 }

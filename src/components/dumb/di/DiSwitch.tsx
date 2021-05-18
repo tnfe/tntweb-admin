@@ -28,7 +28,6 @@ export default function DiInput(props: IProps) {
   const {
     item: itemSt = {},
     title: titleSt = {},
-    input: inputSt = d.inputSwitchStyle,
     inputSize = d.inputSize,
   } = extraStyle;
   const mergedItemSt = { ...style, ...itemSt }

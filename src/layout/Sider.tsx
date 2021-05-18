@@ -56,7 +56,7 @@ function AppSider() {
   const { settings: se, state, globalState } = useConcent<{}, Ctx>({ setup, tag: 'Sider' });
   return (
     <Sider width={siderWidthPx} className={styles.siderWrap} theme={globalState.siderTheme}>
-      <img style={se.logoStyle} src={webHeaderImg}></img>
+      <img style={se.logoStyle} src={webHeaderImg} alt="header_img"></img>
       <Menu
         theme={globalState.siderTheme}
         onSelect={se.changeSelectedKeys}

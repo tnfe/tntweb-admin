@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 const fs = require('fs');
@@ -24,9 +25,9 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-
+// 解决 react-monaco-editor 颜色不高亮的问题
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const postcssNormalize = require('postcss-normalize');
-
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -648,6 +649,9 @@ module.exports = function (webpackEnv) {
         silent: true,
         // The formatter is invoked directly in WebpackDevServerUtils during development
         formatter: isEnvProduction ? typescriptFormatter : undefined,
+      }),
+      new MonacoWebpackPlugin({
+        languages: ["json", "javascript", "typescript"],
       }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.

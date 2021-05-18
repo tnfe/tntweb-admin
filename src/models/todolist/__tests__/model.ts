@@ -1,7 +1,7 @@
-import * as rd from '../model/reducer';
-import * as lifecycle from '../model/lifecycle';
-import { getModelState } from '../model/meta';
+import * as rd from '../reducer';
+import * as lifecycle from '../lifecycle';
 import { dispatch } from 'concent';
+import { getModelState } from 'services/concent';
 
 /**
  * @author fancyzhong
@@ -15,7 +15,7 @@ describe('Demo model', () => {
   });
 
   test('reducer.clear way2', async () => {
-    const state = getModelState();
+    const state = getModelState('TodoList');
     const ori = state.bigValue;
     await dispatch(rd.addBig);
     expect(state.bigValue === ori + 1);

@@ -6,7 +6,7 @@ import { Layout, Spin, Skeleton } from 'antd';
 import { cst } from 'concent';
 // +++ project modules +++
 import { CtxDe } from 'types/store';
-import SiderSwitchIcon from 'components/biz-dumb/SiderSwitchIcon';
+import SiderSwitchIcon from 'components/dumb/SiderSwitchIcon';
 import { getBasename } from 'services/appPath';
 import { useC2Mod } from 'services/concent';
 // +++ local modules +++

@@ -29,7 +29,7 @@ const noop = () => { };
 export default function DiInput(props: IProps) {
   const {
     title, value, onChange, onEnter, block, disabled, required = true, extraStyle = {},
-    interactiveCb, interactiveLabel = '搜索', interactiveBtnLoading = false, placeholder = '',
+    interactiveCb, interactiveBtnLoading = false, placeholder = '',
     error, formatter, min = 0,
   } = props;
   const style = { display: 'inline-block' };

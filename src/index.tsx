@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
 import './styles/antd.css';
-import App from 'components/App';
+import App from 'layout';
 import * as serviceWorker from './serviceWorker';
 
 function getHostNode(id = 'root') {

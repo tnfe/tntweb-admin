@@ -1,18 +1,11 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 import { Alert } from 'antd';
-import { ctxOn } from 'services/concent';
-import * as ev from 'configs/constant/event';
-import { useModelWithSetup, CtxPre } from './model/meta';
+import { useC2Mod } from 'services/concent';
+import { CtxM } from 'types/store';
 import ListArea from './ListArea';
 import SearchArea from './SearchArea';
 
-export function setup(ctx: CtxPre) {
-  const on = ctxOn(ctx);
-  on(ev.someEvent, (p1) => {
-    console.log('move mouse pointer to p1 to see type: number');
-  });
-
+export function setup(ctx: CtxM<{}, 'TodoList'>) {
   return {
     hiThere() {
       return 'hiThere';
@@ -23,14 +16,21 @@ export function setup(ctx: CtxPre) {
   };
 }
 
-function DemoPageTodoList(props: RouteComponentProps) {
-  const { moduleComputed, state } = useModelWithSetup(setup, { tag: 'Dpt' });
+const ValueLabel = React.memo(() => {
+  const { state } = useC2Mod('TodoList');
+  return <h1 style={{ border: '1px solid blue' }}>{state.value}</h1>;
+});
+
+function DemoPageTodoList() {
+  const { moduleComputed, state } = useC2Mod('TodoList', { setup, tag: 'Dpt' });
 
   return (
     <div>
       <Alert message={moduleComputed.formattedInput} />
       <h1 id="bigValue">{state.bigValue}</h1>
       <SearchArea />
+      <ValueLabel />
+      <ValueLabel />
       <ListArea />
     </div>
   );

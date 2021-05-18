@@ -2,7 +2,7 @@ import * as todoServ from 'services/domain/todo';
 import { VoidPayload, AC } from 'types/store';
 import { St } from './state';
 
-type IAC = AC<'TodoList'>
+type IAC = AC<'Counter'>;
 
 export function forCopy(payload: VoidPayload, moduleState: St, ac: IAC) {
   console.log('call ac.setState or ac.dispatch when needed', ac.setState);

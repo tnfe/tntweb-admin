@@ -2,7 +2,7 @@ import { run, Plugin } from 'concent';
 import reduxDevToolPlugin from 'concent-plugin-redux-devtool';
 import * as msgService from 'services/message';
 import * as commonUtil from 'utils/common';
-import models from '../models';
+import * as models from '../models';
 
 const plugins: Plugin[] = [];
 if (commonUtil.isLocalMode()) {

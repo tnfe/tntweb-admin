@@ -1,7 +1,7 @@
 /**
  * concent 相关的一些公共封装函数
  */
-import {
+ import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst, MODULE_DEFAULT,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
@@ -10,7 +10,7 @@ import { noop } from 'utils/fn';
 import { CtxM, CtxMConn, CtxConn, Modules, RootRd, RootState, RootCu } from 'types/store';
 import { EvMap } from 'types/eventMap';
 
-function priBuildCallParams(moduleName: string, connect: Array<Modules>, options?: Options<any, any, any, any, any, any>) {
+function priBuildCallParams(moduleName: Modules, connect: Array<Modules>, options?: Options<any, any, any, any, any, any>) {
   const targetOptions = options || {};
   const { setup, tag, extra, staticExtra, cuDesc, passCuDesc = true, props = {}, ccClassKey } = targetOptions;
   const regOpt = { module: moduleName, connect, setup, props, tag, extra, staticExtra, cuDesc: null as any };
@@ -247,7 +247,7 @@ export function getGlobalState() {
  * 注意直接获取数据时组件并不会订阅数据变化
  */
 export function getRootState() {
-  const rootState = getSt() as RootState;
+  const rootState = getSt<RootState>();
   return rootState;
 }
 
@@ -256,16 +256,22 @@ export function getRootState() {
  * 注意直接获取数据时组件并不会订阅数据变化
  */
 export function getModelState<T extends Modules>(modelName: T) {
-  const modelState = getSt(modelName) as RootState[T];
-  return modelState;
+  if (modelName) {
+    const modelState = getSt<RootState, T>(modelName);
+    return modelState;
+  }
+  throw new Error('miss modelName');
 }
 
 /**
  * 获取目标模块状态
  */
 export function getModelComputed<T extends Modules>(modelName: T) {
-  const modelComputed = getComputed(modelName) as RootCu[T];
-  return modelComputed;
+  if (modelName) {
+    const modelComputed = getComputed<RootCu, T>(modelName);
+    return modelComputed;
+  }
+  throw new Error('miss modelName');
 }
 
 type EvKeys = keyof EvMap;

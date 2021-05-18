@@ -81,7 +81,7 @@ function AppHeader() {
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
       <div className={styles.userIconWrap}>
-        <Avatar size={40} src={st.uesrIcon} />
+        <Avatar size={40} src={st.userIcon} />
         <Blank width="8px" />
         {st.userName}
       </div>

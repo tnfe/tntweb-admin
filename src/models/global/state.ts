@@ -17,10 +17,10 @@ function getInitialState() {
     /** 系统是否准备就绪，包括登录、配置数据拉取等动作完成才是就绪 */
     isAppReady: false,
     userName: '',
-    uesrIcon: '',
+    userIcon: '',
     /** 当前登录者是否是管理员 */
     isAdmin: false,
-    /** 处于innerMock时，httpService的请求结果会直接从模拟文件获取（同时还会配合 innerMockApis 名单），注意此时不会从浏览器发出请求 */
+    /** 处于innerMock时，httpService的请求结果会直接从模拟文件获取（同时还会配合 excludedMockApis 名单），注意此时不会从浏览器发出请求 */
     isInnerMock: true,
     /** isInnerMock 为 true 时，只要实现了的mock函数，如果没有在 excludedMockApis 名单里， 都会去被调用 */
     excludedMockApis: [

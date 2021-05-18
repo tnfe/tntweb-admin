@@ -1,5 +1,5 @@
 /**
- * 根据 configs/menus 配置组装整个应用路由系统
+ * 根据 configs/menus 配置组装整个应用的路由系统
  */
 import React, { Suspense } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { register, cst } from 'concent';
 import { getUrlChangedEvName } from 'react-router-concent';
 import { Layout, Breadcrumb } from 'antd';
 import { getRelativeRootPath } from 'services/appPath';
-import { path2menuItem, path2menuGroup, flatedMenus } from 'configs/derived/menus';
+import { path2menuItem, path2menuGroup, flattedMenus } from 'configs/derived/menus';
 import { IMenuItem, IMenuGroup } from 'configs/menus';
 import { NormalBlank } from 'components/dumb/general';
 import NotFound from 'pages/NotFound';
@@ -47,6 +47,7 @@ class Routes extends React.Component {
     });
   }
 
+  // 修改为当前页面头部对应的导航提示路径
   changeNavData = () => {
     const curAppPath = getRelativeRootPath();
     const menuItem = path2menuItem[curAppPath];
@@ -124,7 +125,7 @@ class Routes extends React.Component {
     if (this.cachedUi.uiRoutes) return this.cachedUi;
 
     let homeMenuItem = null as IMenuItem | null;
-    const uiRoutes = flatedMenus.map((item) => {
+    const uiRoutes = flattedMenus.map((item) => {
       if (item.isHomePage) homeMenuItem = item;
       const CompWrap = this.makeCompWrap(item);
       return <Route key={item.path} exact={item.exact} path={item.path} component={CompWrap} />;

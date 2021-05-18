@@ -6,8 +6,7 @@ import * as computed from './computed';
 import * as reducer from './reducer';
 import * as lifecycle from './lifecycle';
 
-// export const moduleName = 'GeneralTable';
-export const moduleName = 'GeneralTable' + Math.ceil(Math.random() * 100);
+export const moduleName = 'GeneralTable';
 
 export const modelDesc = {
   state,

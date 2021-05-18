@@ -6,7 +6,7 @@ import * as mods from 'configs/c2Mods';
 import { useC2Mod } from 'services/concent';
 import { Button } from 'antd';
 import { NormalBlank } from 'components/dumb/general';
-import { GeneralTable } from 'components/smart/GeneralTable';
+import { GeneralTable } from 'components/GeneralTable';
 import { DownloadOutlined } from '@ant-design/icons';
 import { AsyncButton } from 'components/dumb/general';
 

@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { Input, Button } from 'antd';
-import { useModel } from './model/meta';
+import { useC2Mod } from 'services/concent';
 
 function SearArea() {
-  const { sync, syncer, state, mr } = useModel();
+  const { sync, syncer, state, mr } = useC2Mod('TodoList');
   return (
     <div>
       <Input onChange={sync('keyword')} value={state.keyword} />

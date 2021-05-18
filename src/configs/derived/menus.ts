@@ -6,23 +6,23 @@ import menus, { IMenuGroup, IMenuItem } from '../menus';
 
 // 打平菜单为一层的结构
 function flatMenus() {
-  const flated = [] as IMenuItem[];
+  const flatted = [] as IMenuItem[];
 
-  const pushToFlated = (item: IMenuItem) => {
-    flated.push(item);
+  const pushToFlatted = (item: IMenuItem) => {
+    flatted.push(item);
   };
 
   menus.forEach((item) => {
     const groupItem = item as IMenuGroup;
     if (groupItem.children) {
-      groupItem.children.forEach(pushToFlated);
+      groupItem.children.forEach(pushToFlatted);
       return;
     }
     const menuItem = item as IMenuItem;
-    pushToFlated(menuItem);
+    pushToFlatted(menuItem);
   });
 
-  return flated;
+  return flatted;
 }
 
 // 提前计算好 menus 的相关映射关系，或者其他目标参数
@@ -64,5 +64,5 @@ export const path2menuItem = ret.path2menuItem;
 
 export const homePageFullPath = ret.homePageFullPath;
 
-export const flatedMenus = flatMenus();
+export const flattedMenus = flatMenus();
 

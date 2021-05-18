@@ -5,7 +5,7 @@ import * as lifecycle from './lifecycle';
 
 export default {
   state,
-  computed,
   reducer,
+  computed,
   lifecycle,
-};
+}
