@@ -1,5 +1,4 @@
 import http from 'services/http';
-import * as timerUtil from 'utils/timer';
 
 export async function getTodoList() {
   const ret = await http.get('/api/todo/list');

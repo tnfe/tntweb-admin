@@ -1,11 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Demo Render generate Demo snapshot 1`] = `
-<Memo(DemoPageTodoList)
-  history={Object {}}
-  location={Object {}}
-  match={Object {}}
->
+<Memo(DemoPageTodoList)>
   <div>
     <Alert
       message="用户正在输入 "
@@ -163,6 +159,28 @@ exports[`Demo Render generate Demo snapshot 1`] = `
         </Button>
       </div>
     </Memo(SearArea)>
+    <Memo()>
+      <h1
+        style={
+          Object {
+            "border": "1px solid blue",
+          }
+        }
+      >
+        0
+      </h1>
+    </Memo()>
+    <Memo()>
+      <h1
+        style={
+          Object {
+            "border": "1px solid blue",
+          }
+        }
+      >
+        0
+      </h1>
+    </Memo()>
     <Memo(ListArea)>
       <div>
         <Button
@@ -199,6 +217,44 @@ exports[`Demo Render generate Demo snapshot 1`] = `
                 key=".0"
               >
                 refresh
+              </span>
+            </button>
+          </Wave>
+        </Button>
+        <Button
+          id="refreshBtn"
+          onClick={[Function]}
+        >
+          <Wave>
+            <button
+              className="ant-btn"
+              id="refreshBtn"
+              onClick={[Function]}
+              type="button"
+            >
+              <LoadingIcon
+                existIcon={false}
+                loading={false}
+                prefixCls="ant-btn"
+              >
+                <CSSMotion
+                  motionName="ant-btn-loading-icon-motion"
+                  onAppearActive={[Function]}
+                  onAppearStart={[Function]}
+                  onEnterActive={[Function]}
+                  onEnterStart={[Function]}
+                  onLeaveActive={[Function]}
+                  onLeaveStart={[Function]}
+                  removeOnLeave={true}
+                  visible={false}
+                >
+                  <DomWrapper />
+                </CSSMotion>
+              </LoadingIcon>
+              <span
+                key=".0"
+              >
+                test 0
               </span>
             </button>
           </Wave>

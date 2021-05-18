@@ -1,9 +1,17 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { Button } from 'antd';
-import { getRef } from 'concent';
+import { getRef, ICtxBase, IAnyObj, IRefCtxM, SettingsType } from 'concent';
+import { getModelState } from 'services/concent';
+import { RootState, RootCu } from 'types/store';
+import * as models from 'models';
 import Demo, { setup } from '../index';
-import { getModelState, moduleName, Ctx } from '../model/meta';
+
+const moduleName = 'TodoList';
+
+type RootInfo = { state: RootState, computed: RootCu };
+type ValidSetup = (ctx: ICtxBase) => IAnyObj | void;
+type Ctx<Setup extends ValidSetup> = IRefCtxM<RootInfo, {}, typeof models.TodoList, SettingsType<Setup>>;
 
 // 组件实例
 let ins = null as unknown as ReactWrapper;
@@ -16,8 +24,7 @@ let ref = null as unknown as { ctx: Ctx<typeof setup> };
  */
 describe('Demo Render', () => {
   beforeAll(() => {
-    const mockRouterProps = { history: {} as any, location: {} as any, match: {} as any };
-    ins = mount(<Demo {...mockRouterProps} />);
+    ins = mount(<Demo />);
     const c2Ref = getRef<Ctx<typeof setup>>({ moduleName, tag: 'Dpt' });
     if (!c2Ref) {
       throw new Error('you may forget add tag for component');
@@ -32,13 +39,13 @@ describe('Demo Render', () => {
   test('call addBig', () => {
     const btnWrap = ins.find(Button).find('button#addBigBtn');
     const oldVal = ins.find('span#bigValue').text();
-    const big = getModelState().bigValue;
+    const big = getModelState(moduleName).bigValue;
     expect(`${big}` === oldVal).toBeTruthy();
 
     btnWrap.simulate('click');
 
     const newVal = ins.find('span#bigValue').text();
-    expect(big + 1 === getModelState().bigValue).toBeTruthy();
+    expect(big + 1 === getModelState(moduleName).bigValue).toBeTruthy();
     expect(`${big + 1}` === newVal).toBeTruthy();
   });
 
@@ -47,7 +54,7 @@ describe('Demo Render', () => {
     expect(ret).toBe('hiThere');
 
     ref.ctx.settings.changeBigTo(300);
-    expect(getModelState().bigValue === 300).toBeTruthy(); // moduleState断言
+    expect(getModelState(moduleName).bigValue === 300).toBeTruthy(); // moduleState断言
     expect(ins.find('h1#bigValue').text() === '300').toBeTruthy(); // 渲染后的ui断言
   });
 

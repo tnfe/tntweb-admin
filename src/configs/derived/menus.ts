@@ -34,7 +34,7 @@ function calcMenus() {
   menus.forEach(item => {
     const groupItem = item as IMenuGroup;
     if (groupItem.children) {
-      groupItem.children.map((childItem) => {
+      groupItem.children.forEach((childItem) => {
         path2menuGroup[childItem.path] = groupItem;
         path2menuItem[childItem.path] = childItem;
         if (childItem.isHomePage) {
