@@ -1,6 +1,7 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
 import * as colorServ from 'services/color';
+import * as commonUtil from 'utils/common';
 
 function getInitialState() {
   const themeColor = '#8B572A';
@@ -21,7 +22,7 @@ function getInitialState() {
     /** 当前登录者是否是管理员 */
     isAdmin: false,
     /** 处于innerMock时，httpService的请求结果会直接从模拟文件获取（同时还会配合 excludedMockApis 名单），注意此时不会从浏览器发出请求 */
-    isInnerMock: true,
+    isInnerMock: commonUtil.isLocalMode(),
     /** isInnerMock 为 true 时，只要实现了的mock函数，如果没有在 excludedMockApis 名单里， 都会去被调用 */
     excludedMockApis: [
     ] as string[],
