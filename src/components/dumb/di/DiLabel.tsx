@@ -33,7 +33,7 @@ DiLabel.Boxed = function Boxed(props: IBoxedProps) {
     label = value ? '是' : '否';
   }
 
-  const uiRequred = <pre style={stPre}>{required ? '* ' : '  '}</pre>;
+  const uiRequired = <pre style={stPre}>{required ? '* ' : '  '}</pre>;
 
   const {
     item: itemSt = {},
@@ -46,7 +46,7 @@ DiLabel.Boxed = function Boxed(props: IBoxedProps) {
   return (
     <div className={styles.diItemWrap} style={mergedItemSt}>
       <span className={styles.diItemTitle} style={titleSt}>
-        {uiRequred}{title}
+        {uiRequired}{title}
       </span>
       <span style={inputSt}>{label}</span>
     </div>

@@ -30,7 +30,7 @@ export default function DiSelect(props: IProps) {
   } = props;
   const style = { display: 'inline-block' };
   if (block) style.display = 'block';
-  const uiRequred = <pre style={stPre}>{required ? '* ' : '  '}</pre>;
+  const uiRequired = <pre style={stPre}>{required ? '* ' : '  '}</pre>;
 
   const {
     title: titleSt = {},
@@ -53,7 +53,7 @@ export default function DiSelect(props: IProps) {
   return (
     <div className={styles.diItemWrap} style={mergedItemSt}>
       <span className={styles.diItemTitle} style={titleSt}>
-        {uiRequred}{title}
+        {uiRequired}{title}
       </span>
       <span className={styles.diItemSwitchWrap}>
         <Radio.Group onChange={onChange} value={value}>
