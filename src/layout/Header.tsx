@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout, Popover, Switch, Tag, Avatar } from 'antd';
-import { SwitchChangeEventHandler } from 'antd/lib/switch/index';
-import { useConcent, SettingsType } from 'concent';
 import { SketchPicker, ColorChangeHandler, ColorResult } from 'react-color'
-import styles from './App.module.css';
 import { SettingOutlined } from '@ant-design/icons';
-import { CtxDe } from 'types/store';
+import { SwitchChangeEventHandler } from 'antd/lib/switch/index';
 import { Blank, VerticalBlank } from 'components/dumb/general';
+import { useSetupCtx } from 'services/concent';
+import { CtxDe } from 'types/store';
+import styles from './App.module.css';
 
 interface ISettingPanelProps {
   color: string;
@@ -51,7 +51,6 @@ function SettingPanel({
   );
 }
 
-type Se = SettingsType<typeof setup>;
 function setup(ctx: CtxDe) {
   const { globalReducer: grd } = ctx;
   return {
@@ -71,7 +70,7 @@ function setup(ctx: CtxDe) {
 }
 
 function AppHeader() {
-  const { globalState: st, globalComputed: gcu, settings: se } = useConcent<{}, CtxDe<{}, Se>>({ setup, tag: 'Header' });
+  const { globalState: st, globalComputed: gcu, settings: se } = useSetupCtx(setup, { tag: 'Header' });
   const uiContent = <SettingPanel color={st.themeColor} onWebsiteColorChange={se.onWebsiteColorChange}
     headerThemeChecked={gcu.headerThemeSwitchChecked} onHeaderThemeChange={se.onHeaderThemeChange}
     siderThemeChecked={gcu.siderThemeSwitchChecked} onSiderThemeChange={se.onSiderThemeChange}
@@ -81,7 +80,7 @@ function AppHeader() {
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
       <div className={styles.userIconWrap}>
-        <Avatar size={40} src={st.userIcon} />
+        <Avatar size={32} src={st.userIcon} />
         <Blank width="8px" />
         {st.userName}
       </div>

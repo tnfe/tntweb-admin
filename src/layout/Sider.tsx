@@ -1,17 +1,15 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { useConcent, SettingsType, StateType } from 'concent';
 import { Link } from 'react-router-dom';
-import { CtxDeS } from 'types/store';
+import { CtxDe } from 'types/store';
 import { SelectInfo } from 'rc-menu/lib/interface';
 import menus, { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuGroup, homePageFullPath } from 'configs/derived/menus';
 import { sys } from 'configs/constant';
 import { getRelativeRootPath } from 'services/appPath';
+import { useSetupCtx } from 'services/concent';
+import './overwriteAntd.css';
 import styles from './App.module.css';
-
-type CtxPre = CtxDeS<{}, StateType<typeof iState>>;
-type Ctx = CtxDeS<{}, StateType<typeof iState>, SettingsType<typeof setup>>;
 
 const { Sider } = Layout;
 const { SubMenu, Item: MenuItem } = Menu;
@@ -21,24 +19,25 @@ function iState() {
   // 获取路由参数，确定展开的菜单
   let path = getRelativeRootPath();
   if (path === '/') path = homePageFullPath; // 确保home页时左侧菜单能够正确的点亮
-  const gourpKey = path2menuGroup[path]?.key;
+  const groupKeys = path2menuGroup[path]?.key;
 
   return {
-    selectedKeys: [path] as string[],
-    openKeys: [gourpKey] as string[],
+    selectedKeys: [path],
+    openKeys: [groupKeys],
   };
 }
 
-function setup(ctx: CtxPre) {
-  ctx.initState(iState);
+function setup(ctx: CtxDe) {
+  const ins = ctx.initState(iState);
   const position = 'fixed' as const;
 
   return {
+    insState: ins.state,
     changeSelectedKeys: ({ selectedKeys }: SelectInfo) => {
-      ctx.setState({ selectedKeys });
+      ins.setState({ selectedKeys: selectedKeys?.map(item => `${item}`) });
     },
     openMenus: (openKeys: React.Key[]) => {
-      ctx.setState({ openKeys });
+      ins.setState({ openKeys: openKeys?.map(item => `${item}`) });
     },
     renderMenuItem: (menuItem: IMenuItem) => {
       const { showInSider = true, Icon, path, label } = menuItem;
@@ -48,23 +47,24 @@ function setup(ctx: CtxPre) {
         <Link to={path}>{uiIcon}{label}</Link>
       </MenuItem>;
     },
-    logoStyle: { width: siderWidth - 30, position, left: 19, top: 10 }
+    logoStyle: { width: siderWidth - 60, position, left: 19, top: 10 }
   };
 }
 
 function AppSider() {
-  const { settings: se, state, globalState } = useConcent<{}, Ctx>({ setup, tag: 'Sider' });
+  const { settings: se, state, globalState } = useSetupCtx(setup, { tag: 'Sider' });
   return (
-    <Sider width={siderWidthPx} className={styles.siderWrap} theme={globalState.siderTheme}>
+    <Sider width={siderWidthPx} className={`${styles.siderWrap} layout-sider`} theme={globalState.siderTheme}>
       <img style={se.logoStyle} src={webHeaderImg} alt="header_img"></img>
       <Menu
         theme={globalState.siderTheme}
         onSelect={se.changeSelectedKeys}
         onOpenChange={se.openMenus}
         mode="inline"
-        selectedKeys={state.selectedKeys}
-        openKeys={state.openKeys}
+        selectedKeys={se.insState.selectedKeys}
+        openKeys={se.insState.openKeys}
         style={{ height: '100%', borderRight: 0 }}
+        className="main-menu"
       >
         {menus.map((item) => {
           const groupItem = item as IMenuGroup;

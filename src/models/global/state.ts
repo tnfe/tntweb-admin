@@ -5,6 +5,7 @@ import * as commonUtil from 'utils/common';
 
 function getInitialState() {
   const themeColor = '#8B572A';
+  const themeColorRGB = colorServ.hex2rgbString(themeColor);
 
   return {
     siderVisible: true,
@@ -12,6 +13,7 @@ function getInitialState() {
     headerTheme: 'dark' as SiderTheme,
     /** 站点的主题颜色 */
     themeColor,
+    themeColorRGB,
     themeColorLight: colorServ.getThemeColorLight(themeColor),
     someInfo: 'overWrite built-in module global\'s state',
 

@@ -1,7 +1,7 @@
 /**
  * concent 相关的一些公共封装函数
  */
- import {
+import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
   ReducerCallerParams, IReducerFn, IActionCtxBase, cst, MODULE_DEFAULT,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
@@ -172,6 +172,22 @@ export function useSetup<
   type Ctx = CtxM<P, MODULE_DEFAULT, SettingsType<T>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
   const { settings } = useConcent<{}, Ctx>(regOpt, ccClassKey);
   return settings;
+}
+
+/**
+ * useSetupCtx 会返回整个ctx对象，区别于 useSetup 只返回 settings
+ * @param setup
+ * @param options - see OptionsBase
+ */
+export function useSetupCtx<
+  T extends SetupFn, P extends IAnyObj, CuDesc extends MultiComputed<any>,
+  Extra extends IAnyObj, StaticExtra extends any, Mp extends ValidMapProps,
+  >(setup: T, options?: OptionsBase<P, CuDesc, Extra, StaticExtra, Mp>) {
+  const mergedOptions = { setup, ...options };
+  const { regOpt, ccClassKey } = priBuildCallParams(cst.MODULE_DEFAULT, [], mergedOptions);
+  type Ctx = CtxM<P, MODULE_DEFAULT, SettingsType<T>, ComputedValType<CuDesc>, [Extra, StaticExtra, ReturnType<Mp>]>;
+  const ctx = useConcent<{}, Ctx>(regOpt, ccClassKey);
+  return ctx;
 }
 
 

@@ -7,9 +7,13 @@ export function toggleSiderVisible(p: any, moduleState: St): Partial<St> {
 
 export function changeThemeColor(themeColor: string): Partial<St> {
   colorServ.changeThemeColor(themeColor);
+  // 修改浅色
   const themeColorLight = colorServ.getThemeColorLight(themeColor);
   colorServ.changeThemeColorLight(themeColorLight);
-  return { themeColor, themeColorLight }
+  // 修改主题色rgb值
+  const themeColorRGB = colorServ.hex2rgbString(themeColor);
+  colorServ.changeThemeColorRGB(themeColorRGB);
+  return { themeColor, themeColorLight: themeColorLight, themeColorRGB }
 }
 
 export function switchSiderTheme(checked: boolean, moduleState: St): Partial<St> {

@@ -1,13 +1,18 @@
 .header {
   z-index: 88;
   position: relative;
+  box-shadow: rgb(0 21 41 / 8%) 0px 1px 4px;
+  height: 48px;
+  line-height: 48px;
 }
 
 .headerSetting {
   position: absolute;
   right: 22px;
-  top: 23px;
+  top: 3px;
   font-size: 19px;
+  height: 48px;
+  line-height: 48px;
 }
 
 
@@ -16,6 +21,7 @@
   min-width: 100px;
   right: 52px;
   font-size: 15px;
+  height: 40px;
 }
 
 
