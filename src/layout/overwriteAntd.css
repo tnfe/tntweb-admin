@@ -25,7 +25,8 @@
 
 .layout-sider .ant-menu-submenu-title:hover,
 .layout-sider .ant-menu-item:hover {
-  color: var(--theme-color-light);
+  color: white;
+  font-weight: 800;
 }
 
 .layout-sider .ant-menu-submenu-title:hover::before,
@@ -35,5 +36,6 @@
 
 .layout-sider .ant-menu-submenu-title>a:hover,
 .layout-sider .ant-menu-item>a:hover {
-  color: var(--theme-color-light);
+  color: white;
+  font-weight: 800;
 }

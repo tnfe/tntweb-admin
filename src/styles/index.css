@@ -2,6 +2,7 @@
 :root {
   /* 站点主题颜色，会被 globalModelState里的颜色填入 */
   --theme-color: transparent;
+  --theme-color-rgb: 0, 0, 0;
   --theme-color-light: #91d5ff;
   --theme-color-bg: #e6f8fe;
   --theme-color-grey: #f0f2f5;
