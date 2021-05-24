@@ -6,6 +6,7 @@ import { SwitchChangeEventHandler } from 'antd/lib/switch/index';
 import { Blank, VerticalBlank } from 'components/dumb/general';
 import { useSetupCtx } from 'services/concent';
 import { CtxDe } from 'types/store';
+import Logo from './dumb/Logo';
 import styles from './App.module.css';
 
 interface ISettingPanelProps {
@@ -70,19 +71,20 @@ function setup(ctx: CtxDe) {
 }
 
 function AppHeader() {
-  const { globalState: st, globalComputed: gcu, settings: se } = useSetupCtx(setup, { tag: 'Header' });
-  const uiContent = <SettingPanel color={st.themeColor} onWebsiteColorChange={se.onWebsiteColorChange}
+  const { globalState: gst, globalComputed: gcu, settings: se } = useSetupCtx(setup, { tag: 'Header' });
+  const uiContent = <SettingPanel color={gst.themeColor} onWebsiteColorChange={se.onWebsiteColorChange}
     headerThemeChecked={gcu.headerThemeSwitchChecked} onHeaderThemeChange={se.onHeaderThemeChange}
     siderThemeChecked={gcu.siderThemeSwitchChecked} onSiderThemeChange={se.onSiderThemeChange}
-    innerMockChecked={st.isInnerMock} onInnerMockChange={se.onInnerMockChange}
+    innerMockChecked={gst.isInnerMock} onInnerMockChange={se.onInnerMockChange}
     onChangeComplete={se.onWebsiteColorChange} />;
 
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
+      { !gst.siderVisible && <Logo />}
       <div className={styles.userIconWrap}>
-        <Avatar size={32} src={st.userIcon} />
+        <Avatar size={32} src={gst.userIcon} />
         <Blank width="8px" />
-        {st.userName}
+        {gst.userName}
       </div>
       <Popover placement="bottomLeft" content={uiContent} title="主题设置" trigger="click">
         <SettingOutlined className={styles.headerSetting} style={{ color: gcu.headerStyle.color }} />

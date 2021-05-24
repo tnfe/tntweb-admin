@@ -8,12 +8,13 @@ import { path2menuGroup, homePageFullPath } from 'configs/derived/menus';
 import { sys } from 'configs/constant';
 import { getRelativeRootPath } from 'services/appPath';
 import { useSetupCtx } from 'services/concent';
-import './overwriteAntd.css';
+import Logo from './dumb/Logo';
+import './resetMenu.css';
 import styles from './App.module.css';
 
 const { Sider } = Layout;
 const { SubMenu, Item: MenuItem } = Menu;
-const { webHeaderImg, siderWidth, siderWidthPx } = sys;
+const { siderWidthPx } = sys;
 
 function iState() {
   // 获取路由参数，确定展开的菜单
@@ -29,7 +30,6 @@ function iState() {
 
 function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
-  const position = 'fixed' as const;
 
   return {
     insState: ins.state,
@@ -47,15 +47,14 @@ function setup(ctx: CtxDe) {
         <Link to={path}>{uiIcon}{label}</Link>
       </MenuItem>;
     },
-    logoStyle: { width: siderWidth - 60, position, left: 19, top: 10 }
   };
 }
 
 function AppSider() {
-  const { settings: se, state, globalState } = useSetupCtx(setup, { tag: 'Sider' });
+  const { settings: se, globalState } = useSetupCtx(setup, { tag: 'Sider' });
   return (
     <Sider width={siderWidthPx} className={`${styles.siderWrap} layout-sider`} theme={globalState.siderTheme}>
-      <img style={se.logoStyle} src={webHeaderImg} alt="header_img"></img>
+      <Logo fixed={true} />
       <Menu
         theme={globalState.siderTheme}
         onSelect={se.changeSelectedKeys}

@@ -13,7 +13,7 @@ export function headerStyle(n: St) {
   const hstyle = { marginLeft: '', color: '', backgroundColor: '' };
   siderVisible ? hstyle.marginLeft = sys.siderWidthPx : hstyle.marginLeft = '0';
   headerTheme === 'dark' ? hstyle.color = 'white' : hstyle.color = themeColor;
-  headerTheme === 'dark' ? hstyle.backgroundColor = 'black' : hstyle.backgroundColor = 'white';
+  headerTheme === 'dark' ? hstyle.backgroundColor = '#001529' : hstyle.backgroundColor = 'white';
   return hstyle;
 }
 
