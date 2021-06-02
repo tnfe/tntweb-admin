@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { getUrlChangedEvName } from 'react-router-concent';
 import { MenuMode, SelectInfo } from 'rc-menu/lib/interface';
 import { CtxDe } from 'types/store';
-import menus, { IMenuGroup, IMenuItem } from 'configs/menus';
-import { path2menuGroup, homePageFullPath } from 'configs/derived/menus';
+import { IMenuGroup, IMenuItem } from 'configs/menus';
+import { path2menuGroup, homePageFullPath, showingMenus } from 'configs/derived/menus';
 import { sys } from 'configs/constant';
 import { getRelativeRootPath } from 'services/appPath';
 import { useSetupCtx, getGlobalState } from 'services/concent';
@@ -57,8 +57,7 @@ function setup(ctx: CtxDe) {
       ins.setState({ openKeys: openKeys?.map(item => `${item}`) });
     },
     renderMenuItem: (menuItem: IMenuItem) => {
-      const { showInSider = true, Icon, path, label } = menuItem;
-      if (!showInSider) return '';
+      const { Icon, path, label } = menuItem;
       const uiIcon = Icon ? <Icon /> : '';
       return <MenuItem key={path}>
         <Link to={path}>{uiIcon}{label}</Link>
@@ -76,6 +75,7 @@ export function SiderMenus(props: ISiderMenusProps) {
   const { settings: se, globalState } = useSetupCtx(setup, { tag: 'Sider' });
   // 垂直在左侧布局时，才读siderTheme，否则主题色应和 headerTheme 相同
   const theme = mode === 'inline' ? globalState.siderTheme : globalState.headerTheme;
+  console.log('showingMenus', showingMenus);
 
   return <Menu
     className="layout-sider"
@@ -87,7 +87,7 @@ export function SiderMenus(props: ISiderMenusProps) {
     openKeys={se.insState.openKeys}
     style={style}
   >
-    {menus.map((item) => {
+    {showingMenus.map((item) => {
       const groupItem = item as IMenuGroup;
       if (groupItem.children) {
         const uiGroupItemIon = groupItem.Icon ? <groupItem.Icon /> : '';
