@@ -11,7 +11,7 @@ import styles from './App.module.css';
 
 const stSiderMenus: React.CSSProperties = { boxShadow: 'none', paddingLeft: '12px', maxWidth: '80%', display: 'inline-block' };
 
-function setup(ctx: CtxDe) {
+export function setup(ctx: CtxDe) {
   const { globalReducer: grd } = ctx;
   return {
     onWebsiteColorChange(colorResult: ColorResult) {
@@ -32,8 +32,8 @@ function setup(ctx: CtxDe) {
   };
 }
 
-function SettingPanel() {
-  const { globalState: gst, globalComputed: gcu, settings: se } = useSetupCtx(setup, { tag: 'Header' });
+export function SettingPanel() {
+  const { globalState: gst, globalComputed: gcu, settings: se } = useSetupCtx(setup, { tag: 'SettingPanel' });
 
   return (
     <div style={{ padding: '12px 28px' }}>
@@ -81,7 +81,7 @@ function SettingPanel() {
 
 
 function AppHeader() {
-  const { globalState: gst, globalComputed: gcu } = useC2DefaultMod({ tag: 'Header' });
+  const { globalState: gst, globalComputed: gcu } = useC2DefaultMod();
 
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
