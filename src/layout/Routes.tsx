@@ -73,7 +73,7 @@ class Routes extends React.Component {
       <Layout style={this.ctx.globalComputed.contentLayoutStyle}>
         <h1 style={{ color: 'red', padding: '64px' }}>
           当前路由页面崩溃，请联系 xxx开发者 做进一步跟踪，如果是开发者，可打开console查看具体错误,
-          如想继续访问当前页面，可刷新留浏览器重试。
+          如想继续访问当前页面，可刷新浏览器重试。
         </h1>
       </Layout>
     );
@@ -91,6 +91,7 @@ class Routes extends React.Component {
     );
   }
 
+  // 创建一个渲染包含有【布局信息】和【路由组件】的组件
   makeCompWrap = (item: IMenuItem) => {
     return (props: RouteComponentProps) => {
       const { showBreadcrumb = true, setContentLayout = true } = item;
