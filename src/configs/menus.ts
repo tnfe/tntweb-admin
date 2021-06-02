@@ -3,6 +3,7 @@
  * 应用左侧的导航栏配置
  */
 import { lazy } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import {
   FormOutlined, OrderedListOutlined, PlusCircleOutlined, RightCircleOutlined,
 } from '@ant-design/icons';
@@ -23,7 +24,15 @@ export interface IMenuItem {
   /**
    * 菜单对应的页面组件
    */
-  Component: React.ComponentType<any>,
+  Component: React.ComponentType<any>;
+  /**
+   * 路由对应的实际组件挂载前执行的逻辑
+   * 如果返回了具体的组件片段，则会替换掉改路由对应的实际组件
+   * 通常的使用场景:
+   * 1 提奖将路由信息写入某个store，子组件渲染时能够及时拿到
+   * 2 判断某些条件，不成立的话，不挂载目标路由组件，替换为该函数返回的视图片段
+   */
+  beforeComponentMount?: (props: RouteComponentProps) => React.ReactNode | void;
   /**
    * 默认值：true
    * 页面组件头部是否出现面包屑，提示用户当前所处的页面路径

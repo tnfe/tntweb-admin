@@ -94,9 +94,20 @@ class Routes extends React.Component {
   makeCompWrap = (item: IMenuItem) => {
     return (props: RouteComponentProps) => {
       const { showBreadcrumb = true, setContentLayout = true } = item;
-      let uiBreadcrumb = '' as React.ReactNode;
+      let uiBreadcrumb: React.ReactNode = '';
       if (showBreadcrumb) uiBreadcrumb = this.renderNavBreadcrumb();
       const { contentLayoutStyle } = this.ctx.globalComputed;
+
+      // beforeComponentMount 可能返回一个替换的视图
+      let uiReplaceRouteComp: React.ReactNode | void = '';
+      const executed = React.useRef(false);
+      if (!executed.current) {
+        executed.current = true;
+        if (item.beforeComponentMount) {
+          uiReplaceRouteComp = item.beforeComponentMount(props);
+        }
+      }
+      const uiTargetComp = uiReplaceRouteComp || <item.Component {...props} />;
 
       if (setContentLayout) {
         return (
@@ -104,7 +115,7 @@ class Routes extends React.Component {
             {uiBreadcrumb}
             <Layout style={{ padding: '24px' }}>
               <Content className={styles.contentWrap}>
-                <item.Component {...props} />
+                {uiTargetComp}
               </Content>
             </Layout>
           </Layout>
@@ -114,7 +125,7 @@ class Routes extends React.Component {
       return (
         <Layout style={contentLayoutStyle}>
           {uiBreadcrumb}
-          <item.Component {...props} />
+          {uiTargetComp}
         </Layout>
       );
     };
