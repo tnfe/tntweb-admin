@@ -4,7 +4,7 @@ import { sys } from 'configs/constant';
 export function contentLayoutStyle(n: St) {
   const { siderVisible, fixHeader } = n;
   const minHeight = 'calc(100vh - 120px)';
-  let paddingTop = fixHeader ? '48px' : '0';
+  const paddingTop = fixHeader ? '48px' : '0';
 
   return siderVisible
     ? { marginLeft: sys.siderWidthPx, minHeight, paddingTop }
