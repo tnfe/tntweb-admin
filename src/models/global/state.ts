@@ -8,6 +8,8 @@ function getInitialState() {
   const themeColorRGB = colorServ.hex2rgbString(themeColor);
 
   return {
+    /** 顶部是否固定 */
+    fixHeader: false,
     siderVisible: true,
     siderTheme: 'dark' as SiderTheme,
     headerTheme: 'dark' as SiderTheme,

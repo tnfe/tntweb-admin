@@ -24,6 +24,10 @@ export function switchHeaderTheme(checked: boolean, moduleState: St): Partial<St
   return { headerTheme: checked ? 'dark' : 'light' };
 }
 
+export function switchFixHeader(checked: boolean, moduleState: St): Partial<St> {
+  return { fixHeader: checked };
+}
+
 export function changeIsInnerMock(checked: boolean, moduleState: St): Partial<St> {
   return { isInnerMock: checked };
 }

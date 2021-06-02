@@ -1,13 +1,16 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import { getUrlChangedEvName } from 'react-router-concent';
+import { MenuMode } from 'rc-menu/lib/interface';
 import { CtxDe } from 'types/store';
 import { SelectInfo } from 'rc-menu/lib/interface';
 import menus, { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuGroup, homePageFullPath } from 'configs/derived/menus';
 import { sys } from 'configs/constant';
 import { getRelativeRootPath } from 'services/appPath';
-import { useSetupCtx } from 'services/concent';
+import { useSetupCtx, getGlobalState } from 'services/concent';
+import * as arrUtil from 'utils/arr';
 import Logo from './dumb/Logo';
 import './resetMenu.css';
 import styles from './App.module.css';
@@ -19,17 +22,32 @@ const { siderWidthPx } = sys;
 function iState() {
   // 获取路由参数，确定展开的菜单
   let path = getRelativeRootPath();
-  if (path === '/') path = homePageFullPath; // 确保home页时左侧菜单能够正确的点亮
-  const groupKeys = path2menuGroup[path]?.key;
+  // 确保home页时左侧菜单能够正确的点亮
+  if (path === '/') path = homePageFullPath;
+
+  let openKeys: string[] = [];
+  // 当边栏可见时，才计算 openKeys
+  if (getGlobalState().siderVisible && path2menuGroup[path]) {
+    openKeys = [path2menuGroup[path].key];
+  }
 
   return {
     selectedKeys: [path],
-    openKeys: [groupKeys],
+    openKeys,
   };
 }
 
 function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
+  ctx.on(getUrlChangedEvName(), (params) => {
+    // 来自于api的调用跳转 &&sider 处于可见状态，才重置菜单点亮状态
+    if (params.state?.callByApi && ctx.globalState.siderVisible) {
+      const newState = iState();
+      // 保持原来的菜单展开状态, 同时也让新的能够正确展开
+      newState.openKeys = arrUtil.merge(newState.openKeys, ins.state.openKeys);
+      ctx.setState(newState);
+    }
+  });
 
   return {
     insState: ins.state,
@@ -50,37 +68,50 @@ function setup(ctx: CtxDe) {
   };
 }
 
-function AppSider() {
+interface ISiderMenusProps {
+  mode?: MenuMode;
+  style?: React.CSSProperties;
+}
+export function SiderMenus(props: ISiderMenusProps) {
+  const { mode = 'inline', style = { height: '100%', borderRight: 0 } } = props;
   const { settings: se, globalState } = useSetupCtx(setup, { tag: 'Sider' });
+  // 垂直在左侧布局时，才读siderTheme，否则主题色应和 headerTheme 相同
+  const theme = mode === 'inline' ? globalState.siderTheme : globalState.headerTheme;
+
+  return <Menu
+    className="layout-sider"
+    theme={theme}
+    onSelect={se.changeSelectedKeys}
+    onOpenChange={se.openMenus}
+    mode={mode}
+    selectedKeys={se.insState.selectedKeys}
+    openKeys={se.insState.openKeys}
+    style={style}
+  >
+    {menus.map((item) => {
+      const groupItem = item as IMenuGroup;
+      if (groupItem.children) {
+        const uiGroupItemIon = groupItem.Icon ? <groupItem.Icon /> : '';
+        return (
+          <SubMenu key={groupItem.key} className="siderSubMenu" title={
+            <span> {uiGroupItemIon}{groupItem.label} </span>
+          }>
+            {groupItem.children.map(childItem => se.renderMenuItem(childItem))}
+          </SubMenu>
+        );
+      }
+      const menuItem = item as IMenuItem;
+      return se.renderMenuItem(menuItem);
+    })}
+  </Menu>;
+}
+
+function AppSider() {
+  const { globalState } = useSetupCtx(setup, { tag: 'Sider' });
   return (
-    <Sider width={siderWidthPx} className={`${styles.siderWrap} layout-sider`} theme={globalState.siderTheme}>
+    <Sider width={siderWidthPx} className={styles.siderWrap} theme={globalState.siderTheme}>
       <Logo fixed={true} />
-      <Menu
-        theme={globalState.siderTheme}
-        onSelect={se.changeSelectedKeys}
-        onOpenChange={se.openMenus}
-        mode="inline"
-        selectedKeys={se.insState.selectedKeys}
-        openKeys={se.insState.openKeys}
-        style={{ height: '100%', borderRight: 0 }}
-        className="main-menu"
-      >
-        {menus.map((item) => {
-          const groupItem = item as IMenuGroup;
-          if (groupItem.children) {
-            const uiGroupItemIon = groupItem.Icon ? <groupItem.Icon /> : '';
-            return (
-              <SubMenu key={groupItem.key} className="siderSubMenu" title={
-                <span> {uiGroupItemIon}{groupItem.label} </span>
-              }>
-                {groupItem.children.map(childItem => se.renderMenuItem(childItem))}
-              </SubMenu>
-            );
-          }
-          const menuItem = item as IMenuItem;
-          return se.renderMenuItem(menuItem);
-        })}
-      </Menu>
+      <SiderMenus />
     </Sider>
   );
 }
