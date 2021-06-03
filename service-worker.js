@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "https://tnfe.github.io/concent-pro/precache-manifest.942d1f1f1e1a829d44efe4821c201dbf.js"
+  "https://tnfe.github.io/concent-pro/precache-manifest.dcbba08ab71e83683c62d75a5fc6c937.js"
 );
 
 self.addEventListener('message', (event) => {
