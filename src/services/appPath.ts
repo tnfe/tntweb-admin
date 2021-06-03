@@ -6,13 +6,15 @@ const cachedApiHost = localStorage.getItem('someApiHostKey');
  * 应用可能处于不同的basename下
  */
 export function getBasename() {
+  const { hostname, pathname } = window.location;
+  // concent-pro 站点走特殊的basename，以符合 gh-pages 目录结构
+  if (hostname.includes('github.io') && pathname.includes('concent-pro')) return '';
   return cachedAppName || '';
 }
 
 export function getApiHost() {
   // 是本地调试机器，携带者端口号
   if (window.location.port !== '') return '';
-  if (window.location.hostname.includes('github.io')) return '';
   return cachedApiHost || '';
 };
 
