@@ -24,13 +24,13 @@ class Routes extends React.Component {
   ctx = {} as CtxDe;
   errOccurred = false;
 
-  state = {
+  state: { err: string, curMenus: Array<IMenuGroup | IMenuItem> } = {
     err: '',
-    curMenus: [] as Array<IMenuGroup | IMenuItem>,
+    curMenus: [],
   };
 
   // 构建一次后就缓存路由组件，否则会在边栏收起时造成页面组件卸载并再挂载
-  cachedUi = { uiRoutes: null, uiHomeRoute: null, uiNotFound: null } as Record<string, any>;
+  cachedUi: Record<string, any> = { uiRoutes: null, uiHomeRoute: null, uiNotFound: null };
 
   $$setup() {
     this.ctx.effect(() => {
@@ -94,7 +94,7 @@ class Routes extends React.Component {
   // 创建一个渲染包含有【布局信息】和【路由组件】的组件
   makeCompWrap = (item: IMenuItem) => {
     return (props: RouteComponentProps) => {
-      const { showBreadcrumb = true, setContentLayout = true } = item;
+      const { showBreadcrumb, setContentLayout } = item;
       let uiBreadcrumb: React.ReactNode = '';
       if (showBreadcrumb) uiBreadcrumb = this.renderNavBreadcrumb();
       const { contentLayoutStyle } = this.ctx.globalComputed;
@@ -136,14 +136,14 @@ class Routes extends React.Component {
   buildRouteUi = () => {
     if (this.cachedUi.uiRoutes) return this.cachedUi;
 
-    let homeMenuItem = null as IMenuItem | null;
+    let homeMenuItem: IMenuItem | null = null;
     const uiRoutes = flattedMenus.map((item) => {
       if (item.isHomePage) homeMenuItem = item;
       const CompWrap = this.makeCompWrap(item);
       return <Route key={item.path} exact={item.exact} path={item.path} component={CompWrap} />;
     });
 
-    let uiHomeRoute = '' as React.ReactNode;
+    let uiHomeRoute: React.ReactNode = '';
     if (homeMenuItem) {
       const CompWrap = this.makeCompWrap(homeMenuItem);
       uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;

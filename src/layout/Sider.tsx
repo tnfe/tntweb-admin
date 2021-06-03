@@ -75,7 +75,6 @@ export function SiderMenus(props: ISiderMenusProps) {
   const { settings: se, globalState } = useSetupCtx(setup, { tag: 'Sider' });
   // 垂直在左侧布局时，才读siderTheme，否则主题色应和 headerTheme 相同
   const theme = mode === 'inline' ? globalState.siderTheme : globalState.headerTheme;
-  console.log('showingMenus', showingMenus);
 
   return <Menu
     className="layout-sider"
