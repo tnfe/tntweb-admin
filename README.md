@@ -12,6 +12,7 @@ concent-pro是一个帮用户整合[concent](https://github.com/concentjs/concen
 > 本项目使用webpack开发与构建，同时也提供了基于vite的[vite-concent-pro](https://github.com/tnfe/vite-concent-pro)版本，两者src源码一样，推荐给喜欢尝试vite的朋友
 
 ## 预览
+[在线示例](https://tnfe.github.io/concent-pro)
 ![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-site2.png)
 
 ## 安装与运行
