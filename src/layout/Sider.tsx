@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { getUrlChangedEvName } from 'react-router-concent';
+import { getUrlChangedEvName, getLatestCallInfo } from 'react-router-concent';
 import { MenuMode, SelectInfo } from 'rc-menu/lib/interface';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
@@ -30,6 +30,7 @@ function iState() {
     openKeys = [path2menuGroup[path].key];
   }
 
+  console.log('path is ', path);
   return {
     selectedKeys: [path],
     openKeys,
@@ -38,9 +39,9 @@ function iState() {
 
 function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
-  ctx.on(getUrlChangedEvName(), (params) => {
-    // 来自于api的调用跳转 &&sider 处于可见状态，才重置菜单点亮状态
-    if (params.state?.callByApi && ctx.globalState.siderVisible) {
+  ctx.on(getUrlChangedEvName(), () => {
+    // 来自于api的调用跳转 && sider 处于可见状态，才重置菜单点亮状态
+    if (getLatestCallInfo().callByApi && ctx.globalState.siderVisible) {
       const newState = iState();
       // 保持原来的菜单展开状态, 同时也让新的能够正确展开
       newState.openKeys = arrUtil.merge(newState.openKeys, ins.state.openKeys);

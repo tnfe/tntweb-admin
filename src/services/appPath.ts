@@ -12,6 +12,7 @@ export function getBasename() {
 export function getApiHost() {
   // 是本地调试机器，携带者端口号
   if (window.location.port !== '') return '';
+  if (window.location.hostname.includes('github.io')) return '';
   return cachedApiHost || '';
 };
 
@@ -32,9 +33,12 @@ export function attachApiHost(url: string) {
  * <basename>/xxx/yyy ---> /xxx/yyy
  */
 export function getRelativeRootPath() {
-  const { pathname } = window.location;
+  const { pathname, hash } = window.location;
   const basename = getBasename();
   let targetPathname = pathname;
+  if (hash.startsWith('#')) {
+    targetPathname = hash.substr(1);
+  }
 
   if (basename) {
     // basename: xxx-app
@@ -45,5 +49,6 @@ export function getRelativeRootPath() {
   }
   if (!targetPathname) targetPathname = '/';
 
+  console.log('--->targetPathname', targetPathname);
   return targetPathname;
 }
