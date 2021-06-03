@@ -5,6 +5,7 @@
   "dependencies": {
     "@ant-design/compatible": "^1.0.2",
     "@ant-design/icons": "^4.0.6",
+    "@antv/g2": "^4.1.17",
     "@babel/core": "7.9.0",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
@@ -92,7 +93,8 @@
     "api": "mocker ./mock",
     "app": "cross-env node scripts/start.js",
     "build": "node scripts/build.js",
-    "build_gh_page": "PUBLIC_URL=concent-pro node scripts/build.js",
+    "build_gh_page": "PUBLIC_URL=https://tnfe.github.io/concent-pro/ node scripts/build.js",
+    "cp_gh_page": "rm -rf ./gh_page/* && cp -r ./build/* ./gh_page",
     "lint": "eslint ./src --ext ts,tsx",
     "lintfix": "eslint ./src --ext ts,tsx --fix",
     "test": "jest",

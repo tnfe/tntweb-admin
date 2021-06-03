@@ -1,7 +1,7 @@
 // +++ node modules +++
 import React from 'react';
 import { ConnectRouter } from 'react-router-concent';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Layout, Spin, Skeleton } from 'antd';
 import { cst } from 'concent';
 // +++ project modules +++
@@ -59,11 +59,12 @@ function App() {
 }
 
 export default React.memo(() => {
+  const RootRouter: any = window.location.hostname.includes('github.io') ? HashRouter : BrowserRouter;
   return (
-    <BrowserRouter basename={`/${getBasename()}`}>
+    <RootRouter basename={`/${getBasename()}`}>
       <ConnectRouter callUrlChangedOnInit={true}>
         <App />
       </ConnectRouter>
-    </BrowserRouter>
+    </RootRouter>
   );
 });

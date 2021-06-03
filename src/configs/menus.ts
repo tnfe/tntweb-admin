@@ -99,7 +99,7 @@ const menus: Array<IMenuItem | IMenuGroup> = [
   },
   {
     label: '分步表单',
-    path: '/step-form',
+    path: routerPath.STEP_FORM,
     Component: lazy(() => import('pages/AStepForm')),
   },
   {

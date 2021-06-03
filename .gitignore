@@ -15,6 +15,7 @@ STATUS.md
 
 # production
 /build
+/gh_page
 
 # misc
 .DS_Store
