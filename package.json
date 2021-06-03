@@ -92,6 +92,7 @@
     "api": "mocker ./mock",
     "app": "cross-env node scripts/start.js",
     "build": "node scripts/build.js",
+    "build_gh_page": "PUBLIC_URL=concent-pro node scripts/build.js",
     "lint": "eslint ./src --ext ts,tsx",
     "lintfix": "eslint ./src --ext ts,tsx --fix",
     "test": "jest",
