@@ -39,3 +39,21 @@
   color: white;
   font-weight: 800;
 }
+
+.pageTabWrap {
+  width: 100%;
+  background-color: white;
+  height: 32px
+}
+
+.pageTabWrap .ant-tabs {
+  height: 32px;
+}
+
+.pageTabWrap .ant-tabs .ant-tabs-nav-wrap{
+  padding-top: 3px;
+}
+
+.pageTabWrap .ant-tabs .ant-tabs-tab {
+  padding: 1px 10px;
+}

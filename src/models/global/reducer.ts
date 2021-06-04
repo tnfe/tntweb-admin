@@ -1,6 +1,38 @@
 import { St } from './meta';
 import * as colorServ from 'services/color';
 
+export function addActiveRoutePath(path: string, moduleState: St) {
+  const { activeRoutePaths, curActiveRoutePath } = moduleState;
+  const toSet: Partial<St> = {};
+  if (!activeRoutePaths.includes(path) && activeRoutePaths.length < 5) {
+    activeRoutePaths.push(path);
+    toSet.activeRoutePaths = activeRoutePaths;
+  }
+  if (curActiveRoutePath !== path) {
+    toSet.curActiveRoutePath = path;
+  }
+  return toSet;
+}
+
+export function delActiveRoutePath(path: string, moduleState: St) {
+  const { activeRoutePaths } = moduleState;
+  const idx = activeRoutePaths.indexOf(path);
+  let curActiveRoutePath = '/';
+  if (idx >= 0) {
+    const toDelPath = activeRoutePaths[idx];
+    activeRoutePaths.splice(idx, 1);
+    // 如果删除的就是当前激活的path
+    if (toDelPath === moduleState.curActiveRoutePath) {
+      // 替换为第一个
+      if (activeRoutePaths.length >= 1) curActiveRoutePath = activeRoutePaths[0];
+    } else {
+      curActiveRoutePath = moduleState.curActiveRoutePath;
+    }
+    return { activeRoutePaths, curActiveRoutePath };
+  }
+  return { curActiveRoutePath };
+}
+
 export function toggleSiderVisible(p: any, moduleState: St): Partial<St> {
   return { siderVisible: !moduleState.siderVisible }
 }

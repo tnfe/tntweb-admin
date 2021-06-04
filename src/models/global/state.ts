@@ -1,13 +1,18 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
+import { IMenuGroup, IMenuItem } from 'configs/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
 
 function getInitialState() {
-  const themeColor = '#8B572A';
+  const themeColor = '#4a90e2';
   const themeColorRGB = colorServ.hex2rgbString(themeColor);
 
   return {
+    activeRoutePaths: [] as string[],
+    curActiveRoutePath: '',
+    navMenus: [] as Array<IMenuGroup | IMenuItem>,
+
     /** 顶部是否固定 */
     fixHeader: false,
     siderVisible: true,

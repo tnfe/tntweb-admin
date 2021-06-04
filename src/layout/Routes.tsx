@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 /**
  * 根据 configs/menus 配置组装整个应用的路由系统
  */
@@ -5,13 +6,13 @@ import React, { Suspense } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { register, cst } from 'concent';
 import { getUrlChangedEvName } from 'react-router-concent';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 import { getRelativeRootPath } from 'services/appPath';
 import { path2menuItem, path2menuGroup, flattedMenus } from 'configs/derived/menus';
-import { IMenuItem, IMenuGroup } from 'configs/menus';
-import { NormalBlank } from 'components/dumb/general';
+import { IMenuItem } from 'configs/menus';
 import NotFound from 'pages/NotFound';
 import { CtxDe } from 'types/store';
+import TipHeader from './TipHeader';
 import styles from './App.module.css';
 
 const { Content } = Layout;
@@ -21,18 +22,16 @@ const Fallback = () => {
 };
 
 class Routes extends React.Component {
-  ctx = {} as CtxDe;
-  errOccurred = false;
+  public ctx = {} as CtxDe;
+  public errOccurred = false;
 
-  state: { err: string, curMenus: Array<IMenuGroup | IMenuItem> } = {
-    err: '',
-    curMenus: [],
-  };
+  public state: { err: string } = { err: '', };
 
   // 构建一次后就缓存路由组件，否则会在边栏收起时造成页面组件卸载并再挂载
-  cachedUi: Record<string, any> = { uiRoutes: null, uiHomeRoute: null, uiNotFound: null };
+  public cachedUi: Record<string, any> = { uiRoutes: null, uiHomeRoute: null, uiNotFound: null };
+  public cachedUiCompWrapContent: Record<string, any> = {};
 
-  $$setup() {
+  public $$setup() {
     this.ctx.effect(() => {
       this.changeNavData();
     }, []);
@@ -48,27 +47,27 @@ class Routes extends React.Component {
   }
 
   // 修改为当前页面头部对应的导航提示路径
-  changeNavData = () => {
+  public changeNavData = () => {
     const curAppPath = getRelativeRootPath();
     const menuItem = path2menuItem[curAppPath];
     if (menuItem) {
-      const curMenus = [];
-      curMenus.unshift(menuItem);
+      const navMenus = [];
+      navMenus.unshift(menuItem);
       const menuGroup = path2menuGroup[curAppPath];
       if (menuGroup) {
-        curMenus.unshift(menuGroup);
+        navMenus.unshift(menuGroup);
       }
-      this.setState({ curMenus });
+      this.ctx.setGlobalState({ navMenus });
     }
   }
 
-  componentDidCatch(err: any) {
+  public componentDidCatch(err: any) {
     this.errOccurred = true;
     this.setState({ err: err.message });
   }
 
   // 提示当前路由页崩溃
-  renderCrashTip = () => {
+  public renderCrashTip = () => {
     return (
       <Layout style={this.ctx.globalComputed.contentLayoutStyle}>
         <h1 style={{ color: 'red', padding: '64px' }}>
@@ -79,74 +78,78 @@ class Routes extends React.Component {
     );
   }
 
-  // 渲染导航面包屑
-  renderNavBreadcrumb = () => {
-    return (
-      <Breadcrumb style={{ paddingLeft: '16px', height: '32px', lineHeight: '32px', backgroundColor: 'white' }}>
-        {this.state.curMenus.map((item, i) => {
-          const uiIcon = item.Icon ? <item.Icon /> : '';
-          return <Breadcrumb.Item key={i}>{uiIcon}<NormalBlank />{item.label}</Breadcrumb.Item>;
-        })}
-      </Breadcrumb>
-    );
-  }
+  public renderChildren = (item: IMenuItem, props: RouteComponentProps) => {
+    console.warn('Render CompWrap');
+    const { setContentLayout } = item;
+    const { contentLayoutStyle } = this.ctx.globalComputed;
 
-  // 创建一个渲染包含有【布局信息】和【路由组件】的组件
-  makeCompWrap = (item: IMenuItem) => {
-    return (props: RouteComponentProps) => {
-      const { showBreadcrumb, setContentLayout } = item;
-      let uiBreadcrumb: React.ReactNode = '';
-      if (showBreadcrumb) uiBreadcrumb = this.renderNavBreadcrumb();
-      const { contentLayoutStyle } = this.ctx.globalComputed;
-
-      // beforeComponentMount 可能返回一个替换的视图
-      let uiReplaceRouteComp: React.ReactNode | void = '';
-      const executed = React.useRef(false);
-      if (!executed.current) {
-        executed.current = true;
-        if (item.beforeComponentMount) {
-          uiReplaceRouteComp = item.beforeComponentMount(props);
-        }
+    // beforeComponentMount 可能返回一个替换的视图
+    let uiReplaceRouteComp: React.ReactNode | void = '';
+    const executed = React.useRef(false);
+    if (!executed.current) {
+      executed.current = true;
+      if (item.beforeComponentMount) {
+        uiReplaceRouteComp = item.beforeComponentMount(props);
       }
-      const uiTargetComp = uiReplaceRouteComp || <item.Component {...props} />;
+    }
 
-      if (setContentLayout) {
-        return (
-          <Layout style={contentLayoutStyle}>
-            {uiBreadcrumb}
-            <Layout style={{ padding: '24px' }}>
-              <Content className={styles.contentWrap}>
-                {uiTargetComp}
-              </Content>
-            </Layout>
-          </Layout>
-        );
-      }
+    let uiCompWrapContent = this.cachedUiCompWrapContent[item.path];
+    if (uiCompWrapContent) return uiCompWrapContent;
 
-      return (
+    const uiTargetComp = uiReplaceRouteComp || <item.Component {...props} />;
+    if (setContentLayout) {
+      uiCompWrapContent = (
         <Layout style={contentLayoutStyle}>
-          {uiBreadcrumb}
+          <TipHeader />
+          <Layout style={{ padding: '24px' }}>
+            <Content className={styles.contentWrap}>
+              {uiTargetComp}
+            </Content>
+          </Layout>
+        </Layout>
+      );
+    } else {
+      uiCompWrapContent = (
+        <Layout style={contentLayoutStyle}>
+          <TipHeader />
           {uiTargetComp}
         </Layout>
       );
+    }
+
+    this.cachedUiCompWrapContent[item.path] = uiCompWrapContent;
+    return uiCompWrapContent;
+  }
+
+  // 创建一个渲染包含有【布局信息】和【路由组件】的组件
+  public makeCompWrap = (item: IMenuItem) => {
+    console.warn('makeCompWrap');
+    return (props: RouteComponentProps) => {
+      return this.renderChildren(item, props);
     };
   }
 
   // 根据配置构造路由
-  buildRouteUi = () => {
+  public buildRouteUi = () => {
     if (this.cachedUi.uiRoutes) return this.cachedUi;
 
     let homeMenuItem: IMenuItem | null = null;
     const uiRoutes = flattedMenus.map((item) => {
       if (item.isHomePage) homeMenuItem = item;
       const CompWrap = this.makeCompWrap(item);
+      // todo: keepalive
       return <Route key={item.path} exact={item.exact} path={item.path} component={CompWrap} />;
+      // return <Route key={item.path} exact={item.exact} path={item.path}
+      //   children={(props: RouteComponentProps) => this.renderChildren(item, props)}
+      // />;
     });
 
     let uiHomeRoute: React.ReactNode = '';
     if (homeMenuItem) {
+      let item = homeMenuItem;
       const CompWrap = this.makeCompWrap(homeMenuItem);
       uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;
+      // uiHomeRoute = <Route exact={true} path={'/'} children={(props: RouteComponentProps) => this.renderChildren(item, props)} />;
     }
 
     const CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' });
@@ -156,7 +159,7 @@ class Routes extends React.Component {
     return this.cachedUi;
   }
 
-  render() {
+  public render() {
     if (this.errOccurred) {
       return this.renderCrashTip();
     }

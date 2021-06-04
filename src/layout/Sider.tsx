@@ -39,15 +39,21 @@ function iState() {
 
 function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
-  ctx.on(getUrlChangedEvName(), () => {
+  ctx.on(getUrlChangedEvName(), (p) => {
+    const newState = iState();
     // 来自于api的调用跳转
     if (getLatestCallInfo().callByApi) {
-      const newState = iState();
       // 保持原来的菜单展开状态, 同时也让新的能够正确展开
       newState.openKeys = arrUtil.merge(newState.openKeys, ins.state.openKeys);
       ctx.setState(newState);
     }
+    setActiveRoutePath(newState.selectedKeys[0]);
   });
+
+  const setActiveRoutePath = (path: string) => {
+    ctx.gr.addActiveRoutePath(path);
+  };
+  setActiveRoutePath(ins.state.selectedKeys[0]);
 
   return {
     insState: ins.state,
