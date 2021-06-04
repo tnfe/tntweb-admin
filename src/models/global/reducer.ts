@@ -1,11 +1,20 @@
 import { St } from './meta';
 import * as colorServ from 'services/color';
 
+/**
+ * 添加一个激活的页签
+ */
 export function addActiveRoutePath(path: string, moduleState: St) {
   const { activeRoutePaths, curActiveRoutePath } = moduleState;
   const toSet: Partial<St> = {};
-  if (!activeRoutePaths.includes(path) && activeRoutePaths.length < 5) {
-    activeRoutePaths.push(path);
+  if (!activeRoutePaths.includes(path)) {
+    // 最多激活5个
+    if (activeRoutePaths.length <= 5) {
+      activeRoutePaths.push(path);
+    } else {
+      // 否则替换掉第一个
+      activeRoutePaths[0] = path;
+    }
     toSet.activeRoutePaths = activeRoutePaths;
   }
   if (curActiveRoutePath !== path) {
@@ -14,6 +23,9 @@ export function addActiveRoutePath(path: string, moduleState: St) {
   return toSet;
 }
 
+/**
+ * 删除页签
+ */
 export function delActiveRoutePath(path: string, moduleState: St) {
   const { activeRoutePaths } = moduleState;
   const idx = activeRoutePaths.indexOf(path);
