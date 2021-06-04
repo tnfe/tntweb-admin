@@ -31,7 +31,7 @@ export async function innerLoadingTryAsyncCutDesc(payload: VoidPayload, moduleSt
 export async function loading(callerParams: CallTargetParams, moduleState: St, ac: IAC) {
   await ac.setState({ loading: true });
   await timerUtil.delay(666);
-  const ret = await callTarget(callerParams, ac);
+  await callTarget(callerParams, ac);
   return { loading: false };
 }
 

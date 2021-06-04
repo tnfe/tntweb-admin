@@ -2,8 +2,6 @@ import * as timerUtil from 'utils/timer';
 import { VoidPayload } from 'types/store';
 import { IAC, St} from './meta';
 
-const delay = () => new Promise(r => setTimeout(r, 300));
-
 export function forCopy(payload: VoidPayload, moduleState: St, ac: IAC) {
   console.log('call ac.setState or ac.dispatch when needed', ac.setState);
 }

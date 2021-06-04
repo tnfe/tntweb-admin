@@ -1,6 +1,6 @@
 import {
   getComputed, getState, ComputedValType, StateType,
-  IModActionCtx, IRefCtxM, ReducerCallerParams, IReducerFn, IAnyObj, ICtxBase, SettingsType
+  IModActionCtx, IRefCtxM, IAnyObj, ICtxBase, SettingsType
 } from 'concent';
 import { makeUseModel, makeUseModelWithSetup, makeUseModelWithSetupCuf } from 'concent-utils';
 import state, { St as ModuleState } from './state';
