@@ -305,7 +305,7 @@ exports[`Demo Render generate Demo snapshot 1`] = `
               ]
             }
             dataSource={Array []}
-            loading={true}
+            loading={false}
             pagination={false}
             rowKey="id"
             scroll={
@@ -319,38 +319,14 @@ exports[`Demo Render generate Demo snapshot 1`] = `
             >
               <Spin
                 size="default"
-                spinning={true}
+                spinning={false}
                 wrapperClassName=""
               >
                 <div
                   className="ant-spin-nested-loading"
                 >
                   <div
-                    key="loading"
-                  >
-                    <div
-                      className="ant-spin ant-spin-spinning"
-                    >
-                      <span
-                        className="ant-spin-dot ant-spin-dot-spin"
-                      >
-                        <i
-                          className="ant-spin-dot-item"
-                        />
-                        <i
-                          className="ant-spin-dot-item"
-                        />
-                        <i
-                          className="ant-spin-dot-item"
-                        />
-                        <i
-                          className="ant-spin-dot-item"
-                        />
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    className="ant-spin-container ant-spin-blur"
+                    className="ant-spin-container"
                     key="container"
                   >
                     <Table
@@ -526,7 +502,7 @@ exports[`Demo Render generate Demo snapshot 1`] = `
                           },
                         }
                       }
-                      loading={true}
+                      loading={false}
                       pagination={false}
                       prefixCls="ant-table"
                       rowClassName={[Function]}
@@ -714,7 +690,7 @@ exports[`Demo Render generate Demo snapshot 1`] = `
                                     </div>,
                                   },
                                 },
-                                "loading": true,
+                                "loading": false,
                                 "mergedExpandedKeys": Set {},
                                 "pagination": false,
                                 "prefixCls": "ant-table",
