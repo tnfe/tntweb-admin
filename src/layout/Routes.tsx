@@ -29,7 +29,7 @@ class Routes extends React.Component {
 
   // 构建一次后就缓存路由组件，否则会在边栏收起时造成页面组件卸载并再挂载
   public cachedUi: Record<string, any> = { uiRoutes: null, uiHomeRoute: null, uiNotFound: null };
-  public cachedUiCompWrapContent: Record<string, any> = {};
+  public cachedUiCompWrapContent: Record<string, { ui: any, layoutStyle: any }> = {};
 
   public $$setup() {
     this.ctx.effect(() => {
@@ -93,8 +93,9 @@ class Routes extends React.Component {
       }
     }
 
-    let uiCompWrapContent = this.cachedUiCompWrapContent[item.path];
-    if (uiCompWrapContent) return uiCompWrapContent;
+    let { ui: uiCompWrapContent, layoutStyle } = this.cachedUiCompWrapContent[item.path] || {};
+    // layout 没变才返回缓存
+    if (uiCompWrapContent && layoutStyle === contentLayoutStyle) return uiCompWrapContent;
 
     const uiTargetComp = uiReplaceRouteComp || <item.Component {...props} />;
     if (setContentLayout) {
@@ -117,7 +118,7 @@ class Routes extends React.Component {
       );
     }
 
-    this.cachedUiCompWrapContent[item.path] = uiCompWrapContent;
+    this.cachedUiCompWrapContent[item.path] = { ui: uiCompWrapContent, layoutStyle: contentLayoutStyle };
     return uiCompWrapContent;
   }
 
