@@ -39,7 +39,9 @@ const setup = (ctx: CtxPre) => {
   }, []);
 
   const handlePageCurrentChange = (current: number) => {
-    const { fetchFn } = ctx.props; // fetchFn有可能会变，这里每次取最新的
+    // 触发 handelPageSizeChange 时，同时也会触发 handlePageCurrentChange，这里做个判断，避免冗余请求
+    if (ctx.state.meta[tableId].current === current) return;
+    const { fetchFn } = ctx.props;// fetchFn有可能会变，这里每次取最新的
     ctx.mr.handlePageCurrentChange({ tableId, current, fetchFn }, ccUniqueKey)
   };
   const handelPageSizeChange = (page: number, pageSize: number) => {

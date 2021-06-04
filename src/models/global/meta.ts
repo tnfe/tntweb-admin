@@ -42,5 +42,8 @@ export const getModelComputed = () => getComputed(moduleName) as ComputedValType
 // 访问本模块状态的入口函数，方便某些地方脱离渲染上下文的地方可直接调用
 export const getModelState = () => getState(moduleName) as StateType<typeof state>;
 
+const cu = getComputed<RootCu, ModuleName>(moduleName);
+const cu2 = getComputed<RootCu>();
+
 export default model;
 

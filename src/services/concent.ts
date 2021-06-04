@@ -3,8 +3,8 @@
  */
 import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
-  ReducerCallerParams, IReducerFn, IActionCtxBase, cst, MODULE_DEFAULT,
-  ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed,
+  IActionCtxBase, cst, MODULE_DEFAULT,
+  ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed, CallTargetParams,
 } from 'concent';
 import { noop } from 'utils/fn';
 import { CtxM, CtxMConn, CtxConn, Modules, RootRd, RootState, RootCu } from 'types/store';
@@ -23,19 +23,21 @@ function priBuildCallParams(moduleName: Modules, connect: Array<Modules>, option
  * @param callerParams
  * @param ac
  */
-export async function callTarget(callerParams: ReducerCallerParams | [IReducerFn, any], ac: IActionCtxBase) {
+export async function callTarget<T extends any = any>(callerParams: CallTargetParams, ac: IActionCtxBase, errHandler?: (err: Error) => void): Promise<T> {
+  let ret: T = {} as any;
   try {
-    // 支持 reducer文件里内部调用 ac.dispatch(loading, [targetFn, payload])
+    // 支持 reducer文件里内部调用 ac.dispatch(loading, fnPayload(targetFn, payload))
     if (Array.isArray(callerParams)) {
-      const [fn, payload] = callerParams;
-      await ac.dispatch(fn, payload);
+      ret = await Function.prototype.apply.call(ac.dispatch, ac, callerParams);
     } else {
       const { fnName, payload, renderKey, delay } = callerParams;
-      await ac.dispatch(fnName, payload, renderKey, delay);
+      ret = await ac.dispatch(fnName, payload, renderKey, delay) as unknown as any;
     }
   } catch (err) {
-    alert(err.message);
+    if (errHandler) errHandler(err);
+    throw err;
   }
+  return ret;
 }
 
 export interface ValidSetup {

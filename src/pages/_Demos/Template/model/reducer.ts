@@ -1,7 +1,8 @@
 import * as timerUtil from 'utils/timer';
 import { VoidPayload } from 'types/store';
+import { fnPayload, CallTargetParams } from 'concent';
 import { callTarget } from 'services/concent';
-import { IAC, St, CallerParams, ReducerFn } from './meta';
+import { IAC, St } from './meta';
 
 export function forCopy(payload: VoidPayload, moduleState: St, ac: IAC) {
   console.log('call ac.setState or ac.dispatch when needed', ac.setState);
@@ -20,15 +21,17 @@ export async function tryAsyncCutDesc(payload: VoidPayload, moduleState: St, ac:
 }
 
 export async function innerLoadingTryAsyncCutDesc(payload: VoidPayload, moduleState: St, ac: IAC) {
-  ac.dispatch(loading, [tryCutDesc, payload])
+  const params = fnPayload(tryCutDesc, payload);
+  ac.dispatch(loading, params);
 }
 
 // 在 meta.js 里已注册为ghost函数
-// 支持 reducer文件里内部调用 ac.dispatch(loading, [targetFn, payload])
+// 支持 reducer文件里内部调用 ac.dispatch(loading, fnPayload(targetFn, payload))
 // 或者视图里触发 mrg.loading.targetFn(payload)
-export async function loading(callerParams: CallerParams | [ReducerFn, any], moduleState: St, ac: IAC) {
+export async function loading(callerParams: CallTargetParams, moduleState: St, ac: IAC) {
   await ac.setState({ loading: true });
-  await callTarget(callerParams, ac);
+  await timerUtil.delay(666);
+  const ret = await callTarget(callerParams, ac);
   return { loading: false };
 }
 

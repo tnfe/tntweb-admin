@@ -4,7 +4,6 @@ import { Input, Alert, Button, Spin, Tag } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { useModel } from './model/meta';
 
-
 const InputArea = React.memo(() => {
   const { state, sync } = useModel();
   return (
