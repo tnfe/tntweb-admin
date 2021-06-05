@@ -284,4 +284,4 @@ export function isDepthLargeThan(obj: Record<string, any>, toCompare: number) {
 export function decideVal<T extends any>(firstVal: any, secondVal: T): T {
   if (!isNull(firstVal)) return firstVal;
   return secondVal;
-};
+}
