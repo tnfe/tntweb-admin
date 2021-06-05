@@ -13,7 +13,12 @@ concent-pro是一个帮用户整合[concent](https://github.com/concentjs/concen
 
 ## 预览
 [在线示例](https://tnfe.github.io/concent-pro)
-![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-site2.png)
+<br/>
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro1.png)
+<br/>
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro2.png)
+<br/>
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro3.png)
 
 ## 安装与运行
 - 拉取项目代码
