@@ -49,6 +49,10 @@ export function toggleSiderVisible(p: any, moduleState: St): Partial<St> {
   return { siderVisible: !moduleState.siderVisible }
 }
 
+export function changeTopViewType(topViewType: number): Partial<St> {
+  return { topViewType };
+}
+
 export function changeThemeColor(themeColor: string): Partial<St> {
   colorServ.changeThemeColor(themeColor);
   // 修改浅色
@@ -66,10 +70,6 @@ export function switchSiderTheme(checked: boolean, moduleState: St): Partial<St>
 
 export function switchHeaderTheme(checked: boolean, moduleState: St): Partial<St> {
   return { headerTheme: checked ? 'dark' : 'light' };
-}
-
-export function switchFixHeader(checked: boolean, moduleState: St): Partial<St> {
-  return { fixHeader: checked };
 }
 
 export function changeIsInnerMock(checked: boolean, moduleState: St): Partial<St> {

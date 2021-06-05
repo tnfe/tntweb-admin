@@ -43,8 +43,8 @@ function calcMenus() {
       const allMenuGroup: IMenuGroup = { ...rest, children: [] };
 
       children.forEach((childItem) => {
-        const { path, showInSider = true, setContentLayout = true, showBreadcrumb = true, ...rest } = childItem;
-        const fillDefaultValChildItem = { ...rest, path, showInSider, setContentLayout, showBreadcrumb };
+        const { path, showInSider = true, setContentLayout = true, showQuickNavBar = true, ...rest } = childItem;
+        const fillDefaultValChildItem = { ...rest, path, showInSider, setContentLayout, showQuickNavBar };
         allMenuGroup.children.push(fillDefaultValChildItem);
 
         path2menuGroup[path] = allMenuGroup;
@@ -64,8 +64,8 @@ function calcMenus() {
     }
 
     const menuItem = item as IMenuItem;
-    const { path, isHomePage, showInSider = true, setContentLayout = true, showBreadcrumb = true, ...rest } = menuItem;
-    const fillDefaultValMenuItem = { ...rest, path, isHomePage, showInSider, setContentLayout, showBreadcrumb };
+    const { path, isHomePage, showInSider = true, setContentLayout = true, showQuickNavBar = true, ...rest } = menuItem;
+    const fillDefaultValMenuItem = { ...rest, path, isHomePage, showInSider, setContentLayout, showQuickNavBar };
     allMenus.push(fillDefaultValMenuItem);
     path2menuItem[path] = fillDefaultValMenuItem;
     if (isHomePage) {

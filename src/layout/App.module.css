@@ -16,6 +16,15 @@
   line-height: 48px;
 }
 
+.headerSettingInBar {
+  position: fixed;
+  right: 8px;
+  font-size: 19px;
+  height: 38px;
+  line-height: 38px;
+  z-index: 999;
+}
+
 
 .userIconWrap {
   position: absolute;
@@ -47,4 +56,8 @@
   padding: 24px;
   margin: 0;
   min-height: calc(100vh - 152px);
+}
+
+.SwatchesPicker {
+  width: 450px !important;
 }

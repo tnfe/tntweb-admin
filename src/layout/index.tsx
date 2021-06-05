@@ -15,6 +15,7 @@ import Sider from './Sider';
 import Footer from './Footer';
 import Header from './Header';
 import QuickNavBar from './QuickNavBar';
+import SettingDrawer from './SettingDrawer';
 
 function setup({ effect, globalReducer, globalState, globalComputed }: CtxDe) {
   effect(() => {
@@ -56,6 +57,7 @@ function App() {
       </Layout>
       {settings.renderContentArea()}
       <Footer />
+      <SettingDrawer />
     </Layout>
   );
 }

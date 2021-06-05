@@ -40,20 +40,31 @@
   font-weight: 800;
 }
 
-.pageTabWrap {
-  width: 100%;
+.quickNavBarWrap {
+  position: relative;
+  width: 100vw;
   background-color: white;
-  height: 32px
+  height: 32px;
+  box-shadow: rgb(0 21 41 / 8%) 0px 1px 4px;
 }
 
-.pageTabWrap .ant-tabs {
+.quickNavBarWrap .ant-tabs {
   height: 32px;
 }
 
-.pageTabWrap .ant-tabs .ant-tabs-nav-wrap{
-  padding-top: 3px;
+.quickNavBarWrap .ant-tabs .ant-tabs-nav-wrap {
+  padding-top: 1px;
 }
 
-.pageTabWrap .ant-tabs .ant-tabs-tab {
+.quickNavBarWrap .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
+.quickNavBarWrap .ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
+  border: 1px dashed var(--theme-color);
+  border-bottom-color: #fff;
+}
+
+/* .quickNavBarWrap .ant-tabs-tab-active {
+} */
+
+.quickNavBarWrap .ant-tabs .ant-tabs-tab {
   padding: 1px 10px;
 }

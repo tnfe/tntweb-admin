@@ -1,6 +1,7 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
+import { topViewTypes } from 'configs/constant/sys';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
 
@@ -12,9 +13,9 @@ function getInitialState() {
     activeRoutePaths: [] as string[],
     curActiveRoutePath: '',
     navMenus: [] as Array<IMenuGroup | IMenuItem>,
+    topViewType: topViewTypes.FIXED_HEADER_FIXED_BAR,
 
-    /** 顶部是否固定 */
-    fixHeader: false,
+    settingDrawerVisible: false,
     siderVisible: true,
     siderTheme: 'dark' as SiderTheme,
     headerTheme: 'dark' as SiderTheme,
