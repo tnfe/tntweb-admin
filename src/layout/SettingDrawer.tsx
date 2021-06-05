@@ -22,7 +22,7 @@ export function setup(ctx: CtxDe) {
 
   return {
     state: ins.state,
-    closeThemeSettingsDrawer: () => ins.setGlobalState({ settingDrawerVisible: false }),
+    closeThemeSettingsDrawer: () => ctx.setGlobalState({ settingDrawerVisible: false }),
     changePickerMode(e: RadioChangeEvent) {
       ins.setState({ pickerMode: e.target.value })
     },
@@ -58,12 +58,13 @@ export function SettingDrawer() {
           <Radio value="fast">快速</Radio>
           <Radio value="professional">专业</Radio>
         </Radio.Group>
+        <Tag color={gst.themeColor}>{gst.themeColor}</Tag>
         <VerticalBlank />
         {se.state.pickerMode === 'fast' &&
-          <SwatchesPicker className={styles.SwatchesPicker} color={gcu.headerStyle.color} onChange={se.onWebsiteColorChange} />
+          <SwatchesPicker className={styles.SwatchesPicker} color={gst.themeColor} onChange={se.onWebsiteColorChange} />
         }
         {se.state.pickerMode === 'professional' &&
-          <SketchPicker color={gcu.headerStyle.color} onChange={se.onWebsiteColorChange}
+          <SketchPicker color={gst.themeColor} onChange={se.onWebsiteColorChange}
             onChangeComplete={se.onWebsiteColorChange}
           />
         }

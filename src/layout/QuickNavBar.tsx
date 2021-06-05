@@ -68,7 +68,7 @@ function QuickNavBar() {
           const uiTab = <Breadcrumb style={stBreadWrap}>
             {navMenus.map((item, i) => {
               const uiIcon = item.Icon ? <item.Icon /> : '';
-              return <Breadcrumb.Item key={i}><span style={stItem}>{uiIcon}<NormalBlank />{item.label}</span></Breadcrumb.Item>;
+              return <Breadcrumb.Item key={i}><span style={stItem}>{uiIcon}{item.label}</span></Breadcrumb.Item>;
             })}
           </Breadcrumb>;
           return <TabPane tab={uiTab} key={path} />
