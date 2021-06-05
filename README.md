@@ -14,11 +14,11 @@
 ## 预览
 [在线示例](https://tnfe.github.io/concent-pro)
 <br/>
-![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro1.png)
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/ccpro4.png)
 <br/>
-![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro2.png)
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/ccpro5.png)
 <br/>
-![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro3.png)
+![](https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/ccpro6.png)
 
 ## 安装与运行
 - 拉取项目代码
