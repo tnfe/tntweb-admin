@@ -8,7 +8,7 @@ import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
 import * as defaultVals from 'configs/constant/defaultVals';
 import { decideVal } from 'utils/obj';
-import { NormalBlank, EmptyView } from 'components/dumb/general';
+import { EmptyView } from 'components/dumb/general';
 import styles from './App.module.css';
 
 const { TabPane } = Tabs;
@@ -36,13 +36,14 @@ function setup(ctx: CtxDe) {
       return navMenus;
     },
     openThemeSettingsDrawer: () => ctx.setGlobalState({ settingDrawerVisible: true }),
+    gotoConcentProGitRepo: () => window.open()
   };
 }
 
 // 渲染导航面包屑 + 标签页
 function QuickNavBar() {
   let uiQuickNavBar: React.ReactElement = <EmptyView />;
-  const { globalState: { curActiveRoutePath, activeRoutePaths },
+  const { globalState: { curActiveRoutePath, activeRoutePaths, themeColor },
     settings, globalComputed: gcu,
   } = useSetupCtx(setup, { tag: 'TipHeader' });
   let showQuickNavBar = true;
@@ -76,7 +77,7 @@ function QuickNavBar() {
       </Tabs>
       {gcu.settingIconShowCtrl.showInBar &&
         <SettingOutlined onClick={settings.openThemeSettingsDrawer} className={styles.headerSettingInBar}
-          style={{ color: gcu.headerStyle.color }}
+          style={{ color: themeColor }}
         />
       }
     </div>

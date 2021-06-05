@@ -20,7 +20,10 @@ function getInitialState() {
     siderVisible: true,
     siderTheme: 'dark' as SiderTheme,
     headerTheme: 'dark' as SiderTheme,
-    /** 站点的主题颜色 */
+    isUsingDefaultThemeColor: true,
+    /** 个性化设置的站点的主题颜色 */
+    custThemeColor: themeColor,
+    /** 使用中的站点主题颜色 */
     themeColor,
     themeColorRGB,
     themeColorLight: colorServ.getThemeColorLight(themeColor),

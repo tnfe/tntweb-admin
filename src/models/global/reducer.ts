@@ -1,6 +1,13 @@
-import { St } from './meta';
+import { siteThemeColor } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
+import { St, IAC } from './meta';
+
+export async function changeIsUsingDefaultTheme(checked: boolean, moduleState: St, ac: IAC) {
+  await ac.setState({ isUsingDefaultThemeColor: checked });
+  await ac.dispatch(changeThemeColor, { themeColor: siteThemeColor });
+}
+
 
 /**
  * 添加一个激活的页签
@@ -56,7 +63,8 @@ export function changeTopViewType(topViewType: number): Partial<St> {
   return { topViewType };
 }
 
-export function changeThemeColor(themeColor: string): Partial<St> {
+export function changeThemeColor(payload: { themeColor: string, setCustThemeColor?: boolean }): Partial<St> {
+  const { themeColor, setCustThemeColor } = payload;
   colorServ.changeThemeColor(themeColor);
   // 修改浅色
   const themeColorLight = colorServ.getThemeColorLight(themeColor);
@@ -64,7 +72,13 @@ export function changeThemeColor(themeColor: string): Partial<St> {
   // 修改主题色rgb值
   const themeColorRGB = colorServ.hex2rgbString(themeColor);
   colorServ.changeThemeColorRGB(themeColorRGB);
-  return { themeColor, themeColorLight: themeColorLight, themeColorRGB }
+
+  const toSet: Partial<St> = { themeColor, themeColorLight, themeColorRGB };
+  if (setCustThemeColor) {
+    toSet.custThemeColor = themeColor;
+    toSet.isUsingDefaultThemeColor = false;
+  }
+  return toSet;
 }
 
 export function switchSiderTheme(checked: boolean, moduleState: St): Partial<St> {

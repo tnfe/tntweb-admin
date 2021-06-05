@@ -16,15 +16,18 @@
   line-height: 48px;
 }
 
-.headerSettingInBar {
+.iconInBarBase {
   position: fixed;
-  right: 8px;
   font-size: 19px;
   height: 38px;
   line-height: 38px;
   z-index: 999;
 }
 
+.headerSettingInBar {
+  composes: iconInBarBase;
+  right: 8px;
+}
 
 .userIconWrap {
   position: absolute;

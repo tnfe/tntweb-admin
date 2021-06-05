@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Card, Row, Col } from 'antd';
+import { GithubOutlined } from '@ant-design/icons';
 import { RouteComponentProps } from 'react-router-dom';
 import { history } from 'react-router-concent';
 import { routerPath } from 'configs/constant';
@@ -22,10 +23,17 @@ function Home(props: RouteComponentProps) {
 
   return (
     <div style={{ paddingTop: '15px' }}>
-      <AsyncButton>欢迎了解与使用 Concent-pro</AsyncButton>
-      <h3>mods.COUNTER.state.value {state.value}</h3>
-      <Button onClick={mr.increment}>change value</Button>
-      <VerticalBlank height="64px" />
+      <Row>
+        <Col>
+          <AsyncButton>欢迎了解与使用 Concent-pro </AsyncButton>
+        </Col>
+        <Col>
+          <a style={{ marginLeft: '12px' }} href="https://github.com/tnfe/concent-pro" target="blank">
+            <GithubOutlined style={{ fontSize: '52px' }} />
+          </a>
+        </Col>
+      </Row>
+      <VerticalBlank />
       <Row>
         <Col span="8">
           <Card
@@ -48,9 +56,12 @@ function Home(props: RouteComponentProps) {
           </Card>
         </Col>
       </Row>
-      <VerticalBlank height="64px" />
+      <VerticalBlank height="32px" />
+      <h3>mods.COUNTER.state.value {state.value}</h3>
+      <Button onClick={mr.increment}>change value</Button>
+      <VerticalBlank height="32px" />
       <Button type="primary" onClick={homeMr.ranBarData}>ran bar data</Button>
-      <VerticalBlank height="64px" />
+      <VerticalBlank height="32px" />
       <Bar data={homeState.barData} />
     </div>
   );

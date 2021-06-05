@@ -30,10 +30,13 @@ export function setup(ctx: CtxDe) {
       gr.changeTopViewType(e.target.value)
     },
     onWebsiteColorChange(colorResult: ColorResult) {
-      gr.changeThemeColor(colorResult.hex);
+      gr.changeThemeColor({ themeColor: colorResult.hex, setCustThemeColor: true });
     },
     onSiderThemeChange(checked: boolean) {
       gr.switchSiderTheme(checked);
+    },
+    changeIsUsingDefaultTheme(checked: boolean) {
+      gr.changeIsUsingDefaultTheme(checked);
     },
     onHeaderThemeChange(checked: boolean) {
       gr.switchHeaderTheme(checked);
@@ -68,6 +71,14 @@ export function SettingDrawer() {
             onChangeComplete={se.onWebsiteColorChange}
           />
         }
+        <VerticalBlank />
+        <div>
+          <Tag color="geekblue">恢复默认主题：</Tag>
+          <Blank />
+          <Switch checkedChildren="是" unCheckedChildren="否" checked={gst.isUsingDefaultThemeColor}
+            onChange={se.changeIsUsingDefaultTheme}
+          />
+        </div>
         <VerticalBlank />
         <div>
           <Tag color="geekblue">暗黑边栏：</Tag>
