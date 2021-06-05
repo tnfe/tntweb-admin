@@ -1,20 +1,21 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
-import { IMenuGroup, IMenuItem } from 'configs/menus';
-import { topViewTypes } from 'configs/constant/sys';
+import { topViewTypes, LS_C2PRO_SETTINGS } from 'configs/constant/sys';
+import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
+import { safeParse } from 'utils/obj';
+import { removeDupStrItem } from 'utils/arr';
 
 function getInitialState() {
   const themeColor = '#4a90e2';
   const themeColorRGB = colorServ.hex2rgbString(themeColor);
 
-  return {
+  const defaultState = {
     activeRoutePaths: [] as string[],
     curActiveRoutePath: '',
-    navMenus: [] as Array<IMenuGroup | IMenuItem>,
     topViewType: topViewTypes.FIXED_HEADER_FIXED_BAR,
-
+    /** 常用设置抽屉是否可见 */
     settingDrawerVisible: false,
     siderVisible: true,
     siderTheme: 'dark' as SiderTheme,
@@ -37,6 +38,22 @@ function getInitialState() {
     excludedMockApis: [
     ] as string[],
   };
+
+  // 还原用户最近一次设置数据
+  const cachedSettings = safeParse(localStorage.getItem(LS_C2PRO_SETTINGS) || '', defaultState);
+  const final = { ...defaultState, ...cachedSettings };
+  const { activeRoutePaths } = final;
+
+  // 确保path数据是正确的
+  let validActiveRoutePaths = activeRoutePaths.slice();
+  activeRoutePaths.forEach(path => {
+    if (!path2menuItem[path]) {
+      validActiveRoutePaths = removeDupStrItem(validActiveRoutePaths, [path]);
+    }
+  });
+  final.activeRoutePaths = validActiveRoutePaths;
+
+  return final;
 }
 
 export type St = ReturnType<typeof getInitialState>;

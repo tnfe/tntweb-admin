@@ -275,3 +275,13 @@ export function isDepthLargeThan(obj: Record<string, any>, toCompare: number) {
   const depth = getObjDepth(obj);
   return depth > toCompare;
 }
+
+/**
+ * 确定一个有效值，如果左边无效，则取右边的备用值
+ * @param firstVal
+ * @param secondVal
+ */
+export function decideVal<T extends any>(firstVal: any, secondVal: T): T {
+  if (!isNull(firstVal)) return firstVal;
+  return secondVal;
+};

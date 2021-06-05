@@ -1,4 +1,5 @@
 import { St } from './meta';
+import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 
 /**
@@ -7,6 +8,8 @@ import * as colorServ from 'services/color';
 export function addActiveRoutePath(path: string, moduleState: St) {
   const { activeRoutePaths, curActiveRoutePath } = moduleState;
   const toSet: Partial<St> = {};
+
+  if (!path2menuItem[path]) return toSet;
   if (!activeRoutePaths.includes(path)) {
     // 最多激活5个
     if (activeRoutePaths.length <= 5) {

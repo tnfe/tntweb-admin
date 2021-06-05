@@ -45,7 +45,7 @@ export function setup(ctx: CtxDe) {
 }
 
 export function SettingDrawer() {
-  const { globalState: gst, globalComputed: gcu, settings: se, gr } = useSetupCtx(setup, { tag: 'SettingPanel' });
+  const { globalState: gst, globalComputed: gcu, settings: se } = useSetupCtx(setup, { tag: 'SettingPanel' });
 
   return (
     <Drawer title="常用设置" visible={gst.settingDrawerVisible} width="550px"

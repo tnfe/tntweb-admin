@@ -58,7 +58,7 @@
 
 .quickNavBarWrap .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
 .quickNavBarWrap .ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
-  border: 1px dashed var(--theme-color);
+  border: 1px solid var(--theme-color);
   border-bottom-color: #fff;
 }
 

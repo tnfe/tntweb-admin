@@ -1,11 +1,13 @@
 import React from 'react';
-import { Breadcrumb, Tabs, Layout } from 'antd';
+import { Breadcrumb, Tabs } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { useSetupCtx } from 'services/concent';
 import { history } from 'react-router-concent';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
+import * as defaultVals from 'configs/constant/defaultVals';
+import { decideVal } from 'utils/obj';
 import { NormalBlank, EmptyView } from 'components/dumb/general';
 import styles from './App.module.css';
 
@@ -28,7 +30,7 @@ function setup(ctx: CtxDe) {
     getNavMenus: (path: string) => {
       const navMenus: Array<IMenuGroup | IMenuItem> = [];
       const menuItem = path2menuItem[path]
-      navMenus.unshift(menuItem);
+      menuItem && navMenus.unshift(menuItem);
       const menuGroup = path2menuGroup[path];
       menuGroup && navMenus.unshift(menuGroup);
       return navMenus;
@@ -43,9 +45,11 @@ function QuickNavBar() {
   const { globalState: { curActiveRoutePath, activeRoutePaths },
     settings, globalComputed: gcu,
   } = useSetupCtx(setup, { tag: 'TipHeader' });
+  let showQuickNavBar = true;
   const menuItem = path2menuItem[curActiveRoutePath];
-  if (!menuItem) return uiQuickNavBar;
-  const { showQuickNavBar } = menuItem;
+  if (menuItem) {
+    showQuickNavBar = decideVal(menuItem.showQuickNavBar, defaultVals.showQuickNavBar);
+  }
   if (!showQuickNavBar) return uiQuickNavBar;
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { getUrlChangedEvName, getLatestCallInfo } from 'react-router-concent';
+import { getUrlChangedEvName } from 'react-router-concent';
 import { MenuMode, SelectInfo } from 'rc-menu/lib/interface';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';

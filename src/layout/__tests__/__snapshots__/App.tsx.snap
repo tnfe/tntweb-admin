@@ -9,7 +9,7 @@ exports[`App Render generate App snapshot 1`] = `
   >
     <header
       class="ant-layout-header header"
-      style="margin-left:200px;color:white;background-color:#001529"
+      style="margin-left:200px;color:white;background-color:#001529;position:fixed;left:0;right:0"
     >
       <div
         class="userIconWrap"
@@ -48,6 +48,75 @@ exports[`App Render generate App snapshot 1`] = `
         </svg>
       </span>
     </header>
+    <div
+      class="quickNavBarWrap"
+      style="margin-left:200px;z-index:88;position:fixed;left:0;right:0;top:48px"
+    >
+      <div
+        class="ant-tabs ant-tabs-top ant-tabs-editable ant-tabs-card ant-tabs-editable-card"
+        style="padding-left:32px;display:inline-block"
+      >
+        <div
+          class="ant-tabs-nav"
+          role="tablist"
+        >
+          <div
+            class="ant-tabs-nav-wrap"
+          >
+            <div
+              class="ant-tabs-nav-list"
+              style="transform:translate(0px, 0px)"
+            >
+              <div
+                class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"
+              />
+            </div>
+          </div>
+          <div
+            class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"
+          >
+            <button
+              aria-controls="null-more-popup"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-hidden="true"
+              class="ant-tabs-nav-more"
+              id="null-more"
+              style="visibility:hidden;order:1"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                aria-label="ellipsis"
+                class="anticon anticon-ellipsis"
+                role="img"
+              >
+                <svg
+                  aria-hidden="true"
+                  data-icon="ellipsis"
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewBox="64 64 896 896"
+                  width="1em"
+                >
+                  <path
+                    d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="ant-tabs-content-holder"
+        >
+          <div
+            class="ant-tabs-content ant-tabs-content-top"
+          />
+        </div>
+      </div>
+    </div>
   </section>
   <section
     class="ant-layout"
@@ -265,7 +334,7 @@ exports[`App Render generate App snapshot 1`] = `
   </section>
   <section
     class="ant-layout"
-    style="margin-left:200px;min-height:calc(100vh - 120px);padding-top:0;padding:64px"
+    style="margin-left:200px;min-height:calc(100vh - 120px);padding-top:80px;padding:64px"
   >
     <div
       class="ant-skeleton ant-skeleton-with-avatar"

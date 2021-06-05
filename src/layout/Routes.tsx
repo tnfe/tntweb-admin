@@ -7,9 +7,10 @@ import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { register, cst } from 'concent';
 import { getUrlChangedEvName } from 'react-router-concent';
 import { Layout } from 'antd';
-import { getRelativeRootPath } from 'services/appPath';
-import { path2menuItem, path2menuGroup, flattedMenus } from 'configs/derived/menus';
+import { flattedMenus } from 'configs/derived/menus';
 import { IMenuItem } from 'configs/menus';
+import * as typeUtil from 'utils/type';
+import { decideVal } from 'utils/obj';
 import NotFound from 'pages/NotFound';
 import { CtxDe } from 'types/store';
 import styles from './App.module.css';
@@ -21,7 +22,7 @@ const Fallback = () => {
 };
 
 class Routes extends React.Component {
-  public ctx = {} as CtxDe;
+  public ctx = typeUtil.typeVal<CtxDe>({});
   public errOccurred = false;
 
   public state: { err: string } = { err: '', };
@@ -31,33 +32,13 @@ class Routes extends React.Component {
   public cachedUiCompWrapContent: Record<string, { ui: any, layoutStyle: any }> = {};
 
   public $$setup() {
-    this.ctx.effect(() => {
-      this.changeNavData();
-    }, []);
-
     this.ctx.on(getUrlChangedEvName(), (param, action, history) => {
       console.log(param, action, history);
       if (this.errOccurred) {
         this.errOccurred = false;
         this.setState({ err: '' });
       }
-      this.changeNavData();
     });
-  }
-
-  // 修改为当前页面头部对应的导航提示路径
-  public changeNavData = () => {
-    const curAppPath = getRelativeRootPath();
-    const menuItem = path2menuItem[curAppPath];
-    if (menuItem) {
-      const navMenus = [];
-      navMenus.unshift(menuItem);
-      const menuGroup = path2menuGroup[curAppPath];
-      if (menuGroup) {
-        navMenus.unshift(menuGroup);
-      }
-      this.ctx.setGlobalState({ navMenus });
-    }
   }
 
   public componentDidCatch(err: any) {
@@ -70,16 +51,34 @@ class Routes extends React.Component {
     return (
       <Layout style={this.ctx.globalComputed.contentLayoutStyle}>
         <h1 style={{ color: 'red', padding: '64px' }}>
-          当前路由页面崩溃，请联系 xxx开发者 做进一步跟踪，如果是开发者，可打开console查看具体错误,
+          当前路由页面崩溃，请联系 xxx 开发者 做进一步跟踪，如果是开发者，可打开console查看具体错误,
           如想继续访问当前页面，可刷新浏览器重试。
         </h1>
       </Layout>
     );
   }
 
-  public renderChildren = (item: IMenuItem, props: RouteComponentProps) => {
+  public renderChildrenWithContentWrap(children: React.ReactNode) {
+    const { contentLayoutStyle } = this.ctx.globalComputed;
+    return <Layout style={contentLayoutStyle}>
+      <Layout style={{ padding: '24px' }}>
+        <Content className={styles.contentWrap}>
+          {children}
+        </Content>
+      </Layout>
+    </Layout>;
+  }
+
+  public renderChildrenWithNoContentWrap(children: React.ReactNode) {
+    const { contentLayoutStyle } = this.ctx.globalComputed;
+    return <Layout style={contentLayoutStyle}>
+      {children}
+    </Layout>;
+  }
+
+  public renderChildren = (item: IMenuItem, props: RouteComponentProps, inputSetContentLayout?: boolean) => {
     console.warn('Render CompWrap');
-    const { setContentLayout } = item;
+    const setContentLayout = decideVal(inputSetContentLayout, item.setContentLayout);
     const { contentLayoutStyle } = this.ctx.globalComputed;
 
     // beforeComponentMount 可能返回一个替换的视图
@@ -98,21 +97,9 @@ class Routes extends React.Component {
 
     const uiTargetComp = uiReplaceRouteComp || <item.Component {...props} />;
     if (setContentLayout) {
-      uiCompWrapContent = (
-        <Layout style={contentLayoutStyle}>
-          <Layout style={{ padding: '24px' }}>
-            <Content className={styles.contentWrap}>
-              {uiTargetComp}
-            </Content>
-          </Layout>
-        </Layout>
-      );
+      uiCompWrapContent = this.renderChildrenWithContentWrap(uiTargetComp);
     } else {
-      uiCompWrapContent = (
-        <Layout style={contentLayoutStyle}>
-          {uiTargetComp}
-        </Layout>
-      );
+      uiCompWrapContent = this.renderChildrenWithNoContentWrap(uiTargetComp);
     }
 
     this.cachedUiCompWrapContent[item.path] = { ui: uiCompWrapContent, layoutStyle: contentLayoutStyle };
@@ -120,10 +107,10 @@ class Routes extends React.Component {
   }
 
   // 创建一个渲染包含有【布局信息】和【路由组件】的组件
-  public makeCompWrap = (item: IMenuItem) => {
+  public makeCompWrap = (item: IMenuItem, setContentLayout?: boolean) => {
     console.warn('makeCompWrap');
     return (props: RouteComponentProps) => {
-      return this.renderChildren(item, props);
+      return this.renderChildren(item, props, setContentLayout);
     };
   }
 
@@ -150,7 +137,8 @@ class Routes extends React.Component {
       // uiHomeRoute = <Route exact={true} path={'/'} children={(props: RouteComponentProps) => this.renderChildren(item, props)} />;
     }
 
-    const CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' });
+    // 第二位参数传递 true， 让404 页面包裹一下 content layout
+    const CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' }, true);
     const uiNotFoundRoute = <Route component={CompNotFoundWrap} />;
 
     this.cachedUi = { uiRoutes, uiHomeRoute, uiNotFoundRoute };
