@@ -14,6 +14,7 @@ import Routes from './Routes';
 import Sider from './Sider';
 import Footer from './Footer';
 import Header from './Header';
+import QuickNavBar from './QuickNavBar';
 
 function setup({ effect, globalReducer, globalState, globalComputed }: CtxDe) {
   effect(() => {
@@ -47,6 +48,7 @@ function App() {
     <Layout>
       <Layout>
         <Header />
+        <QuickNavBar />
       </Layout>
       <Layout>
         <SiderSwitchIcon des={globalComputed.siderIconDes} onClick={globalReducer.toggleSiderVisible} />

@@ -79,7 +79,6 @@ export function SettingPanel() {
 }
 
 
-
 function AppHeader() {
   const { globalState: gst, globalComputed: gcu } = useC2DefaultMod();
 

@@ -30,7 +30,6 @@ function iState() {
     openKeys = [path2menuGroup[path].key];
   }
 
-  console.log('path is ', path);
   return {
     selectedKeys: [path],
     openKeys,
@@ -39,10 +38,9 @@ function iState() {
 
 function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
-  ctx.on(getUrlChangedEvName(), (p) => {
+  ctx.on(getUrlChangedEvName(), () => {
     const newState = iState();
-    // 来自于api的调用跳转
-    if (getLatestCallInfo().callByApi) {
+    if (newState.selectedKeys[0] !== ctx.globalState.curActiveRoutePath) {
       // 保持原来的菜单展开状态, 同时也让新的能够正确展开
       newState.openKeys = arrUtil.merge(newState.openKeys, ins.state.openKeys);
       ctx.setState(newState);

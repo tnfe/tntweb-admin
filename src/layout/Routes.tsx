@@ -12,7 +12,6 @@ import { path2menuItem, path2menuGroup, flattedMenus } from 'configs/derived/men
 import { IMenuItem } from 'configs/menus';
 import NotFound from 'pages/NotFound';
 import { CtxDe } from 'types/store';
-import TipHeader from './TipHeader';
 import styles from './App.module.css';
 
 const { Content } = Layout;
@@ -101,7 +100,6 @@ class Routes extends React.Component {
     if (setContentLayout) {
       uiCompWrapContent = (
         <Layout style={contentLayoutStyle}>
-          <TipHeader />
           <Layout style={{ padding: '24px' }}>
             <Content className={styles.contentWrap}>
               {uiTargetComp}
@@ -112,7 +110,6 @@ class Routes extends React.Component {
     } else {
       uiCompWrapContent = (
         <Layout style={contentLayoutStyle}>
-          <TipHeader />
           {uiTargetComp}
         </Layout>
       );
@@ -147,7 +144,7 @@ class Routes extends React.Component {
 
     let uiHomeRoute: React.ReactNode = '';
     if (homeMenuItem) {
-      let item = homeMenuItem;
+      // let item = homeMenuItem;
       const CompWrap = this.makeCompWrap(homeMenuItem);
       uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;
       // uiHomeRoute = <Route exact={true} path={'/'} children={(props: RouteComponentProps) => this.renderChildren(item, props)} />;
