@@ -35,6 +35,8 @@ function getInitialState() {
     userIcon: '',
     /** 当前登录者是否是管理员 */
     isAdmin: false,
+    /** 当前用户拥有的权限列表 */
+    authIds: [] as string[],
     /** 处于innerMock时，httpService的请求结果会直接从模拟文件获取（同时还会配合 excludedMockApis 名单），注意此时不会从浏览器发出请求 */
     isInnerMock: commonUtil.isLocalMode(),
     /** isInnerMock 为 true 时，只要实现了的mock函数，如果没有在 excludedMockApis 名单里， 都会去被调用 */

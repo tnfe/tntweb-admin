@@ -13,6 +13,11 @@ import HomePage from 'pages/Home';
 // const HomePage = lazy(() => import('pages/Home'));
 
 export interface IMenuItem {
+  /**
+   * 路由组件对应的权限id，如果配置了此值，且 globalState.authIds 不包含这个值，会被渲染为 NotAuth组件
+   * 修改 models/global/reducer.ts 的 prepareApp 逻辑填充 authIds 数据
+   */
+  authId?: string;
   path: string;
   exact?: boolean;
   /**

@@ -9,6 +9,7 @@ import { getUrlChangedEvName } from 'react-router-concent';
 import { Layout } from 'antd';
 import { flattedMenus } from 'configs/derived/menus';
 import { IMenuItem } from 'configs/menus';
+import Error403 from 'components/dumb/Error403';
 import * as typeUtil from 'utils/type';
 import { decideVal } from 'utils/obj';
 import NotFound from 'pages/NotFound';
@@ -80,6 +81,11 @@ class Routes extends React.Component {
     console.warn('Render CompWrap');
     const setContentLayout = decideVal(inputSetContentLayout, item.setContentLayout);
     const { contentLayoutStyle } = this.ctx.globalComputed;
+
+    // check auth
+    if (item.authId && !this.ctx.globalState.authIds.includes(item.authId)) {
+      return this.renderChildrenWithContentWrap(<Error403 />);
+    }
 
     // beforeComponentMount 可能返回一个替换的视图
     let uiReplaceRouteComp: React.ReactNode | void = '';
