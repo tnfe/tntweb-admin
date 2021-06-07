@@ -9,7 +9,7 @@
 
 .headerSetting {
   position: absolute;
-  right: 22px;
+  right: 8px;
   top: 3px;
   font-size: 19px;
   height: 48px;
@@ -26,7 +26,8 @@
 
 .headerSettingInBar {
   composes: iconInBarBase;
-  right: 8px;
+  position: absolute;
+  right: 19px;
 }
 
 .userIconWrap {
@@ -50,6 +51,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   top: 0;
+  z-index: 10;
+  box-shadow: rgb(0 21 41 / 8%) 0px 1px 4px;
 }
 
 .contentWrap {

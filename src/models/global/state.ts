@@ -1,6 +1,6 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
-import { topViewTypes, LS_C2PRO_SETTINGS } from 'configs/constant/sys';
+import { topViewTypes, LS_C2PRO_SETTINGS, siteThemeColor } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
@@ -8,7 +8,7 @@ import { safeParse } from 'utils/obj';
 import { removeDupStrItem } from 'utils/arr';
 
 function getInitialState() {
-  const themeColor = '#4a90e2';
+  const themeColor = siteThemeColor;
   const themeColorRGB = colorServ.hex2rgbString(themeColor);
 
   const defaultState = {
@@ -55,6 +55,9 @@ function getInitialState() {
     }
   });
   final.activeRoutePaths = validActiveRoutePaths;
+
+  // 未使用默认默认主题色，需要修改 isUsingDefaultThemeColor 为 false
+  if (final.themeColor !== siteThemeColor) final.isUsingDefaultThemeColor = false;
 
   return final;
 }

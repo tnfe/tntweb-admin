@@ -1,9 +1,9 @@
 
+import './styles/index.css';
+import './styles/antd.css';
 import 'configs/runConcent';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
-import './styles/antd.css';
 import App from 'layout';
 import * as serviceWorker from './serviceWorker';
 

@@ -29,20 +29,19 @@ function setup(ctx: CtxDe) {
     },
     getNavMenus: (path: string) => {
       const navMenus: Array<IMenuGroup | IMenuItem> = [];
-      const menuItem = path2menuItem[path]
+      const menuItem = path2menuItem[path];
       menuItem && navMenus.unshift(menuItem);
       const menuGroup = path2menuGroup[path];
       menuGroup && navMenus.unshift(menuGroup);
       return navMenus;
     },
     openThemeSettingsDrawer: () => ctx.setGlobalState({ settingDrawerVisible: true }),
-    gotoConcentProGitRepo: () => window.open()
   };
 }
 
 // 渲染导航面包屑 + 标签页
 function QuickNavBar() {
-  let uiQuickNavBar: React.ReactElement = <EmptyView />;
+  const uiQuickNavBar: React.ReactElement = <EmptyView />;
   const { globalState: { curActiveRoutePath, activeRoutePaths, themeColor },
     settings, globalComputed: gcu,
   } = useSetupCtx(setup, { tag: 'TipHeader' });
@@ -72,11 +71,11 @@ function QuickNavBar() {
               return <Breadcrumb.Item key={i}><span style={stItem}>{uiIcon}{item.label}</span></Breadcrumb.Item>;
             })}
           </Breadcrumb>;
-          return <TabPane tab={uiTab} key={path} />
+          return <TabPane tab={uiTab} key={path} />;
         })}
       </Tabs>
-      {gcu.settingIconShowCtrl.showInBar &&
-        <SettingOutlined onClick={settings.openThemeSettingsDrawer} className={styles.headerSettingInBar}
+      {gcu.settingIconShowCtrl.showInBar
+        && <SettingOutlined onClick={settings.openThemeSettingsDrawer} className={styles.headerSettingInBar}
           style={{ color: themeColor }}
         />
       }

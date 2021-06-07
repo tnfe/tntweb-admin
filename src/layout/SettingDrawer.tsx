@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Drawer, Switch, Tag, Radio, RadioChangeEvent, Tooltip } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import { SketchPicker, ColorResult, SwatchesPicker } from 'react-color';
@@ -6,7 +7,10 @@ import { Blank, VerticalBlank } from 'components/dumb/general';
 import { useSetupCtx } from 'services/concent';
 import { topViewTypes, topViewType2Label } from 'configs/constant/sys';
 import { CtxDe } from 'types/store';
-import styles from './App.module.css';
+
+const MySwatchesPicker: any = styled(SwatchesPicker)`
+  width: 450px !important;
+`;
 
 const {
   FIXED_HEADER_FIXED_BAR, FIXED_HEADER_FLOWED_BAR, FLOWED_HEADER_FLOWED_BAR,
@@ -24,10 +28,10 @@ export function setup(ctx: CtxDe) {
     state: ins.state,
     closeThemeSettingsDrawer: () => ctx.setGlobalState({ settingDrawerVisible: false }),
     changePickerMode(e: RadioChangeEvent) {
-      ins.setState({ pickerMode: e.target.value })
+      ins.setState({ pickerMode: e.target.value });
     },
     changeTopViewType(e: RadioChangeEvent) {
-      gr.changeTopViewType(e.target.value)
+      gr.changeTopViewType(e.target.value);
     },
     onWebsiteColorChange(colorResult: ColorResult) {
       gr.changeThemeColor({ themeColor: colorResult.hex, setCustThemeColor: true });
@@ -63,11 +67,11 @@ export function SettingDrawer() {
         </Radio.Group>
         <Tag color={gst.themeColor}>{gst.themeColor}</Tag>
         <VerticalBlank />
-        {se.state.pickerMode === 'fast' &&
-          <SwatchesPicker className={styles.SwatchesPicker} color={gst.themeColor} onChange={se.onWebsiteColorChange} />
+        {se.state.pickerMode === 'fast'
+          && <MySwatchesPicker color={gst.themeColor} onChange={se.onWebsiteColorChange} />
         }
-        {se.state.pickerMode === 'professional' &&
-          <SketchPicker color={gst.themeColor} onChange={se.onWebsiteColorChange}
+        {se.state.pickerMode === 'professional'
+          && <SketchPicker color={gst.themeColor} onChange={se.onWebsiteColorChange}
             onChangeComplete={se.onWebsiteColorChange}
           />
         }
@@ -106,7 +110,7 @@ export function SettingDrawer() {
             <Radio value={NO_HEADER_FLOWED_BAR}>{topViewType2Label[NO_HEADER_FLOWED_BAR]}</Radio>
             <Radio value={NO_HEADER_FIXED_BAR}>
               {topViewType2Label[NO_HEADER_FIXED_BAR]}<Blank width="8px" />
-              <Tooltip title="推荐使用此方式，能够在边栏折叠时获得最大的视觉空间">
+              <Tooltip title="推荐使用此方式，能够在边栏折叠后，获得最大的垂直视觉空间，同时也不会隐藏掉快捷导航条">
                 <HeartOutlined style={stLoveIcon} />
               </Tooltip>
             </Radio>

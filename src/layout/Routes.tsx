@@ -25,7 +25,7 @@ class Routes extends React.Component {
   public ctx = typeUtil.typeVal<CtxDe>({});
   public errOccurred = false;
 
-  public state: { err: string } = { err: '', };
+  public state: { err: string } = { err: '' };
 
   // 构建一次后就缓存路由组件，否则会在边栏收起时造成页面组件卸载并再挂载
   public cachedUi: Record<string, any> = { uiRoutes: null, uiHomeRoute: null, uiNotFound: null };
@@ -106,7 +106,7 @@ class Routes extends React.Component {
     return uiCompWrapContent;
   }
 
-  // 创建一个渲染包含有【布局信息】和【路由组件】的组件
+  // 创建一个渲染包含有【路由组件】的组件
   public makeCompWrap = (item: IMenuItem, setContentLayout?: boolean) => {
     console.warn('makeCompWrap');
     return (props: RouteComponentProps) => {

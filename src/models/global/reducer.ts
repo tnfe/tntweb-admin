@@ -46,7 +46,10 @@ export function delActiveRoutePath(path: string, moduleState: St) {
     // 如果删除的就是当前激活的path
     if (toDelPath === moduleState.curActiveRoutePath) {
       // 替换为第一个
-      if (activeRoutePaths.length >= 1) curActiveRoutePath = activeRoutePaths[0];
+      if (activeRoutePaths.length >= 1) {
+        const [firstPath] = activeRoutePaths;
+        curActiveRoutePath = firstPath;
+      }
     } else {
       curActiveRoutePath = moduleState.curActiveRoutePath;
     }
