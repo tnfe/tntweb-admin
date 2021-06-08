@@ -45,6 +45,11 @@ exports[`Header Render generate Header snapshot 1`] = `
       >
         <div
           className="userIconWrap"
+          style={
+            Object {
+              "color": "white",
+            }
+          }
         >
           <Avatar
             shape="circle"
@@ -87,7 +92,7 @@ exports[`Header Render generate Header snapshot 1`] = `
           onClick={[Function]}
           style={
             Object {
-              "color": "#1976d2",
+              "color": "white",
             }
           }
         >
@@ -117,7 +122,7 @@ exports[`Header Render generate Header snapshot 1`] = `
             onClick={[Function]}
             style={
               Object {
-                "color": "#1976d2",
+                "color": "white",
               }
             }
           >
@@ -128,7 +133,7 @@ exports[`Header Render generate Header snapshot 1`] = `
               role="img"
               style={
                 Object {
-                  "color": "#1976d2",
+                  "color": "white",
                 }
               }
               tabIndex={-1}

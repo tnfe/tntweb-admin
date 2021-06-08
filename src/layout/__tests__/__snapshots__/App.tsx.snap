@@ -13,6 +13,7 @@ exports[`App Render generate App snapshot 1`] = `
     >
       <div
         class="userIconWrap"
+        style="color:white"
       >
         <span
           class="ant-avatar ant-avatar-circle"
@@ -30,7 +31,7 @@ exports[`App Render generate App snapshot 1`] = `
         aria-label="setting"
         class="anticon anticon-setting headerSetting"
         role="img"
-        style="color:#1976d2"
+        style="color:white"
         tabindex="-1"
       >
         <svg
