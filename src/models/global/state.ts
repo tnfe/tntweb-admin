@@ -69,7 +69,9 @@ function getInitialState() {
   // 未使用默认默认主题色，需要修改 isUsingDefaultThemeColor 为 false
   if (final.themeColor !== siteThemeColor) final.isUsingDefaultThemeColor = false;
   // 修正可能错误的 topViewType 值
-  if (!topViewType2Label[final.topViewType]) final.topViewType = topViewTypes.NO_HEADER_FIXED_BAR;
+  if (!topViewType2Label[final.topViewType] || typeof final.topViewType !== 'string') {
+    final.topViewType = topViewTypes.NO_HEADER_FIXED_BAR;
+  }
 
   return final;
 }

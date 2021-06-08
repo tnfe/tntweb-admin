@@ -105,7 +105,7 @@ export function SettingDrawer() {
         <div>
           <Tag color="geekblue">顶部区域信息展示方式：</Tag>
           <Blank />
-          <Select value={gst.topViewType} onChange={se.changeTopViewType}>
+          <Select value={gst.topViewType} onChange={se.changeTopViewType} style={{ width: '200px' }}>
             <Option value={FIXED_HEADER_FIXED_BAR}>{topViewType2Label[FIXED_HEADER_FIXED_BAR]}</Option>
             <Option value={FIXED_HEADER_FLOWED_BAR}>{topViewType2Label[FIXED_HEADER_FLOWED_BAR]}</Option>
             <Option value={FIXED_HEADER_NO_BAR}>{topViewType2Label[FIXED_HEADER_NO_BAR]}</Option>
