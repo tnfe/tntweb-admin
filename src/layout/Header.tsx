@@ -19,14 +19,14 @@ function AppHeader() {
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
       { !gcu.siderInfo.showSider && <Logo />}
-      <div className={styles.userIconWrap}>
+      <div className={styles.userIconWrap} style={{ color: gcu.headerStyle.color }}>
         <Avatar size={32} src={gst.userIcon} />
         <Blank width="8px" />
         {gst.userName}
       </div>
       {gcu.settingIconShowCtrl.showInHeader &&
         <SettingOutlined onClick={se.openThemeSettingsDrawer} className={styles.headerSetting}
-          style={{ color: gst.themeColor }}
+          style={{ color: gcu.headerStyle.color }}
         />
       }
     </Layout.Header>
