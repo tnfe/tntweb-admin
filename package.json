@@ -7,6 +7,7 @@
     "@ant-design/icons": "^4.0.6",
     "@antv/g2": "^4.1.17",
     "@babel/core": "7.9.0",
+    "@lingui/react": "latest",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -98,7 +99,9 @@
     "lint": "eslint ./src --ext ts,tsx",
     "lintfix": "eslint ./src --ext ts,tsx --fix",
     "test": "jest",
-    "snap": "jest -u"
+    "snap": "jest -u",
+    "extract": "lingui extract",
+    "compile": "lingui compile"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -121,6 +124,9 @@
     ]
   },
   "devDependencies": {
+    "@lingui/cli": "latest",
+    "@lingui/loader": "latest",
+    "@lingui/macro": "latest",
     "@types/enzyme": "^3.10.8",
     "@types/jest": "^24.9.1",
     "babel-eslint": "10.1.0",

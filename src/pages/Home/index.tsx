@@ -8,6 +8,7 @@ import * as mods from 'configs/c2Mods';
 import { useC2Mod, typeCtxM } from 'services/concent';
 import { VerticalBlank, AsyncButton } from 'components/dumb/general';
 import Bar from 'components/Charts/Bar';
+import { Trans } from '@lingui/macro';
 
 function setup(c: any) {
   const ctx = typeCtxM(mods.HOME, {}, c);
@@ -25,7 +26,7 @@ function Home(props: RouteComponentProps) {
     <div style={{ paddingTop: '15px' }}>
       <Row>
         <Col>
-          <AsyncButton>欢迎了解与使用 Concent-pro </AsyncButton>
+          <AsyncButton><Trans>欢迎了解与使用 Concent-pro</Trans></AsyncButton>
         </Col>
         <Col>
           <a style={{ marginLeft: '12px' }} href="https://github.com/tnfe/concent-pro" target="blank">
