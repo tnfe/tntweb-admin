@@ -47,6 +47,7 @@
   height: 32px;
   box-shadow: rgb(0 21 41 / 8%) 0px 1px 4px;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .quickNavBarWrap .ant-tabs {

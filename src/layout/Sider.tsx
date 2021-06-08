@@ -62,6 +62,7 @@ function setup(ctx: CtxDe) {
         Date.now() - ctx.globalState.siderViewToNarrowTime < 300
         || (firstCallGetOpenKeys && ctx.globalState.siderViewType === siderViewTypes.NARROW_SIDER)
       ) {
+        firstCallGetOpenKeys = false;
         setTimeout(() => {
           ins.setState({});
         }, 300);

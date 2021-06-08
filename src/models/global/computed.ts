@@ -122,7 +122,7 @@ interface ISiderInfo {
 }
 export function siderInfo(n: St): ISiderInfo {
   const { siderViewType } = n;
-  const iconDes = siderViewType === siderViewTypes.WIDE_SIDER ? 'left' : 'right';
+  const iconDes = siderViewType === siderViewTypes.NO_SIDER ? 'right' : 'left';
   const isUnfold = siderViewType === siderViewTypes.WIDE_SIDER;
   const showSider = siderViewType !== siderViewTypes.NO_SIDER;
   return { iconDes, isUnfold, showSider };
