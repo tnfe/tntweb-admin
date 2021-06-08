@@ -3,7 +3,7 @@
  */
 import {
   useConcent, reducer, getState as getSt, getGlobalState as getGst, emit, getComputed,
-  IActionCtxBase, cst, MODULE_DEFAULT,
+  IActionCtxBase, cst, MODULE_DEFAULT, MODULE_GLOBAL,
   ICtxBase, IAnyObj, SettingsType, ComputedValType, SetupFn, MultiComputed, CallTargetParams,
 } from 'concent';
 import { noop } from 'utils/fn';
@@ -290,6 +290,16 @@ export function getModelComputed<T extends Modules>(modelName: T) {
     return modelComputed;
   }
   throw new Error('miss modelName');
+}
+
+/**
+ * 获取 global模块的状态
+ * 在已拥有 concent model 上下文、action 上下文的地方，
+ * 推荐直接获取，代替调用此函数，因为直接获取数据时组件并不会订阅数据变化
+ */
+export function getGlobalComputed() {
+  const globalComputed = getComputed<RootCu, MODULE_GLOBAL>(cst.MODULE_GLOBAL);
+  return globalComputed;
 }
 
 type EvKeys = keyof EvMap;

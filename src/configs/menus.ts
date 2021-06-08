@@ -40,11 +40,6 @@ export interface IMenuItem {
   beforeComponentMount?: (props: RouteComponentProps) => React.ReactNode | void;
   /**
    * 默认值：true
-   * 页面组件头部是否出现快速导航栏页签
-   */
-  showQuickNavBar?: boolean;
-  /**
-   * 默认值：true
    * 页面组件是否包一层统一的默认布局组件
    */
   setContentLayout?: boolean;

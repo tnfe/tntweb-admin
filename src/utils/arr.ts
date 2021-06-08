@@ -28,6 +28,13 @@ export function removeDupStrItem(oriList: string[], toRemoveList: string[]) {
   return newList;
 }
 
+export function removeTargetItem<T extends any>(oriList: T[], findCb: (item: T) => boolean) {
+  const idx = oriList.findIndex(findCb);
+  const copyList = oriList.slice();
+  copyList.splice(idx, 1);
+  return copyList;
+}
+
 
 export function lastItem<T>(arr: T[]): T {
   return arr[arr.length - 1];

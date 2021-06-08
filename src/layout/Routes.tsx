@@ -5,6 +5,7 @@
 import React, { Suspense } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { register, cst } from 'concent';
+import { useSetup } from 'services/concent';
 import { getUrlChangedEvName } from 'react-router-concent';
 import { Layout } from 'antd';
 import { flattedMenus } from 'configs/derived/menus';
@@ -21,6 +22,26 @@ const { Content } = Layout;
 const Fallback = () => {
   return <div>Loading...</div>;
 };
+
+let key = 0;
+function setup(ctx: CtxDe) {
+  key = key + 1;
+  const ins = ctx.initState({
+    key,
+  });
+  ctx.on('refreshRouterGuard', () => {
+    key = key + 1;
+    ins.setState({ key });
+  });
+  return {
+    state: ins.state,
+  };
+}
+
+const RouterGuard = React.memo((props: { Comp: React.ComponentType<any>, routerProps: RouteComponentProps }) => {
+  const settings = useSetup(setup);
+  return <props.Comp key={settings.state.key} {...props.routerProps} />
+});
 
 class Routes extends React.Component {
   public ctx = typeUtil.typeVal<CtxDe>({});
@@ -101,7 +122,7 @@ class Routes extends React.Component {
     // layout 没变才返回缓存
     if (uiCompWrapContent && layoutStyle === contentLayoutStyle) return uiCompWrapContent;
 
-    const uiTargetComp = uiReplaceRouteComp || <item.Component {...props} />;
+    const uiTargetComp = uiReplaceRouteComp || <RouterGuard Comp={item.Component} routerProps={props} />;
     if (setContentLayout) {
       uiCompWrapContent = this.renderChildrenWithContentWrap(uiTargetComp);
     } else {

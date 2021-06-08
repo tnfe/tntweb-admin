@@ -1,16 +1,28 @@
 import React from 'react'
 import { sys } from 'configs/constant';
-
-const fixedStyle: React.CSSProperties = { width: sys.siderWidth - 60, position: 'fixed', left: '19px', top: '11px' };
-const normalStyle: React.CSSProperties = { width: sys.siderWidth - 60 };
+import styles from '../App.module.css';
 
 interface IProps {
-  fixed?: boolean;
+  long?: boolean;
 }
 
 export default function Logo(props: IProps) {
-  const style = props.fixed ? fixedStyle : normalStyle;
+  const { long = true } = props
+  const imgSrc = long ? sys.webHeaderImg : sys.webHeaderImgShort;
+  const style: React.CSSProperties = { backgroundImage: `url(${imgSrc})`, width: sys.siderWidthPx };
+  if (!long) {
+    style.width = '48px';
+  }
+
   return (
-    <img style={style} src={sys.webHeaderImg} alt="header_img"></img>
-  )
+    <div style={style} className={styles.logoWrap}>
+    </div>
+  );
+  // const { fixed = false, long = true } = props
+  // let style = fixed ? fixedStyle : normalStyle;
+  // const imgSrc = long ? sys.webHeaderImg : sys.webHeaderImgShort;
+  // if (!long) style = shortStyle;
+  // return (
+  //   <img style={style} src={imgSrc} alt="header_img"></img>
+  // )
 }

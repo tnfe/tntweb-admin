@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Drawer, Switch, Tag, Radio, RadioChangeEvent, Tooltip } from 'antd';
+import { Drawer, Switch, Tag, Select, Radio, RadioChangeEvent, Tooltip } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import { SketchPicker, ColorResult, SwatchesPicker } from 'react-color';
 import { Blank, VerticalBlank } from 'components/dumb/general';
@@ -8,12 +8,14 @@ import { useSetupCtx } from 'services/concent';
 import { topViewTypes, topViewType2Label } from 'configs/constant/sys';
 import { CtxDe } from 'types/store';
 
+const { Option } = Select;
 const MySwatchesPicker: any = styled(SwatchesPicker)`
   width: 450px !important;
 `;
 
 const {
-  FIXED_HEADER_FIXED_BAR, FIXED_HEADER_FLOWED_BAR, FLOWED_HEADER_FLOWED_BAR,
+  FIXED_HEADER_FIXED_BAR, FIXED_HEADER_FLOWED_BAR, FIXED_HEADER_NO_BAR,
+  FLOWED_HEADER_FLOWED_BAR, FLOWED_HEADER_NO_BAR,
   NO_HEADER_FIXED_BAR, NO_HEADER_FLOWED_BAR,
 } = topViewTypes;
 const stLoveIcon: React.CSSProperties = { color: 'var(--theme-color)', transform: 'translateY(2px)' };
@@ -30,8 +32,8 @@ export function setup(ctx: CtxDe) {
     changePickerMode(e: RadioChangeEvent) {
       ins.setState({ pickerMode: e.target.value });
     },
-    changeTopViewType(e: RadioChangeEvent) {
-      gr.changeTopViewType(e.target.value);
+    changeTopViewType(value: string) {
+      gr.changeTopViewType(value);
     },
     onWebsiteColorChange(colorResult: ColorResult) {
       gr.changeThemeColor({ themeColor: colorResult.hex, setCustThemeColor: true });
@@ -103,18 +105,20 @@ export function SettingDrawer() {
         <div>
           <Tag color="geekblue">顶部区域信息展示方式：</Tag>
           <Blank />
-          <Radio.Group value={gst.topViewType} onChange={se.changeTopViewType}>
-            <Radio value={FIXED_HEADER_FIXED_BAR}>{topViewType2Label[FIXED_HEADER_FIXED_BAR]}</Radio>
-            <Radio value={FIXED_HEADER_FLOWED_BAR}>{topViewType2Label[FIXED_HEADER_FLOWED_BAR]}</Radio>
-            <Radio value={FLOWED_HEADER_FLOWED_BAR}>{topViewType2Label[FLOWED_HEADER_FLOWED_BAR]}</Radio>
-            <Radio value={NO_HEADER_FLOWED_BAR}>{topViewType2Label[NO_HEADER_FLOWED_BAR]}</Radio>
-            <Radio value={NO_HEADER_FIXED_BAR}>
+          <Select value={gst.topViewType} onChange={se.changeTopViewType}>
+            <Option value={FIXED_HEADER_FIXED_BAR}>{topViewType2Label[FIXED_HEADER_FIXED_BAR]}</Option>
+            <Option value={FIXED_HEADER_FLOWED_BAR}>{topViewType2Label[FIXED_HEADER_FLOWED_BAR]}</Option>
+            <Option value={FIXED_HEADER_NO_BAR}>{topViewType2Label[FIXED_HEADER_NO_BAR]}</Option>
+            <Option value={FLOWED_HEADER_FLOWED_BAR}>{topViewType2Label[FLOWED_HEADER_FLOWED_BAR]}</Option>
+            <Option value={FLOWED_HEADER_NO_BAR}>{topViewType2Label[FLOWED_HEADER_NO_BAR]}</Option>
+            <Option value={NO_HEADER_FLOWED_BAR}>{topViewType2Label[NO_HEADER_FLOWED_BAR]}</Option>
+            <Option value={NO_HEADER_FIXED_BAR}>
               {topViewType2Label[NO_HEADER_FIXED_BAR]}<Blank width="8px" />
               <Tooltip title="推荐使用此方式，能够在边栏折叠后，获得最大的垂直视觉空间，同时也不会隐藏掉快捷导航条">
                 <HeartOutlined style={stLoveIcon} />
               </Tooltip>
-            </Radio>
-          </Radio.Group>
+            </Option>
+          </Select>
         </div>
         <VerticalBlank />
         <div>

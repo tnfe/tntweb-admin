@@ -5,10 +5,7 @@ import { Blank } from 'components/dumb/general';
 import { useSetupCtx } from 'services/concent';
 import { CtxDe } from 'types/store';
 import Logo from './dumb/Logo';
-import { SiderMenus } from './Sider';
 import styles from './App.module.css';
-
-const stSiderMenus: React.CSSProperties = { boxShadow: 'none', paddingLeft: '12px', maxWidth: '80%', display: 'inline-block' };
 
 function setup(ctx: CtxDe) {
   return {
@@ -21,8 +18,7 @@ function AppHeader() {
 
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
-      { !gst.siderVisible && <Logo />}
-      { !gst.siderVisible && <SiderMenus mode="horizontal" style={stSiderMenus} />}
+      { !gcu.siderInfo.showSider && <Logo />}
       <div className={styles.userIconWrap}>
         <Avatar size={32} src={gst.userIcon} />
         <Blank width="8px" />
@@ -30,7 +26,7 @@ function AppHeader() {
       </div>
       {gcu.settingIconShowCtrl.showInHeader &&
         <SettingOutlined onClick={se.openThemeSettingsDrawer} className={styles.headerSetting}
-          style={{ color: gcu.headerStyle.color }}
+          style={{ color: gst.themeColor }}
         />
       }
     </Layout.Header>

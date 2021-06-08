@@ -5,13 +5,13 @@ import { St } from './meta';
 // 记录关系的设置变化，方便用户刷新后，恢复最近的设置
 export const settingsKeyChange = defWatch<St>((n, o, f) => {
   const {
-    siderVisible, topViewType, curActiveRoutePath, activeRoutePaths,
+    siderViewType, siderViewTypeWhenUnfold, topViewType, curActiveRoutePath, activeRoutePaths,
     themeColor, headerTheme, siderTheme, custThemeColor,
   } = n;
   if (f.isFirstCall) return;
 
   const str = JSON.stringify({
-    siderVisible, topViewType, curActiveRoutePath, activeRoutePaths,
+    siderViewType, siderViewTypeWhenUnfold, topViewType, curActiveRoutePath, activeRoutePaths,
     themeColor, headerTheme, siderTheme, custThemeColor,
   });
   localStorage.setItem(LS_C2PRO_SETTINGS, str);

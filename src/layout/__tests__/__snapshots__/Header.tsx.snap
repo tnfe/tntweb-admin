@@ -87,7 +87,7 @@ exports[`Header Render generate Header snapshot 1`] = `
           onClick={[Function]}
           style={
             Object {
-              "color": "white",
+              "color": "#1976d2",
             }
           }
         >
@@ -117,7 +117,7 @@ exports[`Header Render generate Header snapshot 1`] = `
             onClick={[Function]}
             style={
               Object {
-                "color": "white",
+                "color": "#1976d2",
               }
             }
           >
@@ -128,7 +128,7 @@ exports[`Header Render generate Header snapshot 1`] = `
               role="img"
               style={
                 Object {
-                  "color": "white",
+                  "color": "#1976d2",
                 }
               }
               tabIndex={-1}
@@ -182,7 +182,7 @@ exports[`Header Render generate Header snapshot 1`] = `
 `;
 
 exports[`Header Render generate SettingPanel snapshot 1`] = `
-<SettingDrawer>
+<Memo(SettingDrawer)>
   <DrawerWrapper
     onClose={[Function]}
     title="常用设置"
@@ -245,5 +245,5 @@ exports[`Header Render generate SettingPanel snapshot 1`] = `
       </DrawerWrapper>
     </Drawer>
   </DrawerWrapper>
-</SettingDrawer>
+</Memo(SettingDrawer)>
 `;

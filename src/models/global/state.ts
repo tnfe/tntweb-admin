@@ -1,23 +1,30 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
-import { topViewTypes, LS_C2PRO_SETTINGS, siteThemeColor } from 'configs/constant/sys';
+import { topViewTypes, topViewType2Label, siderViewTypes, LS_C2PRO_SETTINGS, siteThemeColor } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
 import { safeParse } from 'utils/obj';
-import { removeDupStrItem } from 'utils/arr';
+import { removeTargetItem } from 'utils/arr';
+interface IRoutePathInfo {
+  path: string;
+  search: string;
+}
 
 function getInitialState() {
   const themeColor = siteThemeColor;
   const themeColorRGB = colorServ.hex2rgbString(themeColor);
 
   const defaultState = {
-    activeRoutePaths: [] as string[],
+    activeRoutePaths: [] as IRoutePathInfo[],
     curActiveRoutePath: '',
     topViewType: topViewTypes.FIXED_HEADER_FIXED_BAR,
+    siderViewType: siderViewTypes.WIDE_SIDER,
+    siderViewToNarrowTime: 0,
+    /** 当sider从无到有时，用于还原原来的折叠情况 */
+    siderViewTypeWhenUnfold: siderViewTypes.WIDE_SIDER,
     /** 常用设置抽屉是否可见 */
     settingDrawerVisible: false,
-    siderVisible: true,
     siderTheme: 'dark' as SiderTheme,
     headerTheme: 'dark' as SiderTheme,
     isUsingDefaultThemeColor: true,
@@ -51,15 +58,18 @@ function getInitialState() {
 
   // 确保path数据是正确的
   let validActiveRoutePaths = activeRoutePaths.slice();
-  activeRoutePaths.forEach(path => {
-    if (!path2menuItem[path]) {
-      validActiveRoutePaths = removeDupStrItem(validActiveRoutePaths, [path]);
+  activeRoutePaths.forEach((v) => {
+    if (!v || typeof v !== 'object') return;
+    if (!path2menuItem[v.path]) {
+      validActiveRoutePaths = removeTargetItem(validActiveRoutePaths, item => item.path === v.path);
     }
   });
   final.activeRoutePaths = validActiveRoutePaths;
 
   // 未使用默认默认主题色，需要修改 isUsingDefaultThemeColor 为 false
   if (final.themeColor !== siteThemeColor) final.isUsingDefaultThemeColor = false;
+  // 修正可能错误的 topViewType 值
+  if (!topViewType2Label[final.topViewType]) final.topViewType = topViewTypes.NO_HEADER_FIXED_BAR;
 
   return final;
 }

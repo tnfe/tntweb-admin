@@ -4,7 +4,7 @@
   box-shadow: rgb(0 21 41 / 8%) 0px 1px 4px;
   height: 48px;
   line-height: 48px;
-  padding: 0 19px;
+  padding: 0 19px 0 0;
 }
 
 .headerSetting {
@@ -16,18 +16,14 @@
   line-height: 48px;
 }
 
-.iconInBarBase {
-  position: fixed;
+.headerSettingInBar {
   font-size: 19px;
   height: 38px;
   line-height: 38px;
   z-index: 999;
-}
-
-.headerSettingInBar {
-  composes: iconInBarBase;
   position: absolute;
-  right: 19px;
+  right: 5px;
+  top: 1px;
 }
 
 .userIconWrap {
@@ -46,13 +42,17 @@
 
 .siderWrap {
   position: fixed;
-  padding-top: 48px;
   height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
   top: 0;
+  bottom: 0;
   z-index: 10;
   box-shadow: rgb(0 21 41 / 8%) 0px 1px 4px;
+}
+
+.siderMenusWrap {
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .contentWrap {
@@ -66,4 +66,11 @@
 
 .SwatchesPicker {
   width: 450px !important;
+}
+
+.logoWrap {
+  height: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%
 }

@@ -2,12 +2,11 @@
 /**
  * 由 configs/menus 派生出的数据
  */
-import * as defaultVals from 'configs/constant/defaultVals';
 import menus, { IMenuGroup, IMenuItem } from '../menus';
 
 // 打平菜单为一层的结构
 function flatMenus(menus: Array<IMenuItem | IMenuGroup>) {
-  const flatted: IMenuItem[] = [];
+  const flatted = [] as IMenuItem[];
 
   const pushToFlatted = (item: IMenuItem) => {
     flatted.push(item);
@@ -44,8 +43,8 @@ function calcMenus() {
       const allMenuGroup: IMenuGroup = { ...rest, children: [] };
 
       children.forEach((childItem) => {
-        const { path, showInSider = true, setContentLayout = true, showQuickNavBar = defaultVals.showQuickNavBar, ...rest } = childItem;
-        const fillDefaultValChildItem = { ...rest, path, showInSider, setContentLayout, showQuickNavBar };
+        const { path, showInSider = true, setContentLayout = true, ...rest } = childItem;
+        const fillDefaultValChildItem = { ...rest, path, showInSider, setContentLayout };
         allMenuGroup.children.push(fillDefaultValChildItem);
 
         path2menuGroup[path] = allMenuGroup;
@@ -65,8 +64,8 @@ function calcMenus() {
     }
 
     const menuItem = item as IMenuItem;
-    const { path, isHomePage, showInSider = true, setContentLayout = true, showQuickNavBar = defaultVals.showQuickNavBar, ...rest } = menuItem;
-    const fillDefaultValMenuItem = { ...rest, path, isHomePage, showInSider, setContentLayout, showQuickNavBar };
+    const { path, isHomePage, showInSider = true, setContentLayout = true, ...rest } = menuItem;
+    const fillDefaultValMenuItem = { ...rest, path, isHomePage, showInSider, setContentLayout };
     allMenus.push(fillDefaultValMenuItem);
     path2menuItem[path] = fillDefaultValMenuItem;
     if (isHomePage) {
