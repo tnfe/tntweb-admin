@@ -57,14 +57,18 @@ function getInitialState() {
   const { activeRoutePaths } = final;
 
   // 确保path数据是正确的
-  let validActiveRoutePaths = activeRoutePaths.slice();
-  activeRoutePaths.forEach((v) => {
-    if (!v || typeof v !== 'object') return;
-    if (!path2menuItem[v.path]) {
-      validActiveRoutePaths = removeTargetItem(validActiveRoutePaths, item => item.path === v.path);
-    }
-  });
-  final.activeRoutePaths = validActiveRoutePaths;
+  try {
+    const validActiveRoutePaths: IRoutePathInfo[] = [];
+    activeRoutePaths.forEach((v) => {
+      if (!v || typeof v !== 'object') return;
+      if (v.path && path2menuItem[v.path]) {
+        validActiveRoutePaths.push(v);
+      }
+    });
+    final.activeRoutePaths = validActiveRoutePaths;
+  } catch (err) {
+    final.activeRoutePaths = [];
+  }
 
   // 未使用默认默认主题色，需要修改 isUsingDefaultThemeColor 为 false
   if (final.themeColor !== siteThemeColor) final.isUsingDefaultThemeColor = false;
@@ -72,6 +76,7 @@ function getInitialState() {
   if (!topViewType2Label[final.topViewType] || typeof final.topViewType !== 'string') {
     final.topViewType = topViewTypes.NO_HEADER_FIXED_BAR;
   }
+
 
   return final;
 }

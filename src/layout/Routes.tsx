@@ -40,7 +40,7 @@ function setup(ctx: CtxDe) {
 
 const RouterGuard = React.memo((props: { Comp: React.ComponentType<any>, routerProps: RouteComponentProps }) => {
   const settings = useSetup(setup);
-  return <props.Comp key={settings.state.key} {...props.routerProps} />
+  return <props.Comp key={settings.state.key} {...props.routerProps} />;
 });
 
 class Routes extends React.Component {
@@ -118,7 +118,9 @@ class Routes extends React.Component {
       }
     }
 
-    let { ui: uiCompWrapContent, layoutStyle } = this.cachedUiCompWrapContent[item.path] || {};
+    const ret = this.cachedUiCompWrapContent[item.path] || {};
+    let { ui: uiCompWrapContent } = ret;
+    const { layoutStyle } = ret;
     // layout 没变才返回缓存
     if (uiCompWrapContent && layoutStyle === contentLayoutStyle) return uiCompWrapContent;
 

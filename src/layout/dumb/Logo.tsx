@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { sys } from 'configs/constant';
 import styles from '../App.module.css';
 
@@ -18,11 +18,4 @@ export default function Logo(props: IProps) {
     <div style={style} className={styles.logoWrap}>
     </div>
   );
-  // const { fixed = false, long = true } = props
-  // let style = fixed ? fixedStyle : normalStyle;
-  // const imgSrc = long ? sys.webHeaderImg : sys.webHeaderImgShort;
-  // if (!long) style = shortStyle;
-  // return (
-  //   <img style={style} src={imgSrc} alt="header_img"></img>
-  // )
 }

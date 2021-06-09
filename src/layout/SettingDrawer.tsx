@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Drawer, Switch, Tag, Select, Radio, RadioChangeEvent, Tooltip } from 'antd';
-import { HeartOutlined } from '@ant-design/icons';
+import { Row, Col, Drawer, Switch, Tag, Select, Radio, RadioChangeEvent, Tooltip } from 'antd';
+import copy from 'copy-to-clipboard';
+import { HeartOutlined, CopyOutlined } from '@ant-design/icons';
 import { SketchPicker, ColorResult, SwatchesPicker } from 'react-color';
 import { Blank, VerticalBlank } from 'components/dumb/general';
 import { useSetupCtx } from 'services/concent';
+import { success } from 'services/message';
 import { topViewTypes, topViewType2Label } from 'configs/constant/sys';
 import { CtxDe } from 'types/store';
 
@@ -21,7 +23,7 @@ const {
 const stLoveIcon: React.CSSProperties = { color: 'var(--theme-color)', transform: 'translateY(2px)' };
 
 export function setup(ctx: CtxDe) {
-  const { gr } = ctx;
+  const { gr, globalState } = ctx;
   const ins = ctx.initState({
     pickerMode: 'fast',
   });
@@ -50,6 +52,10 @@ export function setup(ctx: CtxDe) {
     onInnerMockChange(checked: boolean) {
       gr.changeIsInnerMock(checked);
     },
+    copyColor(){
+      copy(globalState.themeColor);
+      success(`色值 ${globalState.themeColor} 已复制`, 1);
+    },
   };
 }
 
@@ -68,6 +74,7 @@ export function SettingDrawer() {
           <Radio value="professional">专业</Radio>
         </Radio.Group>
         <Tag color={gst.themeColor}>{gst.themeColor}</Tag>
+        <CopyOutlined className="gHover" onClick={se.copyColor} />
         <VerticalBlank />
         {se.state.pickerMode === 'fast'
           && <MySwatchesPicker color={gst.themeColor} onChange={se.onWebsiteColorChange} />
@@ -78,56 +85,45 @@ export function SettingDrawer() {
           />
         }
         <VerticalBlank />
-        <div>
-          <Tag color="geekblue">恢复默认主题：</Tag>
-          <Blank />
-          <Switch checkedChildren="是" unCheckedChildren="否" checked={gst.isUsingDefaultThemeColor}
-            onChange={se.changeIsUsingDefaultTheme}
-          />
-        </div>
-        <VerticalBlank />
-        <div>
-          <Tag color="geekblue">暗黑边栏：</Tag>
-          <Blank />
-          <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.siderThemeSwitchChecked}
-            onChange={se.onSiderThemeChange}
-          />
-        </div>
-        <VerticalBlank />
-        <div>
-          <Tag color="geekblue">暗黑顶栏：</Tag>
-          <Blank />
-          <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.headerThemeSwitchChecked}
-            onChange={se.onHeaderThemeChange}
-          />
-        </div>
-        <VerticalBlank />
-        <div>
-          <Tag color="geekblue">顶部区域信息展示方式：</Tag>
-          <Blank />
-          <Select value={gst.topViewType} onChange={se.changeTopViewType} style={{ width: '200px' }}>
-            <Option value={FIXED_HEADER_FIXED_BAR}>{topViewType2Label[FIXED_HEADER_FIXED_BAR]}</Option>
-            <Option value={FIXED_HEADER_FLOWED_BAR}>{topViewType2Label[FIXED_HEADER_FLOWED_BAR]}</Option>
-            <Option value={FIXED_HEADER_NO_BAR}>{topViewType2Label[FIXED_HEADER_NO_BAR]}</Option>
-            <Option value={FLOWED_HEADER_FLOWED_BAR}>{topViewType2Label[FLOWED_HEADER_FLOWED_BAR]}</Option>
-            <Option value={FLOWED_HEADER_NO_BAR}>{topViewType2Label[FLOWED_HEADER_NO_BAR]}</Option>
-            <Option value={NO_HEADER_FLOWED_BAR}>{topViewType2Label[NO_HEADER_FLOWED_BAR]}</Option>
-            <Option value={NO_HEADER_FIXED_BAR}>
-              {topViewType2Label[NO_HEADER_FIXED_BAR]}<Blank width="8px" />
-              <Tooltip title="推荐使用此方式，能够在边栏折叠后，获得最大的垂直视觉空间，同时也不会隐藏掉快捷导航条">
-                <HeartOutlined style={stLoveIcon} />
-              </Tooltip>
-            </Option>
-          </Select>
-        </div>
-        <VerticalBlank />
-        <div>
-          <Tag color="geekblue">innerMock设置：</Tag>
-          <Blank />
-          <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gst.isInnerMock}
-            onChange={se.onInnerMockChange}
-          />
-        </div>
+        <Row gutter={[16, { xs: 8, sm: 12, md: 12, lg: 12 }]}>
+          <Col span="10"><Tag color="geekblue">恢复默认主题：</Tag></Col>
+          <Col span="14">
+            <Switch checkedChildren="是" unCheckedChildren="否" checked={gst.isUsingDefaultThemeColor} onChange={se.changeIsUsingDefaultTheme} />
+          </Col>
+          <Col span="10"><Tag color="geekblue">暗黑边栏：</Tag></Col>
+          <Col span="14">
+            <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.siderThemeSwitchChecked} onChange={se.onSiderThemeChange} />
+          </Col>
+          <Col span="10"><Tag color="geekblue">暗黑顶栏：</Tag></Col>
+          <Col span="14">
+            <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.headerThemeSwitchChecked}
+              onChange={se.onHeaderThemeChange}
+            />
+          </Col>
+          <Col span="10"><VerticalBlank height="5px" /><Tag color="geekblue">顶部区域信息展示方式：</Tag></Col>
+          <Col span="14">
+            <Select value={gst.topViewType} onChange={se.changeTopViewType} style={{ width: '200px' }}>
+              <Option value={FIXED_HEADER_FIXED_BAR}>{topViewType2Label[FIXED_HEADER_FIXED_BAR]}</Option>
+              <Option value={FIXED_HEADER_FLOWED_BAR}>{topViewType2Label[FIXED_HEADER_FLOWED_BAR]}</Option>
+              <Option value={FIXED_HEADER_NO_BAR}>{topViewType2Label[FIXED_HEADER_NO_BAR]}</Option>
+              <Option value={FLOWED_HEADER_FLOWED_BAR}>{topViewType2Label[FLOWED_HEADER_FLOWED_BAR]}</Option>
+              <Option value={FLOWED_HEADER_NO_BAR}>{topViewType2Label[FLOWED_HEADER_NO_BAR]}</Option>
+              <Option value={NO_HEADER_FLOWED_BAR}>{topViewType2Label[NO_HEADER_FLOWED_BAR]}</Option>
+              <Option value={NO_HEADER_FIXED_BAR}>
+                {topViewType2Label[NO_HEADER_FIXED_BAR]}<Blank width="8px" />
+                <Tooltip title="推荐使用此方式，能够在边栏折叠后，获得最大的垂直视觉空间，同时也不会隐藏掉快捷导航条">
+                  <HeartOutlined style={stLoveIcon} />
+                </Tooltip>
+              </Option>
+            </Select>
+          </Col>
+          <Col span="10"><Tag color="geekblue">innerMock设置：</Tag></Col>
+          <Col span="14">
+            <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gst.isInnerMock}
+              onChange={se.onInnerMockChange}
+            />
+          </Col>
+        </Row>
       </div>
     </Drawer>
   );
