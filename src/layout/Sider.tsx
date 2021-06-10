@@ -26,8 +26,8 @@ function iState() {
   if (path === '/') path = homePageFullPath;
 
   let openKeys: string[] = [];
-  // 当边栏可见时，才计算 openKeys
-  if (getGlobalComputed().siderInfo.showSider && path2menuGroup[path]) {
+  // 当边栏展开时，才计算 openKeys
+  if (getGlobalComputed().siderInfo.isUnfold && path2menuGroup[path]) {
     openKeys = [path2menuGroup[path].key];
   }
 

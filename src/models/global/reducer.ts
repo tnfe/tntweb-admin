@@ -116,7 +116,7 @@ export function changeThemeColor(payload: { themeColor: string, setCustThemeColo
 
 export function changeFontAlpha(fontAlpha: number): Partial<St> {
   colorServ.changeFontAlpha(fontAlpha);
-  return { fontAlpha }
+  return { fontAlpha };
 }
 
 export function switchSiderTheme(checked: boolean, moduleState: St): Partial<St> {
