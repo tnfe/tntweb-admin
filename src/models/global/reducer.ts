@@ -119,6 +119,10 @@ export function changeFontAlpha(fontAlpha: number): Partial<St> {
   return { fontAlpha };
 }
 
+export function changeIsTabPaneHeavyBg(isTabPaneHeavyBg: boolean): Partial<St> {
+  return { isTabPaneHeavyBg };
+}
+
 export function switchSiderTheme(checked: boolean, moduleState: St): Partial<St> {
   return { siderTheme: checked ? 'dark' : 'light' };
 }

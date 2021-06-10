@@ -137,3 +137,7 @@ export function headerThemeSwitchChecked(n: St) {
   const { headerTheme } = n;
   return headerTheme === 'dark';
 }
+
+export function navBarItemCls(n: St) {
+  return n.isTabPaneHeavyBg ? 'quickNavBarWrap' : 'quickNavBarLightWrap';
+}

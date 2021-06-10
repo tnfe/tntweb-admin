@@ -40,7 +40,7 @@
   font-weight: 800;
 }
 
-.quickNavBarWrap {
+.quickNavBarWrapBase {
   position: relative;
   width: 100%;
   background-color: white;
@@ -67,12 +67,39 @@
   border: 1px solid lightgray;
 }
 
-
 .quickNavBarWrap .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
 .quickNavBarWrap .ant-tabs-tab.ant-tabs-tab-active>button {
   color: white;
 }
 
 .quickNavBarWrap .ant-tabs .ant-tabs-tab {
+  padding: 1px 10px;
+}
+
+
+/** 浅色背景导航条样式集 */
+.quickNavBarLightWrap .ant-tabs .ant-tabs-nav-wrap {
+  padding-top: 2px;
+  height: 32px;
+}
+
+.quickNavBarLightWrap .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
+.quickNavBarLightWrap .ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
+  border: 1px solid var(--theme-color);
+  border-bottom-color: #fff;
+}
+
+.quickNavBarLightWrap .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab,
+.quickNavBarLightWrap .ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab {
+  border: 1px solid lightgray;
+}
+
+
+.quickNavBarLightWrap .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+.quickNavBarLightWrap .ant-tabs-tab.ant-tabs-tab-active>button {
+  color: var(--theme-color);
+}
+
+.quickNavBarLightWrap .ant-tabs .ant-tabs-tab {
   padding: 1px 10px;
 }

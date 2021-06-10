@@ -56,6 +56,9 @@ export function setup(ctx: CtxDe) {
       copy(globalState.themeColor);
       success(`色值 ${globalState.themeColor} 已复制`, 1);
     },
+    changeIsTabPaneHeavyBg: (isTabPaneHeavyBg: boolean) => {
+      gr.changeIsTabPaneHeavyBg(isTabPaneHeavyBg);
+    },
   };
 }
 
@@ -93,6 +96,12 @@ export function SettingDrawer() {
           <Col span="10"><VerticalBlank height="5px" /><Tag color="geekblue">字体颜色透明度：</Tag></Col>
           <Col span="14">
             <Slider value={gst.fontAlpha} min={0} max={100} onChange={gr.changeFontAlpha} />
+          </Col>
+          <Col span="10"><Tag color="geekblue">导航条项目深色背景：</Tag></Col>
+          <Col span="14">
+            <Switch checked={gst.isTabPaneHeavyBg} onChange={se.changeIsTabPaneHeavyBg}
+              checkedChildren="深" unCheckedChildren="浅"
+            />
           </Col>
           <Col span="10"><Tag color="geekblue">暗黑边栏：</Tag></Col>
           <Col span="14">
