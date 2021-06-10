@@ -48,17 +48,18 @@ export function headerStyle(n: St): React.CSSProperties {
   const color = headerTheme === 'dark' ? 'white' : themeColor;
   const backgroundColor = headerTheme === 'dark' ? '#001529' : 'white';
   const marginLeft = viewType2LeftValue[siderViewType];
+  const toReturn = { marginLeft, backgroundColor, color };
 
   if ([FIXED_HEADER_FIXED_BAR, FIXED_HEADER_FLOWED_BAR, FIXED_HEADER_NO_BAR].includes(topViewType)) {
-    return { marginLeft, color, backgroundColor, position: 'fixed' as const, left: '0', right: '0' };
+    return { ...toReturn, position: 'fixed' as const, left: '0', right: '0' };
   }
   if ([FLOWED_HEADER_FLOWED_BAR, FLOWED_HEADER_NO_BAR].includes(topViewType)) {
-    return { marginLeft };
+    return toReturn;
   }
   if ([NO_HEADER_FIXED_BAR, NO_HEADER_FLOWED_BAR].includes(topViewType)) {
-    return { display: 'none' };
+    return { ...toReturn, display: 'none' };
   }
-  return { marginLeft };
+  return toReturn;
 }
 
 /**
