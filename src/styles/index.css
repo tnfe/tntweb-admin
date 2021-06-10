@@ -5,6 +5,7 @@
   --theme-color-light: #91d5ff;
   --theme-color-bg: #e6f8fe;
   --theme-color-grey: #f0f2f5;
+  --theme-color-text: rgba(0, 0, 0, 0.75);
 }
 
 body {

@@ -34,3 +34,7 @@ export function changeThemeColorLight(themeColorLight: string) {
 export function changeThemeColorRGB(themeColorRGB: string) {
   privSetColor('--theme-color-rgb', themeColorRGB);
 }
+
+export function changeFontAlpha(alpha: number) {
+  privSetColor('--theme-color-text', `rgba(0, 0, 0, ${alpha / 100})`);
+}

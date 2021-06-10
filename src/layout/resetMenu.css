@@ -50,12 +50,9 @@
   overflow-y: hidden;
 }
 
-.quickNavBarWrap .ant-tabs {
-  height: 32px;
-}
-
 .quickNavBarWrap .ant-tabs .ant-tabs-nav-wrap {
-  padding-top: 6px;
+  padding-top: 2px;
+  height: 32px;
 }
 
 .quickNavBarWrap .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,

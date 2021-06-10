@@ -6,13 +6,13 @@ import { St } from './meta';
 export const settingsKeyChange = defWatch<St>((n, o, f) => {
   const {
     siderViewType, siderViewTypeWhenUnfold, topViewType, curActiveRoutePath, activeRoutePaths,
-    themeColor, headerTheme, siderTheme, custThemeColor,
+    themeColor, headerTheme, siderTheme, custThemeColor, fontAlpha,
   } = n;
   if (f.isFirstCall) return;
 
   const str = JSON.stringify({
     siderViewType, siderViewTypeWhenUnfold, topViewType, curActiveRoutePath, activeRoutePaths,
-    themeColor, headerTheme, siderTheme, custThemeColor,
+    themeColor, headerTheme, siderTheme, custThemeColor, fontAlpha,
   });
   localStorage.setItem(LS_C2PRO_SETTINGS, str);
 }, { immediate: true });

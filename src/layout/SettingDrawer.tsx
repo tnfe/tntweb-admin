@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Col, Drawer, Switch, Tag, Select, Radio, RadioChangeEvent, Tooltip } from 'antd';
+import { Row, Col, Drawer, Switch, Tag, Select, Radio, RadioChangeEvent, Tooltip, Slider } from 'antd';
 import copy from 'copy-to-clipboard';
 import { HeartOutlined, CopyOutlined } from '@ant-design/icons';
 import { SketchPicker, ColorResult, SwatchesPicker } from 'react-color';
@@ -52,7 +52,7 @@ export function setup(ctx: CtxDe) {
     onInnerMockChange(checked: boolean) {
       gr.changeIsInnerMock(checked);
     },
-    copyColor(){
+    copyColor() {
       copy(globalState.themeColor);
       success(`色值 ${globalState.themeColor} 已复制`, 1);
     },
@@ -60,7 +60,7 @@ export function setup(ctx: CtxDe) {
 }
 
 export function SettingDrawer() {
-  const { globalState: gst, globalComputed: gcu, settings: se } = useSetupCtx(setup, { tag: 'SettingPanel' });
+  const { globalState: gst, globalComputed: gcu, settings: se, gr } = useSetupCtx(setup, { tag: 'SettingPanel' });
 
   return (
     <Drawer title="常用设置" visible={gst.settingDrawerVisible} width="550px"
@@ -90,6 +90,10 @@ export function SettingDrawer() {
           <Col span="14">
             <Switch checkedChildren="是" unCheckedChildren="否" checked={gst.isUsingDefaultThemeColor} onChange={se.changeIsUsingDefaultTheme} />
           </Col>
+          <Col span="10"><VerticalBlank height="5px" /><Tag color="geekblue">字体颜色透明度：</Tag></Col>
+          <Col span="14">
+            <Slider value={gst.fontAlpha} min={0} max={100} onChange={gr.changeFontAlpha} />
+          </Col>
           <Col span="10"><Tag color="geekblue">暗黑边栏：</Tag></Col>
           <Col span="14">
             <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.siderThemeSwitchChecked} onChange={se.onSiderThemeChange} />
@@ -102,7 +106,7 @@ export function SettingDrawer() {
           </Col>
           <Col span="10"><VerticalBlank height="5px" /><Tag color="geekblue">顶部区域信息展示方式：</Tag></Col>
           <Col span="14">
-            <Select value={gst.topViewType} onChange={se.changeTopViewType} style={{ width: '200px' }}>
+            <Select value={gst.topViewType} onChange={se.changeTopViewType} style={{ width: '100%' }}>
               <Option value={FIXED_HEADER_FIXED_BAR}>{topViewType2Label[FIXED_HEADER_FIXED_BAR]}</Option>
               <Option value={FIXED_HEADER_FLOWED_BAR}>{topViewType2Label[FIXED_HEADER_FLOWED_BAR]}</Option>
               <Option value={FIXED_HEADER_NO_BAR}>{topViewType2Label[FIXED_HEADER_NO_BAR]}</Option>

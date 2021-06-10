@@ -18,6 +18,8 @@ function getInitialState() {
   const defaultState = {
     activeRoutePaths: [] as IRoutePathInfo[],
     curActiveRoutePath: '',
+    /** 站点的字体色值透明度，值越大，字体颜色越深 */
+    fontAlpha: 75,
     topViewType: topViewTypes.FIXED_HEADER_FIXED_BAR,
     siderViewType: siderViewTypes.WIDE_SIDER,
     siderViewToNarrowTime: 0,
