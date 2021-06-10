@@ -29,8 +29,11 @@ export function addActiveRoutePath(payload: { path: string, search?: string }, m
 
   // 如果需要带参路由也点亮页签的话，可以去掉下面这个if判断逻辑
   if (search) { return toSet; }
+  const menuItem = path2menuItem[path];
+  if (!menuItem) { return toSet; }
+  // 不显示在边栏菜单里的路由组件，不写标签页
+  if (!menuItem.showInSider) { return toSet; }
 
-  if (!path2menuItem[path]) return toSet;
   const targetPathInfo = activeRoutePaths.find(v => v.path === path);
   if (!targetPathInfo) {
     // 最多激活5个

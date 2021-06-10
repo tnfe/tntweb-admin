@@ -41,7 +41,8 @@ function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
   ctx.on(getUrlChangedEvName(), () => {
     const newState = iState();
-    if (newState.selectedKeys[0] !== ctx.globalState.curActiveRoutePath) {
+    // 重新计算的值和实例上维护的不一样时，才触发 Sider 重渲染
+    if (newState.selectedKeys[0] !== ins.state.selectedKeys[0]) {
       // 保持原来的菜单展开状态, 同时也让新的能够正确展开
       newState.openKeys = arrUtil.merge(newState.openKeys, ins.state.openKeys);
       ctx.setState(newState);
