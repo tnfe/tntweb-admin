@@ -11,9 +11,9 @@ import { Layout } from 'antd';
 import { flattedMenus } from 'configs/derived/menus';
 import { IMenuItem } from 'configs/menus';
 import Error403 from 'components/dumb/Error403';
+import Error404 from 'components/dumb/Error404';
 import * as typeUtil from 'utils/type';
 import { decideVal } from 'utils/obj';
-import NotFound from 'pages/NotFound';
 import { CtxDe } from 'types/store';
 import styles from './App.module.css';
 
@@ -167,7 +167,7 @@ class Routes extends React.Component {
     }
 
     // 第二位参数传递 true， 让404 页面包裹一下 content layout
-    const CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' }, true);
+    const CompNotFoundWrap = this.makeCompWrap({ Component: Error404, path: '', label: '' }, true);
     const uiNotFoundRoute = <Route component={CompNotFoundWrap} />;
 
     this.cachedUi = { uiRoutes, uiHomeRoute, uiNotFoundRoute };
