@@ -17,15 +17,13 @@
 }
 
 .headerSettingInBar {
+  position: absolute;
   font-size: 19px;
   height: 38px;
   line-height: 38px;
-  z-index: 999;
-  position: absolute;
   right: 5px;
   top: 1px;
 }
-
 .userIconWrap {
   position: absolute;
   min-width: 100px;
