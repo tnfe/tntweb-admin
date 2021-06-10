@@ -1,17 +1,17 @@
 import React from 'react';
-import { Breadcrumb, Tabs } from 'antd';
-import { SettingOutlined } from '@ant-design/icons';
+import { Tabs, Tooltip } from 'antd';
+import { SettingOutlined, QuestionOutlined } from '@ant-design/icons';
 import { useSetupCtx } from 'services/concent';
 import { history } from 'react-router-concent';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
 import { EmptyView } from 'components/dumb/general';
+import * as arrUtil from 'utils/arr';
 import styles from './App.module.css';
 
 const { TabPane } = Tabs;
-const stBreadWrap = { display: 'inline-block', verticalAlign: 'top', paddingLeft: '16px', lineHeight: '32px', backgroundColor: 'white' };
-const stItemSel = { color: 'var(--theme-color)' };
+const stItemIcon = { marginRight: '6px' };
 
 function setup(ctx: CtxDe) {
   return {
@@ -54,7 +54,7 @@ function QuickNavBar() {
   return (
     <div className="quickNavBarWrap smallScBar" style={gcu.quickNavBarStyle}>
       <Tabs
-        style={{ paddingLeft: '32px', display: 'inline-block' }}
+        style={{ paddingLeft: '3px', display: 'inline-block' }}
         activeKey={`${curActiveRoutePath}${search}`}
         hideAdd
         onChange={settings.onChange}
@@ -63,13 +63,14 @@ function QuickNavBar() {
       >
         {activeRoutePaths.map(({ path, search }) => {
           const navMenus = settings.getNavMenus(path);
-          const stItem = path === curActiveRoutePath ? stItemSel : {};
-          const uiTab = <Breadcrumb style={stBreadWrap}>
-            {navMenus.map((item, i) => {
-              const uiIcon = item.Icon ? <item.Icon /> : '';
-              return <Breadcrumb.Item key={i}><span style={stItem}>{uiIcon}{item.label}</span></Breadcrumb.Item>;
-            })}
-          </Breadcrumb>;
+          const item = arrUtil.lastItem(navMenus);
+          const uiIcon = item.Icon ? <item.Icon style={stItemIcon} /> : <QuestionOutlined style={stItemIcon} />;
+          const navLen = navMenus.length;
+          const uiTab = (
+            <Tooltip key={`${path}${search}`} title={navMenus.map((item, i) => <span key={i} >{(navLen > 1 && i > 0) ? ' / ' : ''}{item.label}</span>)}>
+              <span >{uiIcon}{item.label}</span>
+            </Tooltip>
+          );
           return <TabPane tab={uiTab} key={`${path}${search}`} />;
         })}
       </Tabs>

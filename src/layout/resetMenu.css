@@ -55,13 +55,25 @@
 }
 
 .quickNavBarWrap .ant-tabs .ant-tabs-nav-wrap {
-  padding-top: 1px;
+  padding-top: 6px;
 }
 
 .quickNavBarWrap .ant-tabs-card.ant-tabs-top>.ant-tabs-nav .ant-tabs-tab-active,
 .quickNavBarWrap .ant-tabs-card.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-tab-active {
   border: 1px solid var(--theme-color);
+  background-color: var(--theme-color);
   border-bottom-color: #fff;
+}
+
+.quickNavBarWrap .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab,
+.quickNavBarWrap .ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab {
+  border: 1px solid lightgray;
+}
+
+
+.quickNavBarWrap .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+.quickNavBarWrap .ant-tabs-tab.ant-tabs-tab-active>button {
+  color: white;
 }
 
 /* .quickNavBarWrap .ant-tabs-tab-active {

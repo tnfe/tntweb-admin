@@ -44,7 +44,7 @@ export interface IMenuItem {
    */
   setContentLayout?: boolean;
   label: string;
-  Icon?: React.SFC;
+  Icon?: React.SFC<{ style?: React.CSSProperties }>;
   /** 是否是首页，匹配路径 / 时也能访问，默认 false */
   isHomePage?: boolean;
 }
@@ -53,7 +53,7 @@ export interface IMenuGroup {
   /** 用于辅助计算 menu是否展开 */
   key: string;
   label: string;
-  Icon?: React.SFC;
+  Icon?: React.SFC<{ style?: React.CSSProperties }>;
   children: IMenuItem[];
 }
 

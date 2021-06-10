@@ -34,7 +34,7 @@ export function addActiveRoutePath(payload: { path: string, search?: string }, m
   const targetPathInfo = activeRoutePaths.find(v => v.path === path);
   if (!targetPathInfo) {
     // 最多激活5个
-    if (activeRoutePaths.length <= 5) {
+    if (activeRoutePaths.length <= 8) {
       activeRoutePaths.push({ path, search });
     } else {
       // 否则替换掉第一个
