@@ -55,7 +55,7 @@ function QuickNavBar() {
   const search = activeRoutePaths.find(v => v.path === curActiveRoutePath)?.search || '';
 
   return (
-    <div className={`quickNavBarWrapBase ${gcu.navBarItemCls}`} style={gcu.quickNavBarStyle}>
+    <div className={`quickNavBarWrapBase ${gcu.navBarItemCls} smallScBar`} style={gcu.quickNavBarStyle}>
       <Tabs
         style={{ paddingLeft: '3px', display: 'inline-block' }}
         activeKey={`${curActiveRoutePath}${search}`}
