@@ -1,24 +1,46 @@
 import React from 'react';
-import { Button, Card, Row, Col } from 'antd';
-import { GithubOutlined } from '@ant-design/icons';
+import { Button, Card, Row, Col, Tooltip, Radio, RadioChangeEvent } from 'antd';
+import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { RouteComponentProps } from 'react-router-dom';
 import { history } from 'react-router-concent';
 import { routerPath } from 'configs/constant';
+import { topViewTypes, siderViewTypes } from 'configs/constant/sys';
 import * as mods from 'configs/c2Mods';
 import { useC2Mod, typeCtxM } from 'services/concent';
-import { VerticalBlank, AsyncButton } from 'components/dumb/general';
+import { VerticalBlank, AsyncButton, Blank } from 'components/dumb/general';
 import Bar from 'components/Charts/Bar';
+
+const layoutOptions = [
+  { label: '折叠边栏，仅显示快捷导航条', value: '1' },
+  { label: '展开边栏，仅显示快捷导航条', value: '2' },
+  { label: '隐藏边栏，显示顶栏信息和快捷导航条', value: '3' },
+];
 
 function setup(c: any) {
   const ctx = typeCtxM(mods.HOME, {}, c);
-  ctx.effect(() => {
+  const { effect, gr } = ctx;
+  effect(() => {
     const t = setInterval(ctx.mr.ranBarData, 3000);
     return () => clearInterval(t);
   }, []);
+
+  return {
+    changeTopViewType(e: RadioChangeEvent) {
+      const layout = e.target.value;
+      const argMap: Record<string, [number, string]> = {
+        1: [siderViewTypes.NARROW_SIDER, topViewTypes.NO_HEADER_FIXED_BAR],
+        2: [siderViewTypes.WIDE_SIDER, topViewTypes.NO_HEADER_FIXED_BAR],
+        3: [siderViewTypes.NO_SIDER, topViewTypes.FIXED_HEADER_FIXED_BAR],
+      };
+      const [siderViewType, topViewType] = argMap[layout];
+      gr.setState({ siderViewType: siderViewType });
+      gr.changeTopViewType(topViewType);
+    },
+  };
 }
 
 function Home(props: RouteComponentProps) {
-  const { state: homeState, mr: homeMr } = useC2Mod(mods.HOME, { setup });
+  const { state: homeState, mr: homeMr, settings: se } = useC2Mod(mods.HOME, { setup });
   const { state, mr } = useC2Mod(mods.COUNTER);
 
   return (
@@ -33,7 +55,15 @@ function Home(props: RouteComponentProps) {
           </a>
         </Col>
       </Row>
-      <VerticalBlank />
+      <VerticalBlank height="32px" />
+      <div>
+        <Tooltip title="更多布局点击右上角设置按钮查看">
+          <span>选择一个喜欢布局吧<QuestionCircleOutlined/> : </span>
+        </Tooltip>
+        <Blank />
+        <Radio.Group options={layoutOptions} onChange={se.changeTopViewType} />
+      </div>
+      <VerticalBlank height="32px" />
       <Row>
         <Col span="8">
           <Card

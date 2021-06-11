@@ -1,14 +1,29 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
-import { topViewTypes, topViewType2Label, siderViewTypes, LS_C2PRO_SETTINGS, siteThemeColor } from 'configs/constant/sys';
+import {
+  topViewTypes, topViewType2Label, siderViewTypes,
+  LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_NEED, siteThemeColor,
+} from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
 import { safeParse } from 'utils/obj';
-import { removeTargetItem } from 'utils/arr';
 interface IRoutePathInfo {
   path: string;
   search: string;
+}
+
+const curSettingKeyVer = '2';
+
+function needCachedSettings() {
+  const cachedKeyVer = localStorage.getItem(LS_C2PRO_SETTINGS_NEED);
+  const isKeyVerEqual = cachedKeyVer === curSettingKeyVer;
+  if (!isKeyVerEqual) {
+    localStorage.setItem(LS_C2PRO_SETTINGS_NEED, curSettingKeyVer);
+  }
+  // key版本相同，才需要取缓存的主题配置，意味着如果想每次发版让store里默认的配置生效，
+  // 修改一下 curSettingKeyVer 的值即可
+  return isKeyVerEqual;
 }
 
 function getInitialState() {
@@ -22,15 +37,15 @@ function getInitialState() {
     isTabPaneHeavyBg: false,
     /** 站点的字体色值透明度，值越大，字体颜色越深 */
     fontAlpha: 75,
-    topViewType: topViewTypes.FIXED_HEADER_FIXED_BAR,
-    siderViewType: siderViewTypes.WIDE_SIDER,
+    topViewType: topViewTypes.NO_HEADER_FLOWED_BAR,
+    siderViewType: siderViewTypes.NARROW_SIDER,
     siderViewToNarrowTime: 0,
     /** 当sider从无到有时，用于还原原来的折叠情况 */
     siderViewTypeWhenUnfold: siderViewTypes.WIDE_SIDER,
     /** 常用设置抽屉是否可见 */
     settingDrawerVisible: false,
     siderTheme: 'dark' as SiderTheme,
-    headerTheme: 'dark' as SiderTheme,
+    headerTheme: 'light' as SiderTheme,
     isUsingDefaultThemeColor: true,
     /** 个性化设置的站点的主题颜色 */
     custThemeColor: themeColor,
@@ -54,6 +69,10 @@ function getInitialState() {
     excludedMockApis: [
     ] as string[],
   };
+
+  if (!needCachedSettings()) {
+    return defaultState;
+  }
 
   // 还原用户最近一次设置数据
   const cachedSettings = safeParse(localStorage.getItem(LS_C2PRO_SETTINGS) || '', defaultState);

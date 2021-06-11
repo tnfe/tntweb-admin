@@ -9,7 +9,7 @@ exports[`App Render generate App snapshot 1`] = `
   >
     <header
       class="ant-layout-header header"
-      style="margin-left:200px;color:white;background-color:#001529;position:fixed;left:0;right:0"
+      style="margin-left:200px;background-color:#001529;color:white;position:fixed;left:0;right:0"
     >
       <div
         class="userIconWrap"

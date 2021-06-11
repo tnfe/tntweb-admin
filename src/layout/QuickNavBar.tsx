@@ -45,7 +45,7 @@ function setup(ctx: CtxDe) {
 // 渲染导航面包屑 + 标签页
 function QuickNavBar() {
   const { globalState: { curActiveRoutePath, activeRoutePaths, themeColor, isTabPaneHeavyBg },
-    settings: se, globalComputed: gcu, gr,
+    settings: se, globalComputed: gcu,
   } = useSetupCtx(setup, { tag: 'TipHeader' });
   const menuItem = path2menuItem[curActiveRoutePath];
   if (!menuItem) {
