@@ -58,7 +58,7 @@ function Home(props: RouteComponentProps) {
       <VerticalBlank height="32px" />
       <div>
         <Tooltip title="更多布局点击右上角设置按钮查看">
-          <span>选择一个喜欢布局吧<QuestionCircleOutlined/> : </span>
+          <span>选择一个喜欢的布局吧<QuestionCircleOutlined/> : </span>
         </Tooltip>
         <Blank />
         <Radio.Group options={layoutOptions} onChange={se.changeTopViewType} />
