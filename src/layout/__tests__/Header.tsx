@@ -45,7 +45,6 @@ describe('Header Render', () => {
     expect(se.onWebsiteColorChange({} as any)).toBeFalsy();
     expect(se.onInnerMockChange({} as any)).toBeFalsy();
     expect(se.closeThemeSettingsDrawer()).toBeFalsy();
-    expect(se.changeTopViewType({ target: {} } as any)).toBeFalsy();
     expect(se.changeIsUsingDefaultTheme(true)).toBeFalsy();
   });
 });
