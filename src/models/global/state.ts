@@ -2,7 +2,7 @@
 import { SiderTheme } from 'antd/lib/layout/Sider';
 import {
   SiderViewTypes, TopHeaderTypes, TopNavBarTypes,
-  LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_NEED, siteThemeColor,
+  LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_VER, siteThemeColor,
 } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
@@ -16,10 +16,10 @@ interface IRoutePathInfo {
 const curSettingKeyVer = '11';
 
 function needCachedSettings() {
-  const cachedKeyVer = localStorage.getItem(LS_C2PRO_SETTINGS_NEED);
+  const cachedKeyVer = localStorage.getItem(LS_C2PRO_SETTINGS_VER);
   const isKeyVerEqual = cachedKeyVer === curSettingKeyVer;
   if (!isKeyVerEqual) {
-    localStorage.setItem(LS_C2PRO_SETTINGS_NEED, curSettingKeyVer);
+    localStorage.setItem(LS_C2PRO_SETTINGS_VER, curSettingKeyVer);
   }
   // key版本相同，才需要取缓存的主题配置，意味着如果想每次发版让store里默认的配置生效，
   // 修改一下 curSettingKeyVer 的值即可

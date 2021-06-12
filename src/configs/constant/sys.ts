@@ -13,7 +13,7 @@ export const img404 = '404_img_url';
 export const img403 = '403_img_url';
 
 export const LS_C2PRO_SETTINGS = 'C2ProSettings';
-export const LS_C2PRO_SETTINGS_NEED = 'C2ProSettings';
+export const LS_C2PRO_SETTINGS_VER = 'C2ProSettingsVer';
 
 export enum TopHeaderTypes {
   FIXED = '1',
