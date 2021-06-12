@@ -1,7 +1,7 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
 import {
-  topViewTypes, topViewType2Label, siderViewTypes,
+  SiderViewTypes, TopHeaderTypes, TopNavBarTypes,
   LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_NEED, siteThemeColor,
 } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
@@ -13,7 +13,7 @@ interface IRoutePathInfo {
   search: string;
 }
 
-const curSettingKeyVer = '2';
+const curSettingKeyVer = '11';
 
 function needCachedSettings() {
   const cachedKeyVer = localStorage.getItem(LS_C2PRO_SETTINGS_NEED);
@@ -39,11 +39,12 @@ function getInitialState() {
     isTabPaneHeavyBg: false,
     /** 站点的字体色值透明度，值越大，字体颜色越深 */
     fontAlpha: 75,
-    topViewType: topViewTypes.NO_HEADER_FLOWED_BAR,
-    siderViewType: siderViewTypes.NARROW_SIDER,
-    siderViewToNarrowTime: 0,
+    topHeaderType: TopHeaderTypes.HIDDEN,
+    topNavBarType: TopNavBarTypes.FIXED,
+    siderViewType: SiderViewTypes.COLLAPSED,
+    siderViewToCollapsedTime: 0,
     /** 当sider从无到有时，用于还原原来的折叠情况 */
-    siderViewTypeWhenUnfold: siderViewTypes.WIDE_SIDER,
+    siderViewTypeBackup: SiderViewTypes.COLLAPSED,
     /** 常用设置抽屉是否可见 */
     settingDrawerVisible: false,
     siderTheme: 'dark' as SiderTheme,
@@ -97,11 +98,13 @@ function getInitialState() {
 
   // 未使用默认默认主题色，需要修改 isUsingDefaultThemeColor 为 false
   if (final.themeColor !== siteThemeColor) final.isUsingDefaultThemeColor = false;
-  // 修正可能错误的 topViewType 值
-  if (!topViewType2Label[final.topViewType] || typeof final.topViewType !== 'string') {
-    final.topViewType = topViewTypes.NO_HEADER_FIXED_BAR;
+  // 修正可能错误的 topHeaderType, topNavBarType 值
+  if (!(final.topHeaderType in TopHeaderTypes)) {
+    final.topHeaderType = TopHeaderTypes.HIDDEN;
   }
-
+  if (!(final.topNavBarType in TopNavBarTypes)) {
+    final.topNavBarType = TopNavBarTypes.FIXED;
+  }
 
   return final;
 }

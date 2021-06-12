@@ -1,18 +1,18 @@
 import { VoidPayload } from 'concent';
-import { siteThemeColor, siderViewTypes } from 'configs/constant/sys';
+import { siteThemeColor, SiderViewTypes } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import { getSearchPath } from 'services/appPath';
 import { St, IAC } from './meta';
 
-const { NARROW_SIDER, WIDE_SIDER, NO_SIDER } = siderViewTypes;
+const { COLLAPSED, NOT_COLLAPSED, HIDDEN } = SiderViewTypes;
 
 export function toggleCollapsedBtn(payload: VoidPayload, moduleState: St) {
   const { siderViewType } = moduleState;
-  if (siderViewType === NARROW_SIDER) {
-    return { siderViewType: WIDE_SIDER, siderViewTypeWhenUnfold: WIDE_SIDER };
+  if (siderViewType === COLLAPSED) {
+    return { siderViewType: NOT_COLLAPSED, siderViewTypeBackup: NOT_COLLAPSED, };
   }
-  return { siderViewType: NARROW_SIDER, siderViewTypeWhenUnfold: NARROW_SIDER, siderViewToNarrowTime: Date.now() };
+  return { siderViewType: COLLAPSED, siderViewTypeBackup: COLLAPSED, siderViewToCollapsedTime: Date.now() };
 }
 
 export async function changeIsUsingDefaultTheme(checked: boolean, moduleState: St, ac: IAC) {
@@ -87,18 +87,25 @@ export function delActiveRoutePath(payload: { path: string, search: string }, mo
   return { curActiveRoutePath, curActiveRouteFullPath };
 }
 
-export function changeTopViewType(topViewType: string): Partial<St> {
-  return { topViewType };
-}
-
 export function toggleSiderVisible(p: any, moduleState: St): Partial<St> {
-  const { siderViewType, siderViewTypeWhenUnfold } = moduleState;
-  if (siderViewType === siderViewTypes.NO_SIDER) {
-    const toSet: Partial<St> = { siderViewType: siderViewTypeWhenUnfold };
-    if (siderViewTypeWhenUnfold === NARROW_SIDER) toSet.siderViewToNarrowTime = Date.now();
+  const { siderViewType, siderViewTypeBackup } = moduleState;
+  if (siderViewType === HIDDEN) {
+    const toSet: Partial<St> = { siderViewType: siderViewTypeBackup };
+    if (siderViewTypeBackup === COLLAPSED) toSet.siderViewToCollapsedTime = Date.now();
     return toSet;
   }
-  return { siderViewType: NO_SIDER };
+  return { siderViewType: HIDDEN };
+}
+
+/**
+ * 修改边栏视图模式，为了让 toggle 按钮按预期工作，需记录前一刻展开时的视图模式，
+ */
+export function changeSiderViewType(siderViewType: SiderViewTypes, moduleState: St, ac: IAC): Partial<St> {
+  const toSet: Partial<St> = { siderViewType };
+  if (siderViewType === SiderViewTypes.HIDDEN) {
+    toSet.siderViewTypeBackup = moduleState.siderViewType;
+  }
+  return toSet;
 }
 
 export function changeThemeColor(payload: { themeColor: string, setCustThemeColor?: boolean }): Partial<St> {

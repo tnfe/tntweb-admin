@@ -4,7 +4,7 @@ import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { RouteComponentProps } from 'react-router-dom';
 import { history } from 'react-router-concent';
 import { routerPath } from 'configs/constant';
-import { topViewTypes, siderViewTypes } from 'configs/constant/sys';
+import { TopHeaderTypes, TopNavBarTypes, SiderViewTypes } from 'configs/constant/sys';
 import * as mods from 'configs/c2Mods';
 import { useC2Mod, typeCtxM } from 'services/concent';
 import { VerticalBlank, AsyncButton, Blank } from 'components/dumb/general';
@@ -27,14 +27,13 @@ function setup(c: any) {
   return {
     changeTopViewType(e: RadioChangeEvent) {
       const layout = e.target.value;
-      const argMap: Record<string, [number, string]> = {
-        1: [siderViewTypes.NARROW_SIDER, topViewTypes.NO_HEADER_FIXED_BAR],
-        2: [siderViewTypes.WIDE_SIDER, topViewTypes.NO_HEADER_FIXED_BAR],
-        3: [siderViewTypes.NO_SIDER, topViewTypes.FIXED_HEADER_FIXED_BAR],
+      const argMap: Record<string, [SiderViewTypes, TopHeaderTypes, TopNavBarTypes]> = {
+        1: [SiderViewTypes.COLLAPSED, TopHeaderTypes.HIDDEN, TopNavBarTypes.FIXED],
+        2: [SiderViewTypes.NOT_COLLAPSED, TopHeaderTypes.HIDDEN, TopNavBarTypes.FIXED],
+        3: [SiderViewTypes.HIDDEN, TopHeaderTypes.FIXED, TopNavBarTypes.FIXED],
       };
-      const [siderViewType, topViewType] = argMap[layout];
-      gr.setState({ siderViewType: siderViewType });
-      gr.changeTopViewType(topViewType);
+      const [siderViewType, topHeaderType, topNavBarType] = argMap[layout];
+      gr.setState({ siderViewType, topHeaderType, topNavBarType });
     },
   };
 }
@@ -58,7 +57,7 @@ function Home(props: RouteComponentProps) {
       <VerticalBlank height="32px" />
       <div>
         <Tooltip title="更多布局点击右上角设置按钮查看">
-          <span>选择一个喜欢的布局吧<QuestionCircleOutlined/> : </span>
+          <span>选择一个喜欢的布局吧<QuestionCircleOutlined /> : </span>
         </Tooltip>
         <Blank />
         <Radio.Group options={layoutOptions} onChange={se.changeTopViewType} />

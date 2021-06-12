@@ -1,25 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Col, Drawer, Switch, Tag, Select, Radio, RadioChangeEvent, Tooltip, Slider } from 'antd';
+import { Row, Col, Drawer, Switch, Tag, Radio, RadioChangeEvent, Slider } from 'antd';
 import copy from 'copy-to-clipboard';
 import { HeartOutlined, CopyOutlined } from '@ant-design/icons';
 import { SketchPicker, ColorResult, SwatchesPicker } from 'react-color';
 import { Blank, VerticalBlank } from 'components/dumb/general';
 import { useSetupCtx } from 'services/concent';
 import { success } from 'services/message';
-import { topViewTypes, topViewType2Label } from 'configs/constant/sys';
+import { TopHeaderTypes, TopNavBarTypes, SiderViewTypes } from 'configs/constant/sys';
 import { CtxDe } from 'types/store';
 
-const { Option } = Select;
 const MySwatchesPicker: any = styled(SwatchesPicker)`
   width: 450px !important;
 `;
 
-const {
-  FIXED_HEADER_FIXED_BAR, FIXED_HEADER_FLOWED_BAR, FIXED_HEADER_NO_BAR,
-  FLOWED_HEADER_FLOWED_BAR, FLOWED_HEADER_NO_BAR,
-  NO_HEADER_FIXED_BAR, NO_HEADER_FLOWED_BAR,
-} = topViewTypes;
 const stLoveIcon: React.CSSProperties = { color: 'var(--theme-color)', transform: 'translateY(2px)' };
 
 export function setup(ctx: CtxDe) {
@@ -34,8 +28,14 @@ export function setup(ctx: CtxDe) {
     changePickerMode(e: RadioChangeEvent) {
       ins.setState({ pickerMode: e.target.value });
     },
-    changeTopViewType(value: string) {
-      gr.changeTopViewType(value);
+    changeTopHeaderType(e: RadioChangeEvent) {
+      gr.setState({ topHeaderType: e.target.value });
+    },
+    changeTopNavBarType(e: RadioChangeEvent) {
+      gr.setState({ topNavBarType: e.target.value });
+    },
+    changeSiderViewType(e: RadioChangeEvent) {
+      gr.changeSiderViewType(e.target.value);
     },
     onWebsiteColorChange(colorResult: ColorResult) {
       gr.changeThemeColor({ themeColor: colorResult.hex, setCustThemeColor: true });
@@ -69,7 +69,7 @@ export function SettingDrawer() {
     <Drawer title="常用设置" visible={gst.settingDrawerVisible} width="550px"
       onClose={se.closeThemeSettingsDrawer}
     >
-      <div style={{ padding: '12px 28px' }}>
+      <div style={{ padding: '6px 12px' }}>
         <Tag color="geekblue">站点主题设置：</Tag>
         <Blank />
         <Radio.Group value={se.state.pickerMode} onChange={se.changePickerMode}>
@@ -113,22 +113,29 @@ export function SettingDrawer() {
               onChange={se.onHeaderThemeChange}
             />
           </Col>
-          <Col span="10"><VerticalBlank height="5px" /><Tag color="geekblue">顶部区域信息展示方式：</Tag></Col>
+          <Col span="10"><Tag color="geekblue">顶栏设置：</Tag></Col>
           <Col span="14">
-            <Select value={gst.topViewType} onChange={se.changeTopViewType} style={{ width: '100%' }}>
-              <Option value={FIXED_HEADER_FIXED_BAR}>{topViewType2Label[FIXED_HEADER_FIXED_BAR]}</Option>
-              <Option value={FIXED_HEADER_FLOWED_BAR}>{topViewType2Label[FIXED_HEADER_FLOWED_BAR]}</Option>
-              <Option value={FIXED_HEADER_NO_BAR}>{topViewType2Label[FIXED_HEADER_NO_BAR]}</Option>
-              <Option value={FLOWED_HEADER_FLOWED_BAR}>{topViewType2Label[FLOWED_HEADER_FLOWED_BAR]}</Option>
-              <Option value={FLOWED_HEADER_NO_BAR}>{topViewType2Label[FLOWED_HEADER_NO_BAR]}</Option>
-              <Option value={NO_HEADER_FLOWED_BAR}>{topViewType2Label[NO_HEADER_FLOWED_BAR]}</Option>
-              <Option value={NO_HEADER_FIXED_BAR}>
-                {topViewType2Label[NO_HEADER_FIXED_BAR]}<Blank width="8px" />
-                <Tooltip title="推荐使用此方式，能够在边栏折叠后，获得最大的垂直视觉空间，同时也不会隐藏掉快捷导航条">
-                  <HeartOutlined style={stLoveIcon} />
-                </Tooltip>
-              </Option>
-            </Select>
+            <Radio.Group value={gst.topHeaderType} onChange={se.changeTopHeaderType}>
+              <Radio value={TopHeaderTypes.FIXED}>固定</Radio>
+              <Radio value={TopHeaderTypes.FLOWED}>随Y轴滚动</Radio>
+              <Radio value={TopHeaderTypes.HIDDEN}><HeartOutlined style={stLoveIcon} />隐藏</Radio>
+            </Radio.Group>
+          </Col>
+          <Col span="10"><Tag color="geekblue">导航条设置：</Tag></Col>
+          <Col span="14">
+            <Radio.Group value={gst.topNavBarType} onChange={se.changeTopNavBarType}>
+              <Radio value={TopNavBarTypes.FIXED}><HeartOutlined style={stLoveIcon} />固定</Radio>
+              <Radio value={TopNavBarTypes.FLOWED}>随Y轴滚动</Radio>
+              <Radio value={TopNavBarTypes.HIDDEN}>隐藏</Radio>
+            </Radio.Group>
+          </Col>
+          <Col span="10"><Tag color="geekblue">边栏设置：</Tag></Col>
+          <Col span="14">
+            <Radio.Group value={gst.siderViewType} onChange={se.changeSiderViewType}>
+              <Radio value={SiderViewTypes.COLLAPSED}><HeartOutlined style={stLoveIcon} />折叠</Radio>
+              <Radio value={SiderViewTypes.NOT_COLLAPSED}>展开</Radio>
+              <Radio value={SiderViewTypes.HIDDEN}>隐藏</Radio>
+            </Radio.Group>
           </Col>
           <Col span="10"><Tag color="geekblue">innerMock设置：</Tag></Col>
           <Col span="14">

@@ -7,7 +7,7 @@
   padding: 0 19px 0 0;
 }
 
-.headerSetting {
+.settingInHeader {
   position: absolute;
   right: 8px;
   top: 3px;
@@ -16,7 +16,17 @@
   line-height: 48px;
 }
 
-.headerSettingInBar {
+.settingInBody {
+  position: fixed;
+  font-size: 24px !important;
+  right: 6px;
+  top: 3px;
+  background-color: white;
+  z-index: 2;
+  box-shadow: rgb(0 21 41 / 8%) 0px 1px 4px;
+}
+
+.headerSettingWrapInBar {
   position: absolute;
   font-size: 19px;
   right: 10px;
@@ -30,11 +40,6 @@
   font-size: 15px;
   height: 40px;
   top: 0;
-}
-
-
-.headerSetting:hover {
-  cursor: pointer;
 }
 
 .siderWrap {

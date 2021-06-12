@@ -1,41 +1,64 @@
 import { St } from './state';
 import { sys } from 'configs/constant';
 
-const { topViewTypes, siderViewTypes } = sys;
-const {
-  FIXED_HEADER_FIXED_BAR, FIXED_HEADER_FLOWED_BAR, FIXED_HEADER_NO_BAR,
-  FLOWED_HEADER_FLOWED_BAR, FLOWED_HEADER_NO_BAR,
-  NO_HEADER_FIXED_BAR, NO_HEADER_FLOWED_BAR,
-} = topViewTypes;
-const { NO_SIDER, NARROW_SIDER, WIDE_SIDER } = siderViewTypes;
+const { TopHeaderTypes: th, TopNavBarTypes: tn, SiderViewTypes } = sys;
+const { HIDDEN, COLLAPSED, NOT_COLLAPSED } = SiderViewTypes;
 
 const viewType2LeftValue = {
-  [NO_SIDER]: '0',
-  [NARROW_SIDER]: '48px',
-  [WIDE_SIDER]: sys.siderWidthPx,
+  [HIDDEN]: '0',
+  [COLLAPSED]: '48px',
+  [NOT_COLLAPSED]: sys.siderWidthPx,
 };
+const paddingTopMap = {
+  [`${th.FIXED}_${tn.FIXED}`]: '80px',
+  [`${th.FIXED}_${tn.FLOWED}`]: '0',
+  [`${th.FIXED}_${tn.HIDDEN}`]: '48px',
+  [`${th.FLOWED}_${tn.FIXED}`]: '0',
+  [`${th.FLOWED}_${tn.FLOWED}`]: '0',
+  [`${th.FLOWED}_${tn.HIDDEN}`]: '0',
+  [`${th.HIDDEN}_${tn.FIXED}`]: '32px',
+  [`${th.HIDDEN}_${tn.FLOWED}`]: '0',
+  [`${th.HIDDEN}_${tn.HIDDEN}`]: '0',
+};
+const headerStyleMap = {
+  [`${th.FIXED}_${tn.FIXED}`]: { zIndex: 6, position: 'fixed' as const, left: '0', right: '0' },
+  [`${th.FIXED}_${tn.FLOWED}`]: { zIndex: 6, position: 'fixed' as const, left: '0', right: '0' },
+  [`${th.FIXED}_${tn.HIDDEN}`]: { zIndex: 6, position: 'fixed' as const, left: '0', right: '0' },
+  [`${th.FLOWED}_${tn.FIXED}`]: { marginTop: '32px' },
+  [`${th.FLOWED}_${tn.FLOWED}`]: {},
+  [`${th.FLOWED}_${tn.HIDDEN}`]: {},
+  [`${th.HIDDEN}_${tn.FIXED}`]: { display: 'none' },
+  [`${th.HIDDEN}_${tn.FLOWED}`]: { display: 'none' },
+  [`${th.HIDDEN}_${tn.HIDDEN}`]: { display: 'none' },
+};
+const navBarStyleMap = {
+  [`${th.FIXED}_${tn.FIXED}`]: { position: 'fixed' as const, left: '0', right: '0', top: '48px' },
+  [`${th.FIXED}_${tn.FLOWED}`]: { marginTop: '48px' },
+  [`${th.FIXED}_${tn.HIDDEN}`]: { display: 'none' },
+  [`${th.FLOWED}_${tn.FIXED}`]: { position: 'fixed' as const, left: '0', right: '0', top: '0' },
+  [`${th.FLOWED}_${tn.FLOWED}`]: {},
+  [`${th.FLOWED}_${tn.HIDDEN}`]: { display: 'none' },
+  [`${th.HIDDEN}_${tn.FIXED}`]: { position: 'fixed' as const, left: '0', right: '0', top: '0' },
+  [`${th.HIDDEN}_${tn.FLOWED}`]: {},
+  [`${th.HIDDEN}_${tn.HIDDEN}`]: { display: 'none' },
+};
+
+
+export function isHeaderAboveNavBar(n: St) {
+  const { topHeaderType, topNavBarType } = n;
+  if (topHeaderType === th.FLOWED && topNavBarType === tn.FIXED) {
+    return false;
+  }
+  return true;
+}
 
 /**
  * MainContent 组件根节点样式
  */
 export function contentLayoutStyle(n: St): React.CSSProperties {
-  const { siderViewType, topViewType } = n;
+  const { siderViewType, topHeaderType, topNavBarType } = n;
   const minHeight = 'calc(100vh - 120px)';
-  let paddingTop = '0';
-
-  if ([FIXED_HEADER_FIXED_BAR].includes(topViewType)) {
-    paddingTop = '80px';
-  }
-  if ([FIXED_HEADER_FLOWED_BAR, FLOWED_HEADER_FLOWED_BAR, FLOWED_HEADER_NO_BAR].includes(topViewType)) {
-    paddingTop = '0';
-  }
-  if ([FIXED_HEADER_NO_BAR, NO_HEADER_FIXED_BAR].includes(topViewType)) {
-    paddingTop = '48px';
-  }
-  if ([NO_HEADER_FIXED_BAR].includes(topViewType)) {
-    paddingTop = '32px';
-  }
-
+  const paddingTop = paddingTopMap[`${topHeaderType}_${topNavBarType}`];
   return { marginLeft: viewType2LeftValue[siderViewType], minHeight, paddingTop, overflowX: 'auto' };
 }
 
@@ -43,51 +66,24 @@ export function contentLayoutStyle(n: St): React.CSSProperties {
  * 顶部区域头部信息的布局样式
  */
 export function headerStyle(n: St): React.CSSProperties {
-  const { headerTheme, themeColor, siderViewType, topViewType } = n;
-  // 该颜色控制 settingIcon 在 header 里显示的颜色，会受是否暗黑主题色影响
-  const color = headerTheme === 'dark' ? 'white' : themeColor;
+  const { headerTheme, siderViewType, topHeaderType, topNavBarType } = n;
   const backgroundColor = headerTheme === 'dark' ? '#001529' : 'white';
   const marginLeft = viewType2LeftValue[siderViewType];
-  const toReturn = { marginLeft, backgroundColor, color };
-
-  if ([FIXED_HEADER_FIXED_BAR, FIXED_HEADER_FLOWED_BAR, FIXED_HEADER_NO_BAR].includes(topViewType)) {
-    return { ...toReturn, position: 'fixed' as const, left: '0', right: '0' };
-  }
-  if ([FLOWED_HEADER_FLOWED_BAR, FLOWED_HEADER_NO_BAR].includes(topViewType)) {
-    return toReturn;
-  }
-  if ([NO_HEADER_FIXED_BAR, NO_HEADER_FLOWED_BAR].includes(topViewType)) {
-    return { ...toReturn, display: 'none' };
-  }
-  return toReturn;
+  const toReturn = { marginLeft, backgroundColor, zIndex: 4 };
+  return { ...toReturn, ...headerStyleMap[`${topHeaderType}_${topNavBarType}`] };
 }
 
 /**
  * 顶部区域导航条的布局样式
  */
 export function quickNavBarStyle(n: St): React.CSSProperties {
-  const { siderViewType, topViewType } = n;
+  const { siderViewType, topHeaderType, topNavBarType } = n;
   // 对于快捷导航条来说，不使用 marginLeft 方式来做导航条内容和边栏内容不重叠的效果
   // 是为了考虑到导航条里的子元素使用 absolute 属性时能够配合导航条自身的 relative 正常工作
   // 如适用 marginLeft，子元素 absolute 的同时设置的 right 等值会让子元素显示在导航条外部
   const paddingLeft = viewType2LeftValue[siderViewType];
-
-  if ([FIXED_HEADER_FIXED_BAR].includes(topViewType)) {
-    return { boxSizing: 'border-box', paddingLeft, zIndex: 5, position: 'fixed' as const, left: '0', right: '0', top: '48px' };
-  }
-  if ([FIXED_HEADER_FLOWED_BAR].includes(topViewType)) {
-    return { boxSizing: 'border-box', paddingLeft, zIndex: 5, marginTop: '48px' };
-  }
-  if ([FLOWED_HEADER_FLOWED_BAR].includes(topViewType)) {
-    return { boxSizing: 'border-box', paddingLeft, zIndex: 5, position: 'relative' };
-  }
-  if ([FIXED_HEADER_NO_BAR, FLOWED_HEADER_NO_BAR].includes(topViewType)) {
-    return { display: 'none' };
-  }
-  if ([NO_HEADER_FIXED_BAR].includes(topViewType)) {
-    return { boxSizing: 'border-box', paddingLeft, zIndex: 5, position: 'fixed' as const, left: '0', right: '0', top: '0' };
-  }
-  return { boxSizing: 'border-box', paddingLeft, position: 'relative' };
+  const toReturn = { boxSizing: 'border-box' as const, paddingLeft, zIndex: 5 };
+  return { ...toReturn, ...navBarStyleMap[`${topHeaderType}_${topNavBarType}`] };
 }
 
 export function siderStyle(n: St): React.CSSProperties {
@@ -95,25 +91,32 @@ export function siderStyle(n: St): React.CSSProperties {
   // 该颜色控制 settingIcon 在 header 里显示的颜色，会受是否暗黑主题色影响
   const backgroundColor = siderTheme === 'dark' ? '#001529' : 'white';
   let width = '0px';
-  if (siderViewType === siderViewTypes.NARROW_SIDER) {
+  if (siderViewType === COLLAPSED) {
     width = '48px';
-  } else if (siderViewType === siderViewTypes.WIDE_SIDER) {
+  } else if (siderViewType === NOT_COLLAPSED) {
     width = sys.siderWidthPx;
   }
   return { backgroundColor, width };
 }
 
 /**
- * 设置按钮的展示控制
+ * 设置按钮的展示或样式控制
  */
-export function settingIconShowCtrl(n: St) {
-  const { topViewType } = n;
-  if ([NO_HEADER_FIXED_BAR, NO_HEADER_FLOWED_BAR].includes(topViewType)) {
-    return { showInBar: true, showInHeader: false };
+export function settingIconCtrl(n: St) {
+  const { topHeaderType, topNavBarType, headerTheme } = n;
+  // 该颜色控制 settingIcon 在 header 里显示的颜色，会受是否暗黑主题色影响
+  const color = headerTheme === 'dark' ? 'white' : 'var(--theme-color)';
+  let toReturn = { showInHeader: false, showInBar: false, showInBody: true, color };
+  if (topHeaderType !== th.HIDDEN) {
+    toReturn = { showInHeader: true, showInBar: false, showInBody: false, color };
   }
-  return { showInBar: false, showInHeader: true };
+  if (topHeaderType === th.HIDDEN && topNavBarType !== tn.HIDDEN) {
+    toReturn = { showInHeader: false, showInBar: true, showInBody: false, color };
+  }
+  // 在body或bar中展示的话，颜色一定是主题色
+  if (toReturn.showInBody || toReturn.showInBar) toReturn.color = 'var(--theme-color)';
+  return toReturn;
 }
-
 interface ISiderInfo {
   iconDes: 'left' | 'right';
   /** 边栏是否是展开的，true：展开，false：折叠 */
@@ -123,9 +126,9 @@ interface ISiderInfo {
 }
 export function siderInfo(n: St): ISiderInfo {
   const { siderViewType } = n;
-  const iconDes = siderViewType === siderViewTypes.NO_SIDER ? 'right' : 'left';
-  const isUnfold = siderViewType === siderViewTypes.WIDE_SIDER;
-  const showSider = siderViewType !== siderViewTypes.NO_SIDER;
+  const iconDes = siderViewType === HIDDEN ? 'right' : 'left';
+  const isUnfold = siderViewType === NOT_COLLAPSED;
+  const showSider = siderViewType !== HIDDEN;
   return { iconDes, isUnfold, showSider };
 }
 

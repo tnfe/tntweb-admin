@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, Tooltip, Switch } from 'antd';
 import { history } from 'react-router-concent';
-import { SettingOutlined, QuestionOutlined } from '@ant-design/icons';
+import { QuestionOutlined } from '@ant-design/icons';
 import { useSetupCtx } from 'services/concent';
 import { getSearchPath, extractPathAndSearch } from 'services/appPath';
 import { CtxDe } from 'types/store';
@@ -9,6 +9,7 @@ import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
 import { Blank } from 'components/dumb/general';
 import * as arrUtil from 'utils/arr';
+import SettingIcon from './components/SettingIcon';
 import styles from './App.module.css';
 
 const { TabPane } = Tabs;
@@ -43,7 +44,7 @@ function setup(ctx: CtxDe) {
 
 // 渲染导航面包屑 + 标签页
 function QuickNavBar() {
-  const { globalState: { activeRoutePaths, themeColor, isTabPaneHeavyBg, curActiveRouteFullPath },
+  const { globalState: { activeRoutePaths, isTabPaneHeavyBg, curActiveRouteFullPath },
     settings: se, globalComputed: gcu,
   } = useSetupCtx(setup, { tag: 'QuickNavBar' });
 
@@ -73,16 +74,12 @@ function QuickNavBar() {
           return <TabPane tab={uiTab} key={pathWithSearch} />;
         })}
       </Tabs>
-      <div className={styles.headerSettingInBar}>
+      <div className={styles.headerSettingWrapInBar}>
         <Switch checked={isTabPaneHeavyBg} style={{ verticalAlign: 'text-bottom' }}
           onClick={se.changeIsTabPaneHeavyBg} checkedChildren="深" unCheckedChildren="浅"
         />
         <Blank width="6px" />
-        {gcu.settingIconShowCtrl.showInBar
-          && <SettingOutlined onClick={se.openThemeSettingsDrawer}
-            style={{ color: themeColor }}
-          />
-        }
+        {gcu.settingIconCtrl.showInBar && <SettingIcon mode="bar" />}
       </div>
     </div>
   );

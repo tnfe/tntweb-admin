@@ -15,28 +15,20 @@ export const img403 = '403_img_url';
 export const LS_C2PRO_SETTINGS = 'C2ProSettings';
 export const LS_C2PRO_SETTINGS_NEED = 'C2ProSettings';
 
-export const topViewTypes = {
-  FIXED_HEADER_FIXED_BAR: '1',
-  FIXED_HEADER_FLOWED_BAR: '2',
-  FIXED_HEADER_NO_BAR: '3',
-  FLOWED_HEADER_FLOWED_BAR: '4',
-  FLOWED_HEADER_NO_BAR: '5',
-  NO_HEADER_FLOWED_BAR: '6',
-  NO_HEADER_FIXED_BAR: '7',
+export enum TopHeaderTypes {
+  FIXED = '1',
+  FLOWED = '2',
+  HIDDEN = '3',
 };
 
-export const siderViewTypes = {
-  NO_SIDER: 1,
-  NARROW_SIDER: 2,
-  WIDE_SIDER: 3,
+export enum TopNavBarTypes {
+  FIXED = '1',
+  FLOWED = '2',
+  HIDDEN = '3',
 };
 
-export const topViewType2Label = {
-  [topViewTypes.FIXED_HEADER_FIXED_BAR]: '固定顶栏,固定导航条',
-  [topViewTypes.FIXED_HEADER_FLOWED_BAR]: '固定顶栏,移动导航条',
-  [topViewTypes.FIXED_HEADER_NO_BAR]: '固定顶栏,无导航条',
-  [topViewTypes.FLOWED_HEADER_FLOWED_BAR]: '移动顶栏,移动导航条',
-  [topViewTypes.FLOWED_HEADER_NO_BAR]: '移动顶栏,无导航条',
-  [topViewTypes.NO_HEADER_FLOWED_BAR]: '无顶栏,移动导航条',
-  [topViewTypes.NO_HEADER_FIXED_BAR]: '无顶栏,固定导航条',
+export enum SiderViewTypes {
+  COLLAPSED = '1',
+  NOT_COLLAPSED = '2',
+  HIDDEN = '3',
 };

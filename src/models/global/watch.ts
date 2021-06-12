@@ -5,14 +5,14 @@ import { St } from './meta';
 // 记录关系的设置变化，方便用户刷新后，恢复最近的设置
 export const settingsKeyChange = defWatch<St>((n, o, f) => {
   const {
-    siderViewType, siderViewTypeWhenUnfold, topViewType, curActiveRoutePath,
+    siderViewType, siderViewTypeBackup, topHeaderType, topNavBarType, curActiveRoutePath,
     curActiveRouteFullPath, activeRoutePaths,
     themeColor, headerTheme, siderTheme, custThemeColor, fontAlpha, isTabPaneHeavyBg,
   } = n;
   if (f.isFirstCall) return;
 
   const str = JSON.stringify({
-    siderViewType, siderViewTypeWhenUnfold, topViewType, curActiveRoutePath,
+    siderViewType, siderViewTypeBackup, topHeaderType, topNavBarType, curActiveRoutePath,
     curActiveRouteFullPath, activeRoutePaths,
     themeColor, headerTheme, siderTheme, custThemeColor, fontAlpha, isTabPaneHeavyBg,
   });

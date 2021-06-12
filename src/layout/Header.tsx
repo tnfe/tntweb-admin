@@ -1,20 +1,13 @@
 import React from 'react';
 import { Layout, Avatar } from 'antd';
-import { SettingOutlined } from '@ant-design/icons';
 import { Blank } from 'components/dumb/general';
-import { useSetupCtx } from 'services/concent';
-import { CtxDe } from 'types/store';
-import Logo from './dumb/Logo';
+import { useC2DefaultMod } from 'services/concent';
+import Logo from './components/Logo';
+import SettingIcon from './components/SettingIcon';
 import styles from './App.module.css';
 
-function setup(ctx: CtxDe) {
-  return {
-    openThemeSettingsDrawer: () => ctx.setGlobalState({ settingDrawerVisible: true }),
-  };
-}
-
 function AppHeader() {
-  const { globalState: gst, globalComputed: gcu, settings: se } = useSetupCtx(setup);
+  const { globalState: gst, globalComputed: gcu } = useC2DefaultMod();
 
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
@@ -24,11 +17,7 @@ function AppHeader() {
         <Blank width="8px" />
         {gst.userName}
       </div>
-      {gcu.settingIconShowCtrl.showInHeader &&
-        <SettingOutlined onClick={se.openThemeSettingsDrawer} className={styles.headerSetting}
-          style={{ color: gcu.headerStyle.color }}
-        />
-      }
+      {gcu.settingIconCtrl.showInHeader && <SettingIcon mode="header" />}
     </Layout.Header>
   );
 }
