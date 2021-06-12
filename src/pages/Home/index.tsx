@@ -70,7 +70,7 @@ function Home(props: RouteComponentProps) {
         </Col>
       </Row>
       <VerticalBlank height="32px" />
-      <AuthView authId="key_1"><h1>you can see me if you have not auth</h1></AuthView>
+      <AuthView authId="key_1"><h1>you can not see me if you have not auth</h1></AuthView>
       <Button type="primary" onClick={se.addAuthId}>
         点击此按钮，将看到一个带权限控制的视图
       </Button>
