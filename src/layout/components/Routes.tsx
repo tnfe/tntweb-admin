@@ -15,7 +15,7 @@ import Error404 from 'components/dumb/Error404';
 import * as typeUtil from 'utils/type';
 import { decideVal } from 'utils/obj';
 import { CtxDe } from 'types/store';
-import styles from './App.module.css';
+import styles from '../styles/App.module.css';
 
 const { Content } = Layout;
 

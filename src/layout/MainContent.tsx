@@ -3,7 +3,7 @@ import React from 'react';
 import { Layout, Spin, Skeleton } from 'antd';
 import { EmptyView } from 'components/dumb/general';
 import { useC2DefaultMod } from 'services/concent';
-import Routes from './Routes';
+import Routes from './components/Routes';
 
 function MainContent() {
   const { globalState, globalComputed } = useC2DefaultMod();

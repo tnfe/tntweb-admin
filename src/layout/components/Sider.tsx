@@ -12,9 +12,9 @@ import { getRelativeRootPath, extractPathAndSearch } from 'services/appPath';
 import { useSetupCtx, getGlobalComputed } from 'services/concent';
 import * as arrUtil from 'utils/arr';
 import { EmptyView } from 'components/dumb/general';
-import Logo from './components/Logo';
-import './resetMenu.css';
-import styles from './App.module.css';
+import Logo from './Logo';
+import '../styles/resetMenu.css';
+import styles from '../styles/App.module.css';
 
 const { SubMenu, Item: MenuItem } = Menu;
 let firstCallGetOpenKeys = true;

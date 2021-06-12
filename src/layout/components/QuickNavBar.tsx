@@ -9,8 +9,8 @@ import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
 import { Blank } from 'components/dumb/general';
 import * as arrUtil from 'utils/arr';
-import SettingIcon from './components/SettingIcon';
-import styles from './App.module.css';
+import SettingIcon from './SettingIcon';
+import styles from '../styles/App.module.css';
 
 const { TabPane } = Tabs;
 const stItemIcon = { marginRight: '6px' };

@@ -5,17 +5,14 @@ import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Layout } from 'antd';
 // +++ project modules +++
 import { CtxDe } from 'types/store';
-import SiderSwitchIcon from 'components/dumb/SiderSwitchIcon';
 import { getBasename } from 'services/appPath';
 import { useC2DefaultMod } from 'services/concent';
 // +++ local modules +++
-import Sider from './Sider';
-import Footer from './Footer';
+import TopContent from './TopContent';
 import MainContent from './MainContent';
-import Header from './Header';
-import QuickNavBar from './QuickNavBar';
-import SettingDrawer from './SettingDrawer';
-import SettingIcon from './components/SettingIcon';
+import LeftContent from './LeftContent';
+import Footer from './Footer';
+import SettingDrawer from './components/SettingDrawer';
 
 function setup({ effect, globalReducer }: CtxDe) {
   effect(() => {
@@ -24,17 +21,14 @@ function setup({ effect, globalReducer }: CtxDe) {
 }
 
 function App() {
-  const { globalReducer, globalComputed: gcu } = useC2DefaultMod({ setup, tag: 'App' });
+  useC2DefaultMod({ setup, tag: 'App' });
   return (
     <Layout>
       <Layout>
-        {gcu.isHeaderAboveNavBar ? <Header /> : <QuickNavBar />}
-        {!gcu.isHeaderAboveNavBar ? <Header /> : <QuickNavBar />}
-        <SettingIcon />
+        <TopContent />
       </Layout>
       <Layout>
-        <SiderSwitchIcon des={gcu.siderInfo.iconDes} onClick={globalReducer.toggleSiderVisible} />
-        <Sider />
+        <LeftContent />
       </Layout>
       <MainContent />
       <Footer />

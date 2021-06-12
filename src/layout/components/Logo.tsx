@@ -1,6 +1,6 @@
 import React from 'react';
 import { sys } from 'configs/constant';
-import styles from '../App.module.css';
+import styles from '../styles/App.module.css';
 
 interface IProps {
   long?: boolean;

@@ -2,8 +2,8 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { getRef, SettingsType } from 'concent';
-import Header from '../Header';
-import SettingDrawer, { setup } from '../SettingDrawer';
+import Header from '../components/Header';
+import SettingDrawer, { setup } from '../components/SettingDrawer';
 import { CtxM } from 'types/store';
 
 type Ctx = CtxM<{}, '$$default', SettingsType<typeof setup>>;

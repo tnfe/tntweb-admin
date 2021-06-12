@@ -3,7 +3,7 @@ import { Avatar } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { useSetupCtx } from 'services/concent';
 import { CtxDe } from 'types/store';
-import styles from '../App.module.css';
+import styles from '../styles/App.module.css';
 
 function setup(ctx: CtxDe) {
   return {

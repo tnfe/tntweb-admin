@@ -2,9 +2,9 @@ import React from 'react';
 import { Layout, Avatar } from 'antd';
 import { Blank } from 'components/dumb/general';
 import { useC2DefaultMod } from 'services/concent';
-import Logo from './components/Logo';
-import SettingIcon from './components/SettingIcon';
-import styles from './App.module.css';
+import Logo from './Logo';
+import SettingIcon from './SettingIcon';
+import styles from '../styles/App.module.css';
 
 function AppHeader() {
   const { globalState: gst, globalComputed: gcu } = useC2DefaultMod();
