@@ -10,7 +10,7 @@ const { COLLAPSED, NOT_COLLAPSED, HIDDEN } = SiderViewTypes;
 export function toggleCollapsedBtn(payload: VoidPayload, moduleState: St) {
   const { siderViewType } = moduleState;
   if (siderViewType === COLLAPSED) {
-    return { siderViewType: NOT_COLLAPSED, siderViewTypeBackup: NOT_COLLAPSED, };
+    return { siderViewType: NOT_COLLAPSED, siderViewTypeBackup: NOT_COLLAPSED };
   }
   return { siderViewType: COLLAPSED, siderViewTypeBackup: COLLAPSED, siderViewToCollapsedTime: Date.now() };
 }

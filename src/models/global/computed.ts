@@ -80,7 +80,7 @@ export function quickNavBarStyle(n: St): React.CSSProperties {
   const { siderViewType, topHeaderType, topNavBarType } = n;
   // 对于快捷导航条来说，不使用 marginLeft 方式来做导航条内容和边栏内容不重叠的效果
   // 是为了考虑到导航条里的子元素使用 absolute 属性时能够配合导航条自身的 relative 正常工作
-  // 如适用 marginLeft，子元素 absolute 的同时设置的 right 等值会让子元素显示在导航条外部
+  // 如使用 marginLeft，子元素 absolute 的同时设置的 right 等值会让子元素显示在导航条外部
   const paddingLeft = viewType2LeftValue[siderViewType];
   const toReturn = { boxSizing: 'border-box' as const, paddingLeft, zIndex: 5 };
   return { ...toReturn, ...navBarStyleMap[`${topHeaderType}_${topNavBarType}`] };

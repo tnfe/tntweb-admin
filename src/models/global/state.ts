@@ -7,7 +7,7 @@ import {
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
-import { safeParse } from 'utils/obj';
+import { safeParse, inEnum } from 'utils/obj';
 interface IRoutePathInfo {
   path: string;
   search: string;
@@ -99,11 +99,15 @@ function getInitialState() {
   // 未使用默认默认主题色，需要修改 isUsingDefaultThemeColor 为 false
   if (final.themeColor !== siteThemeColor) final.isUsingDefaultThemeColor = false;
   // 修正可能错误的 topHeaderType, topNavBarType 值
-  if (!(final.topHeaderType in TopHeaderTypes)) {
-    final.topHeaderType = TopHeaderTypes.HIDDEN;
+  if (!inEnum(final.topHeaderType, TopHeaderTypes)) {
+    final.topHeaderType = defaultState.topHeaderType;
   }
-  if (!(final.topNavBarType in TopNavBarTypes)) {
-    final.topNavBarType = TopNavBarTypes.FIXED;
+  if (!inEnum(final.topNavBarType, TopNavBarTypes)) {
+    final.topNavBarType = defaultState.topNavBarType;
+  }
+  if (!inEnum(final.siderViewType, SiderViewTypes)) {
+    final.siderViewType = defaultState.siderViewType;
+    final.siderViewTypeBackup = defaultState.siderViewTypeBackup;
   }
 
   return final;
