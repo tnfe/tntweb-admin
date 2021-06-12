@@ -1,12 +1,13 @@
 import React from 'react';
 import { Tabs, Tooltip, Switch } from 'antd';
+import { history } from 'react-router-concent';
 import { SettingOutlined, QuestionOutlined } from '@ant-design/icons';
 import { useSetupCtx } from 'services/concent';
-import { history } from 'react-router-concent';
+import { getSearchPath, extractPathAndSearch } from 'services/appPath';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
-import { EmptyView, Blank } from 'components/dumb/general';
+import { Blank } from 'components/dumb/general';
 import * as arrUtil from 'utils/arr';
 import styles from './App.module.css';
 
@@ -16,15 +17,13 @@ const stItemIcon = { marginRight: '6px' };
 function setup(ctx: CtxDe) {
   return {
     onChange: (curActiveRoutePathMayIncludeSearch: string) => {
-      const [curActiveRoutePath] = curActiveRoutePathMayIncludeSearch.split('?');
-      ctx.setGlobalState({ curActiveRoutePath });
+      ctx.gr.addActiveRoutePath(extractPathAndSearch(curActiveRoutePathMayIncludeSearch));
       history.push(curActiveRoutePathMayIncludeSearch);
     },
     onEdit: async (curActiveRoutePathMayIncludeSearch: React.MouseEvent | React.KeyboardEvent | string, action: string) => {
       if (action === 'remove' && typeof curActiveRoutePathMayIncludeSearch === 'string') {
-        const [curActiveRoutePath] = curActiveRoutePathMayIncludeSearch.split('?');
-        const ret = await ctx.gr.delActiveRoutePath(curActiveRoutePath);
-        history.push(`${ret.curActiveRoutePath}${ret.search}`);
+        const ret = await ctx.gr.delActiveRoutePath(extractPathAndSearch(curActiveRoutePathMayIncludeSearch));
+        history.push(`${ret.curActiveRouteFullPath}`);
       }
     },
     getNavMenus: (path: string) => {
@@ -44,21 +43,15 @@ function setup(ctx: CtxDe) {
 
 // 渲染导航面包屑 + 标签页
 function QuickNavBar() {
-  const { globalState: { curActiveRoutePath, activeRoutePaths, themeColor, isTabPaneHeavyBg },
+  const { globalState: { activeRoutePaths, themeColor, isTabPaneHeavyBg, curActiveRouteFullPath },
     settings: se, globalComputed: gcu,
-  } = useSetupCtx(setup, { tag: 'TipHeader' });
-  const menuItem = path2menuItem[curActiveRoutePath];
-  if (!menuItem) {
-    return <EmptyView />;
-  }
-
-  const search = activeRoutePaths.find(v => v.path === curActiveRoutePath)?.search || '';
+  } = useSetupCtx(setup, { tag: 'QuickNavBar' });
 
   return (
     <div className={`quickNavBarWrapBase ${gcu.navBarItemCls} smallScBar`} style={gcu.quickNavBarStyle}>
       <Tabs
         style={{ paddingLeft: '3px', display: 'inline-block' }}
-        activeKey={`${curActiveRoutePath}${search}`}
+        activeKey={curActiveRouteFullPath}
         hideAdd
         onChange={se.onChange}
         onEdit={se.onEdit}
@@ -69,12 +62,15 @@ function QuickNavBar() {
           const item = arrUtil.lastItem(navMenus);
           const uiIcon = item.Icon ? <item.Icon style={stItemIcon} /> : <QuestionOutlined style={stItemIcon} />;
           const navLen = navMenus.length;
+          const pathWithSearch = getSearchPath(path, search);
           const uiTab = (
-            <Tooltip key={`${path}${search}`} title={navMenus.map((item, i) => <span key={i} >{(navLen > 1 && i > 0) ? ' / ' : ''}{item.label}</span>)}>
+            <Tooltip key={pathWithSearch}
+              title={navMenus.map((item, i) => <span key={i} >{(navLen > 1 && i > 0) ? ' / ' : ''}{item.label} {search}</span>)}
+            >
               <span >{uiIcon}{item.label}</span>
             </Tooltip>
           );
-          return <TabPane tab={uiTab} key={`${path}${search}`} />;
+          return <TabPane tab={uiTab} key={pathWithSearch} />;
         })}
       </Tabs>
       <div className={styles.headerSettingInBar}>

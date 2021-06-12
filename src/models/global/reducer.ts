@@ -2,6 +2,7 @@ import { VoidPayload } from 'concent';
 import { siteThemeColor, siderViewTypes } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
+import { getSearchPath } from 'services/appPath';
 import { St, IAC } from './meta';
 
 const { NARROW_SIDER, WIDE_SIDER, NO_SIDER } = siderViewTypes;
@@ -24,19 +25,24 @@ export async function changeIsUsingDefaultTheme(checked: boolean, moduleState: S
  */
 export function addActiveRoutePath(payload: { path: string, search?: string }, moduleState: St) {
   const { path, search = '' } = payload;
-  const { activeRoutePaths, curActiveRoutePath } = moduleState;
-  const toSet: Partial<St> = {};
+  const newFullPath = getSearchPath(path, search);
+  const { activeRoutePaths, curActiveRouteFullPath } = moduleState;
+  if (newFullPath === curActiveRouteFullPath) return {};
 
-  // 如果需要带参路由也点亮页签的话，可以去掉下面这个if判断逻辑
-  if (search) { return toSet; }
+  const toSet: Partial<St> = { curActiveRouteFullPath: newFullPath, curActiveRoutePath: path };
+
+  // 打开下面逻辑：带search参数路由不写标签页
+  // if (search) { return toSet; }
+
   const menuItem = path2menuItem[path];
   if (!menuItem) { return toSet; }
-  // 不显示在边栏菜单里的路由组件，不写标签页
-  if (!menuItem.showInSider) { return toSet; }
 
-  const targetPathInfo = activeRoutePaths.find(v => v.path === path);
+  // 打开下面逻辑：不显示在边栏菜单里的路由组件不写标签页
+  // if (!menuItem.showInSider) { return toSet; }
+
+  const targetPathInfo = activeRoutePaths.find(v => v.path === path && v.search === search);
   if (!targetPathInfo) {
-    // 最多激活5个
+    // 最多激活8个
     if (activeRoutePaths.length <= 8) {
       activeRoutePaths.push({ path, search });
     } else {
@@ -44,28 +50,23 @@ export function addActiveRoutePath(payload: { path: string, search?: string }, m
       activeRoutePaths[0] = { path, search };
     }
     toSet.activeRoutePaths = activeRoutePaths;
-  } else {
-    if (targetPathInfo.search !== search) {
-      targetPathInfo.search = search;
-    }
   }
 
-  if (curActiveRoutePath !== path) {
-    toSet.curActiveRoutePath = path;
-  }
   return toSet;
 }
 
 /**
  * 删除页签
  */
-export function delActiveRoutePath(path: string, moduleState: St) {
+export function delActiveRoutePath(payload: { path: string, search: string }, moduleState: St) {
+  const { path, search } = payload;
   const { activeRoutePaths } = moduleState;
 
-  const targetRoutePath = activeRoutePaths.find(v => v.path === path);
+  const targetRoutePath = activeRoutePaths.find(v => v.path === path && v.search === search);
   let curActiveRoutePath = '/';
+  let curActiveRouteFullPath = curActiveRoutePath;
   if (targetRoutePath) {
-    const idx = activeRoutePaths.findIndex(v => v.path === path);
+    const idx = activeRoutePaths.findIndex(v => v.path === path && v.search === search);
     const toDelPath = targetRoutePath.path;
     activeRoutePaths.splice(idx, 1);
     // 如果删除的就是当前激活的path
@@ -74,15 +75,16 @@ export function delActiveRoutePath(path: string, moduleState: St) {
       if (activeRoutePaths.length >= 1) {
         const [firstPath] = activeRoutePaths;
         curActiveRoutePath = firstPath.path;
+        curActiveRouteFullPath = getSearchPath(firstPath.path, firstPath.search);
       }
     } else {
       curActiveRoutePath = moduleState.curActiveRoutePath;
+      curActiveRouteFullPath = moduleState.curActiveRouteFullPath;
     }
 
-    const newPath = activeRoutePaths.find(v => v.path === curActiveRoutePath);
-    return { activeRoutePaths, curActiveRoutePath, search: newPath?.search || '' };
+    return { activeRoutePaths, curActiveRoutePath, curActiveRouteFullPath };
   }
-  return { curActiveRoutePath, search: '' };
+  return { curActiveRoutePath, curActiveRouteFullPath };
 }
 
 export function changeTopViewType(topViewType: string): Partial<St> {

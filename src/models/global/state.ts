@@ -33,6 +33,8 @@ function getInitialState() {
   const defaultState = {
     activeRoutePaths: [] as IRoutePathInfo[],
     curActiveRoutePath: '',
+    /** 可能含search */
+    curActiveRouteFullPath: '',
     /** 快捷导航条项目是否用深色背景 */
     isTabPaneHeavyBg: false,
     /** 站点的字体色值透明度，值越大，字体颜色越深 */

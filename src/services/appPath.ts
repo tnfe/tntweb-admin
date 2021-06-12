@@ -51,6 +51,38 @@ export function getRelativeRootPath() {
   }
   if (!targetPathname) targetPathname = '/';
 
-  console.log('--->targetPathname', targetPathname);
   return targetPathname;
+}
+
+export function getSearchPath(path: string, search: string) {
+  return search ? `${path}?${search}` : path;
+}
+
+/**
+ * 返回的search字符串是无问号前缀的字符串
+ * @param pathMayIncludeSearch
+ * @returns
+ */
+export function extractPathAndSearch(pathMayIncludeSearch: string): { path: string, search: string } {
+  if (!pathMayIncludeSearch) return { path: '', search: '' };
+
+  const ensureNoStartQuestion = (stringMyStartsWithQuestion: string): string => {
+    if (stringMyStartsWithQuestion.startsWith('?')) {
+      const restStr = stringMyStartsWithQuestion.substr(1);
+      return ensureNoStartQuestion(restStr);
+    }
+    return stringMyStartsWithQuestion;
+  };
+
+  const firstQuestionIdx = pathMayIncludeSearch.indexOf('?');
+  let path = pathMayIncludeSearch;
+  let search = '';
+  if (firstQuestionIdx >= 0) {
+    const stringMyStartsWithQuestion = pathMayIncludeSearch.substr(firstQuestionIdx);
+    path = pathMayIncludeSearch.substring(0, firstQuestionIdx);
+    // 防止是 /xxx/yyy ????a=1 这样的错误数据传进来
+    search = ensureNoStartQuestion(stringMyStartsWithQuestion);
+  }
+
+  return { path, search };
 }

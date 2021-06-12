@@ -64,6 +64,9 @@ function Home(props: RouteComponentProps) {
         <Radio.Group options={layoutOptions} onChange={se.changeTopViewType} />
       </div>
       <VerticalBlank height="32px" />
+      <Button type="primary" style={{ marginBottom: 16 }} onClick={() => history.push(`/counter?a=${Date.now()}`)}>
+        跳转到一个带随机参的Counter页面
+      </Button>
       <Row>
         <Col span="8">
           <Card

@@ -8,7 +8,7 @@ import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuGroup, homePageFullPath, showingMenus } from 'configs/derived/menus';
 import { siderViewTypes } from 'configs/constant/sys';
-import { getRelativeRootPath } from 'services/appPath';
+import { getRelativeRootPath, extractPathAndSearch } from 'services/appPath';
 import { useSetupCtx, getGlobalComputed } from 'services/concent';
 import * as arrUtil from 'utils/arr';
 import { EmptyView } from 'components/dumb/general';
@@ -37,9 +37,19 @@ function iState() {
   };
 }
 
+let prevPathName = getRelativeRootPath();
+let prevSearch = extractPathAndSearch(window.location.href).search;
+
 function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
-  ctx.on(getUrlChangedEvName(), () => {
+  ctx.on(getUrlChangedEvName(), (param: any) => {
+    const { pathname, search } = param;
+    if (prevPathName === pathname && search !== prevSearch) {
+      // 刷新同一个key挂载的路由组件
+      ctx.emit('refreshRouterGuard');
+    }
+    prevPathName = pathname;
+    prevSearch = search;
     const newState = iState();
     // 重新计算的值和实例上维护的不一样时，才触发 Sider 重渲染
     if (newState.selectedKeys[0] !== ins.state.selectedKeys[0]) {
@@ -51,7 +61,8 @@ function setup(ctx: CtxDe) {
   });
 
   const setActiveRoutePath = (path: string) => {
-    ctx.gr.addActiveRoutePath({ path, search: window.location.search });
+    let search = extractPathAndSearch(window.location.href).search;
+    ctx.gr.addActiveRoutePath({ path, search });
   };
   setActiveRoutePath(ins.state.selectedKeys[0]);
 
@@ -89,6 +100,7 @@ function setup(ctx: CtxDe) {
     },
   };
 }
+
 interface ISiderMenusProps {
   mode?: MenuMode;
   style?: React.CSSProperties;
@@ -131,10 +143,9 @@ export function SiderMenus(props: ISiderMenusProps) {
 }
 
 
-
 function AppSider() {
   const { globalComputed: gcu, settings } = useSetupCtx(setup, { tag: 'Sider' });
-  if (!gcu.siderInfo.showSider) return <EmptyView />
+  if (!gcu.siderInfo.showSider) return <EmptyView />;
 
   return (
     <div style={gcu.siderStyle} className={styles.siderWrap}>
