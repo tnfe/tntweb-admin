@@ -7,13 +7,12 @@
   padding: 0 19px 0 0;
 }
 
+.userIconWarp {
+  box-shadow: rgb(0 21 41 / 30%) 0px 1px 4px;
+}
+
 .settingInHeader {
-  position: absolute;
-  right: 8px;
-  top: 3px;
   font-size: 19px;
-  height: 48px;
-  line-height: 48px;
 }
 
 .settingInBody {
@@ -33,12 +32,14 @@
   top: 2px;
 }
 
-.userIconWrap {
+.headerRightAreaWrap {
   position: absolute;
+  display: flex;
+  align-items: center;
   min-width: 100px;
-  right: 52px;
+  right: 12px;
   font-size: 15px;
-  height: 40px;
+  height: 48px;
   top: 0;
 }
 

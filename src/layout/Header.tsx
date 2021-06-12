@@ -12,12 +12,13 @@ function AppHeader() {
   return (
     <Layout.Header className={styles.header} style={gcu.headerStyle}>
       { !gcu.siderInfo.showSider && <Logo />}
-      <div className={styles.userIconWrap} style={{ color: gcu.headerStyle.color }}>
-        <Avatar size={32} src={gst.userIcon} />
+      <div className={styles.headerRightAreaWrap} style={{ color: gcu.headerStyle.color }}>
+        <Avatar size={32} src={gst.userIcon} className={styles.userIconWarp} />
         <Blank width="8px" />
         {gst.userName}
+        <Blank width="8px" />
+        {gcu.settingIconCtrl.showInHeader && <SettingIcon mode="header" />}
       </div>
-      {gcu.settingIconCtrl.showInHeader && <SettingIcon mode="header" />}
     </Layout.Header>
   );
 }

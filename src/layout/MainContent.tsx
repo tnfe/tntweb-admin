@@ -1,13 +1,12 @@
 // +++ node modules +++
 import React from 'react';
 import { Layout, Spin, Skeleton } from 'antd';
-import { cst } from 'concent';
 import { EmptyView } from 'components/dumb/general';
-import { useC2Mod } from 'services/concent';
+import { useC2DefaultMod } from 'services/concent';
 import Routes from './Routes';
 
 function MainContent() {
-  const { globalState, globalComputed } = useC2Mod(cst.MODULE_DEFAULT);
+  const { globalState, globalComputed } = useC2DefaultMod();
   const { contentLayoutStyle } = globalComputed;
   let uiContentArea: React.ReactElement = <EmptyView />;
 

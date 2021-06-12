@@ -8,6 +8,7 @@ import { TopHeaderTypes, TopNavBarTypes, SiderViewTypes } from 'configs/constant
 import * as mods from 'configs/c2Mods';
 import { useC2Mod, typeCtxM } from 'services/concent';
 import { VerticalBlank, AsyncButton, Blank } from 'components/dumb/general';
+import { AuthView } from 'components';
 import Bar from 'components/Charts/Bar';
 
 const layoutOptions = [
@@ -18,7 +19,7 @@ const layoutOptions = [
 
 function setup(c: any) {
   const ctx = typeCtxM(mods.HOME, {}, c);
-  const { effect, gr } = ctx;
+  const { effect, gr, globalState } = ctx;
   effect(() => {
     const t = setInterval(ctx.mr.ranBarData, 3000);
     return () => clearInterval(t);
@@ -34,6 +35,20 @@ function setup(c: any) {
       };
       const [siderViewType, topHeaderType, topNavBarType] = argMap[layout];
       gr.setState({ siderViewType, topHeaderType, topNavBarType });
+    },
+    addAuthId() {
+      const { authIds } = globalState;
+      if (!authIds.includes('key_1')) {
+        authIds.push('key_1');
+        gr.setState({ authIds });
+      }
+    },
+    delAuthId() {
+      const { authIds } = globalState;
+      if (authIds.indexOf('key_1') >= 0) {
+        authIds.splice(authIds.indexOf('key_1'), 1);
+        gr.setState({ authIds });
+      }
     },
   };
 }
@@ -55,6 +70,15 @@ function Home(props: RouteComponentProps) {
         </Col>
       </Row>
       <VerticalBlank height="32px" />
+      <AuthView authId="key_1"><h1>you can see me if you have not auth</h1></AuthView>
+      <Button type="primary" onClick={se.addAuthId}>
+        点击此按钮，将看到一个带权限控制的视图
+      </Button>
+      <Blank />
+      <Button type="primary" onClick={se.delAuthId}>
+        移出权限
+      </Button>
+      <VerticalBlank height="32px" />
       <div>
         <Tooltip title="更多布局点击右上角设置按钮查看">
           <span>选择一个喜欢的布局吧<QuestionCircleOutlined /> : </span>
@@ -63,9 +87,10 @@ function Home(props: RouteComponentProps) {
         <Radio.Group options={layoutOptions} onChange={se.changeTopViewType} />
       </div>
       <VerticalBlank height="32px" />
-      <Button type="primary" style={{ marginBottom: 16 }} onClick={() => history.push(`/counter?a=${Date.now()}`)}>
+      <Button type="primary" onClick={() => history.push(`/counter?a=${Date.now()}`)}>
         跳转到一个带随机参的Counter页面
       </Button>
+      <VerticalBlank height="32px" />
       <Row>
         <Col span="8">
           <Card

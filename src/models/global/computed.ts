@@ -67,9 +67,10 @@ export function contentLayoutStyle(n: St): React.CSSProperties {
  */
 export function headerStyle(n: St): React.CSSProperties {
   const { headerTheme, siderViewType, topHeaderType, topNavBarType } = n;
+  const color = headerTheme === 'dark' ? 'white' : 'var(--theme-color)';
   const backgroundColor = headerTheme === 'dark' ? '#001529' : 'white';
   const marginLeft = viewType2LeftValue[siderViewType];
-  const toReturn = { marginLeft, backgroundColor, zIndex: 4 };
+  const toReturn = { marginLeft, backgroundColor, color, zIndex: 4 };
   return { ...toReturn, ...headerStyleMap[`${topHeaderType}_${topNavBarType}`] };
 }
 
