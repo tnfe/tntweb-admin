@@ -9,19 +9,23 @@ exports[`App Render generate App snapshot 1`] = `
   >
     <header
       class="ant-layout-header header"
-      style="margin-left:48px;background-color:white;z-index:4;display:none"
+      style="margin-left:48px;background-color:white;color:var(--theme-color);z-index:4;display:none"
     >
       <div
-        class="userIconWrap"
+        class="headerRightAreaWrap"
+        style="color:var(--theme-color)"
       >
         <span
-          class="ant-avatar ant-avatar-circle"
+          class="ant-avatar ant-avatar-circle userIconWarp"
           style="width:32px;height:32px;line-height:32px;font-size:18px"
         >
           <img
             src=""
           />
         </span>
+        <div
+          style="display:inline-block;width:8px;height:16px"
+        />
         <div
           style="display:inline-block;width:8px;height:16px"
         />
