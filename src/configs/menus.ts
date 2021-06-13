@@ -98,6 +98,13 @@ const menus: Array<IMenuItem | IMenuGroup> = [
     Component: lazy(() => import('pages/Counter')),
   },
   {
+    label: '计数器2',
+    path: '/counter2',
+    Icon: PlusCircleOutlined,
+    setContentLayout: false,
+    Component: lazy(() => import('pages/Counter')),
+  },
+  {
     label: '分步表单',
     path: routerPath.STEP_FORM,
     Component: lazy(() => import('pages/AStepForm')),

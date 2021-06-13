@@ -1,13 +1,25 @@
 import { St } from './state';
 import { sys } from 'configs/constant';
 
-const { TopHeaderTypes: th, TopNavBarTypes: tn, SiderViewTypes } = sys;
+const {
+  TopHeaderTypes: th, TopNavBarTypes: tn, SiderViewTypes, siderWidthPx,
+  collapsedLogoImg, collapsedLogoImgOfDark, collapsedLogoLabel,
+  notCollapsedLogoImg, notCollapsedLogoImgOfDark, notCollapsedLogoLabel,
+} = sys;
 const { HIDDEN, COLLAPSED, NOT_COLLAPSED } = SiderViewTypes;
 
 const viewType2LeftValue = {
   [HIDDEN]: '0',
   [COLLAPSED]: '48px',
-  [NOT_COLLAPSED]: sys.siderWidthPx,
+  [NOT_COLLAPSED]: siderWidthPx,
+};
+const logoKey2ImgUrlList = {
+  [`light_${SiderViewTypes.COLLAPSED}`]: [collapsedLogoImg, collapsedLogoImgOfDark],
+  [`light_${SiderViewTypes.NOT_COLLAPSED}`]: [notCollapsedLogoImg, notCollapsedLogoImgOfDark],
+  [`light_${SiderViewTypes.HIDDEN}`]: [notCollapsedLogoImg, notCollapsedLogoImgOfDark],
+  [`dark_${SiderViewTypes.COLLAPSED}`]: [collapsedLogoImgOfDark, collapsedLogoImg],
+  [`dark_${SiderViewTypes.NOT_COLLAPSED}`]: [notCollapsedLogoImgOfDark, notCollapsedLogoImg],
+  [`dark_${SiderViewTypes.HIDDEN}`]: [notCollapsedLogoImgOfDark, notCollapsedLogoImg],
 };
 const paddingTopMap = {
   [`${th.FIXED}_${tn.FIXED}`]: '80px',
@@ -57,9 +69,10 @@ export function isHeaderAboveNavBar(n: St) {
  */
 export function contentLayoutStyle(n: St): React.CSSProperties {
   const { siderViewType, topHeaderType, topNavBarType } = n;
-  const minHeight = 'calc(100vh - 120px)';
+  // 给一个最小高度，确保路由组件在异步加载过程中，Footer出现在底部
+  const minHeight = 'calc(100vh - 45px)';
   const paddingTop = paddingTopMap[`${topHeaderType}_${topNavBarType}`];
-  return { marginLeft: viewType2LeftValue[siderViewType], minHeight, paddingTop, overflowX: 'auto' };
+  return { marginLeft: viewType2LeftValue[siderViewType], paddingTop, minHeight, overflowX: 'auto' };
 }
 
 /**
@@ -118,6 +131,44 @@ export function settingIconCtrl(n: St) {
   if (toReturn.showInBody || toReturn.showInBar) toReturn.color = 'var(--theme-color)';
   return toReturn;
 }
+
+/**
+ * 计算控制logo显示的各种参数
+ */
+export function logoCtrl(n: St) {
+  const { siderTheme, headerTheme, siderViewType } = n;
+  const toReturn = { showLabel: false, label: '', imgUrl: '', color: '', width: '0px' };
+
+  const setShowLabel = () => {
+    let label = siderViewType === SiderViewTypes.COLLAPSED ? collapsedLogoLabel : notCollapsedLogoLabel;
+    toReturn.showLabel = true;
+    toReturn.label = label || 'My System';
+  };
+
+  let themeValue = headerTheme;
+  toReturn.width = siderWidthPx;
+  if ([SiderViewTypes.COLLAPSED, SiderViewTypes.NOT_COLLAPSED].includes(siderViewType)) {
+    themeValue = siderTheme;
+    toReturn.width = siderViewType === COLLAPSED ? '48px' : siderWidthPx;
+  }
+  // 文字型 logo 的字体颜色
+  const color = themeValue === 'dark' ? 'white' : 'var(--theme-color)';
+  toReturn.color = color;
+
+  const imgUrlList = logoKey2ImgUrlList[`${themeValue}_${siderViewType}`];
+  if (!imgUrlList) {
+    setShowLabel();
+  }
+  const imgUrl = imgUrlList[0] || imgUrlList[1];
+  if (!imgUrl) {
+    setShowLabel();
+  } else {
+    toReturn.imgUrl = imgUrl;
+  }
+
+  return toReturn;
+}
+
 interface ISiderInfo {
   iconDes: 'left' | 'right';
   /** 边栏是否是展开的，true：展开，false：折叠 */

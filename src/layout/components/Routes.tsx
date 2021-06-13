@@ -15,13 +15,10 @@ import Error404 from 'components/dumb/Error404';
 import * as typeUtil from 'utils/type';
 import { decideVal } from 'utils/obj';
 import { CtxDe } from 'types/store';
+import SkeletonScreen from './SkeletonScreen';
 import styles from '../styles/App.module.css';
 
 const { Content } = Layout;
-
-const Fallback = () => {
-  return <div>Loading...</div>;
-};
 
 let key = 0;
 function setup(ctx: CtxDe) {
@@ -180,7 +177,7 @@ class Routes extends React.Component {
     }
     const { uiRoutes, uiHomeRoute, uiNotFoundRoute } = this.buildRouteUi();
     return (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<SkeletonScreen label="页面加载中..." />}>
         <Switch>
           {uiRoutes}
           {uiHomeRoute}

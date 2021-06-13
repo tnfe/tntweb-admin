@@ -1,21 +1,18 @@
 import React from 'react';
-import { sys } from 'configs/constant';
+import { useC2DefaultMod } from 'services/concent';
 import styles from '../styles/App.module.css';
 
-interface IProps {
-  long?: boolean;
-}
+function Logo() {
+  const { globalComputed: { logoCtrl } } = useC2DefaultMod();
+  const style: React.CSSProperties = { backgroundImage: `url(${logoCtrl.imgUrl})`, width: logoCtrl.width };
 
-export default function Logo(props: IProps) {
-  const { long = true } = props
-  const imgSrc = long ? sys.webHeaderImg : sys.webHeaderImgShort;
-  const style: React.CSSProperties = { backgroundImage: `url(${imgSrc})`, width: sys.siderWidthPx };
-  if (!long) {
-    style.width = '48px';
+  if (logoCtrl.showLabel) {
+    return <div className={styles.logoLabelWrap} style={{ color: logoCtrl.color }}>
+      {logoCtrl.label}
+    </div>;
   }
 
-  return (
-    <div style={style} className={styles.logoWrap}>
-    </div>
-  );
+  return <div style={style} className={styles.logoWrap} />;
 }
+
+export default React.memo(Logo);

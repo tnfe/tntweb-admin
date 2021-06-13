@@ -36,6 +36,7 @@
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   min-width: 100px;
   right: 12px;
   font-size: 15px;
@@ -76,4 +77,21 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 70%
+}
+
+.logoLabelWrap {
+  height: 50px;
+  line-height: 50px;
+  padding: 0px 22px;
+  text-align: left;
+  font-size: 22px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.footerWrap {
+  text-align: center;
+  padding: 5px;
+  height: 45px;
 }

@@ -149,7 +149,7 @@ function AppSider() {
 
   return (
     <div style={gcu.siderStyle} className={styles.siderWrap}>
-      <Logo long={gcu.siderInfo.isUnfold} />
+      <Logo />
       <SiderMenus />
       <Button type="primary" onClick={settings.toggleCollapsed} style={{ width: '100%', border: 'none' }}>
         {gcu.siderInfo.isUnfold ? <DoubleLeftOutlined /> : <DoubleRightOutlined />}

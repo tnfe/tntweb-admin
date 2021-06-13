@@ -2,7 +2,8 @@
 import React from 'react';
 import { ConnectRouter } from 'react-router-concent';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
 // +++ project modules +++
 import { CtxDe } from 'types/store';
 import { getBasename } from 'services/appPath';
@@ -23,17 +24,15 @@ function setup({ effect, globalReducer }: CtxDe) {
 function App() {
   useC2DefaultMod({ setup, tag: 'App' });
   return (
-    <Layout>
+    <ConfigProvider locale={zhCN}>
       <Layout>
         <TopContent />
-      </Layout>
-      <Layout>
         <LeftContent />
+        <MainContent />
+        <Footer />
+        <SettingDrawer />
       </Layout>
-      <MainContent />
-      <Footer />
-      <SettingDrawer />
-    </Layout>
+    </ConfigProvider>
   );
 }
 

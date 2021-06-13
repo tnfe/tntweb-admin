@@ -36,9 +36,7 @@ function SettingIcon(props: IProps) {
   if (mode === 'body') {
     return <Avatar className={iconCls} icon={<SettingOutlined onClick={se.openThemeSettingsDrawer} style={style} />} />;
   }
-  return <SettingOutlined onClick={se.openThemeSettingsDrawer}
-    className={iconCls} style={style}
-  />;
+  return <SettingOutlined onClick={se.openThemeSettingsDrawer} className={iconCls} style={style} />;
 }
 
 export default React.memo(SettingIcon);
