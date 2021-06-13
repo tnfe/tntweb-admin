@@ -179,7 +179,7 @@ exports[`App Render generate App snapshot 1`] = `
   >
     <div
       class="logoWrap"
-      style="background-image:url(https://tnfe.gtimg.com/image/6qg2nmcgzv_1623072630957.png);width:48px"
+      style="background-image:url(https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/short_logo.png);width:48px"
     />
     <div
       class="siderMenusWrap smallScBar"
