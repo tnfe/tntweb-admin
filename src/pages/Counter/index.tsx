@@ -4,7 +4,7 @@ import { CounterTip } from './CounterTip';
 
 export default () => {
   return (
-    <div style={{ width: '3000px' }}>
+    <div>
       <Counter />
       <CounterTip />
     </div>
