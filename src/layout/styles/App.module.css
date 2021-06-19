@@ -95,3 +95,86 @@
   padding: 5px;
   height: 45px;
 }
+
+.footerFixedWrap {
+  width: 100%;
+  position: fixed;
+  bottom: 20px
+}
+
+.waterMarkBase {
+  content: 'concent-pro';
+  position: absolute;
+  z-index: 999;
+  display: block;
+  font-size: 20px;
+  color: var(--theme-color-light);
+  font-weight: bold;
+  transform: rotate(-45deg);
+  opacity: .2;
+  pointer-events: none;
+}
+
+.wm1:after {
+  content: 'concent-pro';
+  position: absolute;
+  z-index: 999;
+  display: block;
+  font-size: 20px;
+  color: var(--theme-color-light);
+  font-weight: bold;
+  transform: rotate(-45deg);
+  opacity: .2;
+  pointer-events: none;
+  bottom: 30%;
+  left: 20%;
+}
+
+.wm2:after {
+  content: 'concent-pro';
+  position: absolute;
+  z-index: 999;
+  display: block;
+  font-size: 20px;
+  color: var(--theme-color-light);
+  font-weight: bold;
+  transform: rotate(-45deg);
+  opacity: .2;
+  pointer-events: none;
+  bottom: 30%;
+  left: 50%;
+}
+
+.loginCardWrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-300px, -190px);
+  width: 600px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--theme-color-light);
+}
+
+/* .wm3:after {
+  composes: waterMarkBase;
+  bottom: 30%;
+  left: 80%;
+}
+
+.wm4:after {
+  composes: waterMarkBase;
+  bottom: 60%;
+  left: 20%;
+}
+
+.wm5:after {
+  composes: waterMarkBase;
+  bottom: 60%;
+  left: 50%;
+}
+
+.wm6:after {
+  composes: waterMarkBase;
+  bottom: 60%;
+  left: 80%;
+} */

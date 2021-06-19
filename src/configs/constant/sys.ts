@@ -47,3 +47,9 @@ export enum SiderViewTypes {
   NOT_COLLAPSED = '2',
   HIDDEN = '3',
 };
+
+export enum LoginStatus {
+  LOGGING = '1',
+  LOGIN_FAILED = '2',
+  LOGIN_SUCCESS = '3',
+}

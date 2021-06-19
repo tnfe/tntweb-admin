@@ -4,6 +4,7 @@ import { Blank } from 'components/dumb/general';
 import { useC2DefaultMod } from 'services/concent';
 import Logo from './Logo';
 import SettingIcon from './SettingIcon';
+import LogoutIcon from './LogoutIcon';
 import styles from '../styles/App.module.css';
 
 function AppHeader() {
@@ -17,7 +18,9 @@ function AppHeader() {
         <Blank width="8px" />
         {gst.userName}
         <Blank width="8px" />
-        {gcu.settingIconCtrl.showInHeader && <SettingIcon mode="header" />}
+        {gcu.iconCtrl.showInHeader && <LogoutIcon mode="header" />}
+        <Blank width="8px" />
+        {gcu.iconCtrl.showInHeader && <SettingIcon mode="header" />}
       </div>
     </Layout.Header>
   );

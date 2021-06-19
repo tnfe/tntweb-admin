@@ -1,7 +1,7 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
 import {
-  SiderViewTypes, TopHeaderTypes, TopNavBarTypes,
+  SiderViewTypes, TopHeaderTypes, TopNavBarTypes, LoginStatus,
   LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_VER, siteThemeColor,
 } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
@@ -58,6 +58,9 @@ function getInitialState() {
     themeColorLight: colorServ.getThemeColorLight(themeColor),
     someInfo: 'overWrite built-in module global\'s state',
 
+    /** 登录状态，默认是正在执行登录中 */
+    loginStatus: LoginStatus.LOGGING,
+    loginBtnLoading: false,
     /** 系统是否准备就绪，包括登录、配置数据拉取等动作完成才是就绪 */
     isAppReady: false,
     userName: '',

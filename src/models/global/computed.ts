@@ -114,9 +114,9 @@ export function siderStyle(n: St): React.CSSProperties {
 }
 
 /**
- * 设置按钮的展示或样式控制
+ * 各种icon按钮的展示或样式控制（设置， 登场等可通用）
  */
-export function settingIconCtrl(n: St) {
+export function iconCtrl(n: St) {
   const { topHeaderType, topNavBarType, headerTheme } = n;
   // 该颜色控制 settingIcon 在 header 里显示的颜色，会受是否暗黑主题色影响
   const color = headerTheme === 'dark' ? 'white' : 'var(--theme-color)';

@@ -10,6 +10,7 @@ import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
 import { Blank } from 'components/dumb/general';
 import * as arrUtil from 'utils/arr';
 import SettingIcon from './SettingIcon';
+import LogoutIcon from './LogoutIcon';
 import styles from '../styles/App.module.css';
 
 const { TabPane } = Tabs;
@@ -79,7 +80,9 @@ function QuickNavBar() {
           onClick={se.changeIsTabPaneHeavyBg} checkedChildren="深" unCheckedChildren="浅"
         />
         <Blank width="6px" />
-        {gcu.settingIconCtrl.showInBar && <SettingIcon mode="bar" />}
+        {gcu.iconCtrl.showInBar && <LogoutIcon mode="bar" />}
+        <Blank width="6px" />
+        {gcu.iconCtrl.showInBar && <SettingIcon mode="bar" />}
       </div>
     </div>
   );

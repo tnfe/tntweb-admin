@@ -1,12 +1,21 @@
 import { VoidPayload } from 'concent';
-import { siteThemeColor, SiderViewTypes } from 'configs/constant/sys';
+import { siteThemeColor, SiderViewTypes, LoginStatus } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import { delay } from 'utils/timer';
 import * as colorServ from 'services/color';
 import { getSearchPath } from 'services/appPath';
+import * as msgServ from 'services/message';
 import { St, IAC } from './meta';
 
 const { COLLAPSED, NOT_COLLAPSED, HIDDEN } = SiderViewTypes;
+type PSt = Partial<St>;
+const fakeLoginData = {
+  userName: 'hi concent pro',
+  userIcon: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3662109890,1098716941&fm=15&gp=0.jpg',
+  isAdmin: true,
+  token: 'xxxyyy',
+  isLogin: true,
+}
 
 export function toggleCollapsedBtn(payload: VoidPayload, moduleState: St) {
   const { siderViewType } = moduleState;
@@ -88,10 +97,10 @@ export function delActiveRoutePath(payload: { path: string, search: string }, mo
   return { curActiveRoutePath, curActiveRouteFullPath };
 }
 
-export function toggleSiderVisible(p: any, moduleState: St): Partial<St> {
+export function toggleSiderVisible(p: any, moduleState: St): PSt {
   const { siderViewType, siderViewTypeBackup } = moduleState;
   if (siderViewType === HIDDEN) {
-    const toSet: Partial<St> = { siderViewType: siderViewTypeBackup };
+    const toSet: PSt = { siderViewType: siderViewTypeBackup };
     if (siderViewTypeBackup === COLLAPSED) toSet.siderViewToCollapsedTime = Date.now();
     return toSet;
   }
@@ -101,7 +110,7 @@ export function toggleSiderVisible(p: any, moduleState: St): Partial<St> {
 /**
  * 修改边栏视图模式，为了让 toggle 按钮按预期工作，需记录前一刻展开时的视图模式，
  */
-export function changeSiderViewType(siderViewType: SiderViewTypes, moduleState: St, ac: IAC): Partial<St> {
+export function changeSiderViewType(siderViewType: SiderViewTypes, moduleState: St): PSt {
   const toSet: Partial<St> = { siderViewType };
   if (siderViewType === SiderViewTypes.HIDDEN) {
     toSet.siderViewTypeBackup = moduleState.siderViewType;
@@ -109,7 +118,7 @@ export function changeSiderViewType(siderViewType: SiderViewTypes, moduleState: 
   return toSet;
 }
 
-export function changeThemeColor(payload: { themeColor: string, setCustThemeColor?: boolean }): Partial<St> {
+export function changeThemeColor(payload: { themeColor: string, setCustThemeColor?: boolean }): PSt {
   const { themeColor, setCustThemeColor } = payload;
   colorServ.changeThemeColor(themeColor);
   // 修改浅色
@@ -127,35 +136,63 @@ export function changeThemeColor(payload: { themeColor: string, setCustThemeColo
   return toSet;
 }
 
-export function changeFontAlpha(fontAlpha: number): Partial<St> {
+export function changeFontAlpha(fontAlpha: number): PSt {
   colorServ.changeFontAlpha(fontAlpha);
   return { fontAlpha };
 }
 
-export function changeIsTabPaneHeavyBg(isTabPaneHeavyBg: boolean): Partial<St> {
+export function changeIsTabPaneHeavyBg(isTabPaneHeavyBg: boolean): PSt {
   return { isTabPaneHeavyBg };
 }
 
-export function switchSiderTheme(checked: boolean, moduleState: St): Partial<St> {
+export function switchSiderTheme(checked: boolean, moduleState: St): PSt {
   return { siderTheme: checked ? 'dark' : 'light' };
 }
 
-export function switchHeaderTheme(checked: boolean, moduleState: St): Partial<St> {
+export function switchHeaderTheme(checked: boolean): PSt {
   return { headerTheme: checked ? 'dark' : 'light' };
 }
 
-export function changeIsInnerMock(checked: boolean, moduleState: St): Partial<St> {
+export function changeIsInnerMock(checked: boolean): PSt {
   return { isInnerMock: checked };
 }
 
-export async function prepareApp(): Promise<Partial<St>> {
-  await delay(300);
-  // 模拟接口自动登录
-  const info = await Promise.resolve({ user: 'hi concent pro', icon: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3662109890,1098716941&fm=15&gp=0.jpg', isAdmin: true })
 
-  const toSet: Partial<St> = { userName: info.user, userIcon: info.icon, isAdmin: info.isAdmin, isAppReady: true };
+export async function loginByCookie(payload: VoidPayload, moduleState: St, ac: IAC): Promise<PSt> {
+  await ac.setState({ loginStatus: LoginStatus.LOGGING });
+  await delay(300);
+
+  // 需自己实现使用站点的cookie或者token去验证登录信息，这里仅模拟接口自动登录
+  const loginDeadline = parseInt(localStorage.getItem('C2_loginDeadline') || '0');
+  if (Date.now() - loginDeadline < 24 * 60 * 60 * 1000) {
+    const loginData = await Promise.resolve(fakeLoginData);
+    const toSet: PSt = { ...loginData, isAppReady: true, loginStatus: LoginStatus.LOGIN_SUCCESS };
+    return toSet;
+  }
   // todo 写 authId 到 state里
   // toSet.authIds = await someService.fetchAuthIds();
 
-  return toSet;
+  return { loginStatus: LoginStatus.LOGIN_FAILED };
+}
+
+/**
+ * 账密登录，此处仅模拟，真实逻辑需用户根据自己的实际情况去做具体实现
+ * 这里的流程是 账密登录后后端写入最新的cookie，然后执行 loginByCookie 逻辑
+ */
+export async function loginByPassword(payload: { name: string, pwd: string }, moduleState: St, ac: IAC) {
+  await ac.setState({ loginBtnLoading: true });
+  await delay(300);
+  // 模拟账密登录
+  if (payload.name !== 'concent' || payload.pwd !== 'pro') {
+    msgServ.warn('账号密码错误，输入账号 concent，密码 pro ，即可登录');
+    return { loginBtnLoading: false, loginStatus: LoginStatus.LOGIN_FAILED };
+  }
+  // 站点写入cookie凭证后，执行
+  localStorage.setItem('C2_loginDeadline', String(Date.now()));
+  await ac.dispatch(loginByCookie);
+}
+
+export function logout(): PSt {
+  localStorage.setItem('C2_loginDeadline', '0');
+  return { loginStatus: LoginStatus.LOGIN_FAILED, loginBtnLoading: false };
 }

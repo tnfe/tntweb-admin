@@ -8,24 +8,37 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import { CtxDe } from 'types/store';
 import { getBasename } from 'services/appPath';
 import { useC2DefaultMod } from 'services/concent';
+import { LoginStatus } from 'configs/constant/sys';
 // +++ local modules +++
 import TopContent from './TopContent';
 import MainContent from './MainContent';
 import LeftContent from './LeftContent';
 import Footer from './Footer';
 import SettingDrawer from './components/SettingDrawer';
+import Login from './components/Login';
+import styles from './styles/App.module.css';
+
+// const { wm1, wm2, wm3, wm4, wm5, wm6 } = styles;
+const { wm1, wm2 } = styles;
 
 function setup({ effect, globalReducer }: CtxDe) {
   effect(() => {
-    globalReducer.prepareApp();
+    // 执行一次自动登录流程
+    globalReducer.loginByCookie();
   }, []);
 }
 
 function App() {
-  useC2DefaultMod({ setup, tag: 'App' });
+  const { globalState: gst } = useC2DefaultMod({ setup, tag: 'App' });
+
+  // 仅当是登录失败时，才渲染登录页
+  if (gst.loginStatus === LoginStatus.LOGIN_FAILED) {
+    return <Login />;
+  }
+
   return (
     <ConfigProvider locale={zhCN}>
-      <Layout>
+      <Layout className={`${wm1} ${wm2}`}>
         <TopContent />
         <LeftContent />
         <MainContent />
