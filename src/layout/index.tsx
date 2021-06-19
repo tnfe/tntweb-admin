@@ -16,10 +16,7 @@ import LeftContent from './LeftContent';
 import Footer from './Footer';
 import SettingDrawer from './components/SettingDrawer';
 import Login from './components/Login';
-import styles from './styles/App.module.css';
-
-// const { wm1, wm2, wm3, wm4, wm5, wm6 } = styles;
-const { wm1, wm2 } = styles;
+import WaterMark from './components/WaterMark';
 
 function setup({ effect, globalReducer }: CtxDe) {
   effect(() => {
@@ -38,7 +35,8 @@ function App() {
 
   return (
     <ConfigProvider locale={zhCN}>
-      <Layout className={`${wm1} ${wm2}`}>
+      <Layout>
+        <WaterMark />
         <TopContent />
         <LeftContent />
         <MainContent />

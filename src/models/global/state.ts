@@ -33,6 +33,8 @@ function getInitialState() {
   const defaultState = {
     activeRoutePaths: [] as IRoutePathInfo[],
     curActiveRoutePath: '',
+    /** 启用水印功能 */
+    allowWaterMark: true,
     /** 可能含search */
     curActiveRouteFullPath: '',
     /** 快捷导航条项目是否用深色背景 */

@@ -49,6 +49,9 @@ export function setup(ctx: CtxDe) {
     onHeaderThemeChange(checked: boolean) {
       gr.switchHeaderTheme(checked);
     },
+    changeAllowWaterMark(checked: boolean) {
+      gr.setState({ allowWaterMark: checked });
+    },
     onInnerMockChange(checked: boolean) {
       gr.changeIsInnerMock(checked);
     },
@@ -111,6 +114,12 @@ export function SettingDrawer() {
           <Col span="14">
             <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.headerThemeSwitchChecked}
               onChange={se.onHeaderThemeChange}
+            />
+          </Col>
+          <Col span="10"><Tag color="geekblue">显示水印：</Tag></Col>
+          <Col span="14">
+            <Switch checkedChildren="是" unCheckedChildren="否" checked={gst.allowWaterMark}
+              onChange={se.changeAllowWaterMark}
             />
           </Col>
           <Col span="10"><Tag color="geekblue">顶栏设置：</Tag></Col>
