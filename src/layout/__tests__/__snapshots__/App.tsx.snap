@@ -2,8 +2,42 @@
 
 exports[`App Render generate App snapshot 1`] = `
 <section
-  class="ant-layout wm1 wm2"
+  class="ant-layout"
 >
+  <div
+    class="waterMarkWrap"
+  >
+    <div
+      class="wmGrid"
+    >
+      concent-pro
+    </div>
+    <div
+      class="wmGrid"
+    >
+      concent-pro
+    </div>
+    <div
+      class="wmGrid"
+    >
+      concent-pro
+    </div>
+    <div
+      class="wmGrid"
+    >
+      concent-pro
+    </div>
+    <div
+      class="wmGrid"
+    >
+      concent-pro
+    </div>
+    <div
+      class="wmGrid"
+    >
+      concent-pro
+    </div>
+  </div>
   <header
     class="ant-layout-header header"
     style="margin-left:48px;background-color:white;color:var(--theme-color);z-index:4;display:none"
