@@ -156,10 +156,7 @@ exports[`App Render generate App snapshot 1`] = `
         </span>
       </button>
       <div
-        style="display:inline-block;width:6px;height:16px"
-      />
-      <div
-        style="display:inline-block;width:6px;height:16px"
+        style="display:inline-block;width:5px;height:16px"
       />
        
       <span
@@ -184,7 +181,7 @@ exports[`App Render generate App snapshot 1`] = `
         </svg>
       </span>
       <div
-        style="display:inline-block;width:6px;height:16px"
+        style="display:inline-block;width:5px;height:16px"
       />
        
       <span
@@ -209,7 +206,7 @@ exports[`App Render generate App snapshot 1`] = `
         </svg>
       </span>
       <div
-        style="display:inline-block;width:6px;height:16px"
+        style="display:inline-block;width:5px;height:16px"
       />
        
       <span

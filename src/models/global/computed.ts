@@ -114,7 +114,7 @@ export function siderStyle(n: St): React.CSSProperties {
 }
 
 /**
- * 各种icon按钮的展示或样式控制（设置， 登场等可通用）
+ * 各种icon按钮的展示或样式控制（设置，登出、颜色模式等可通用）
  */
 export function iconCtrl(n: St) {
   const { topHeaderType, topNavBarType, headerTheme } = n;

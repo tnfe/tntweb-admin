@@ -6,6 +6,7 @@
 - 新增水印功能
 1 可在`configs/constant/sys`里修改`waterMarkLabel`值即可修改水印文案
 2 设置栏里可以关闭水印
+- 新增暗黑模式，黑白模式
 
 ## 2021-06-13
 - 重整理layout目录，去掉多余的 Layout组件层级

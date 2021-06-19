@@ -83,10 +83,9 @@ function QuickNavBar() {
         <Switch checked={isTabPaneHeavyBg} style={{ verticalAlign: 'text-bottom' }}
           onClick={se.changeIsTabPaneHeavyBg} checkedChildren="深" unCheckedChildren="浅"
         />
-        <Blank width="6px" />
-        {gcu.iconCtrl.showInBar && <><Blank width="6px" /> <SiteColorIcon mode="bar" /></>}
-        {gcu.iconCtrl.showInBar && <><Blank width="6px" /> <LogoutIcon mode="bar" /></>}
-        {gcu.iconCtrl.showInBar && <><Blank width="6px" /> <SettingIcon mode="bar" /></>}
+        {gcu.iconCtrl.showInBar && <><Blank width="5px" /> <SiteColorIcon mode="bar" /></>}
+        {gcu.iconCtrl.showInBar && <><Blank width="5px" /> <LogoutIcon mode="bar" /></>}
+        {gcu.iconCtrl.showInBar && <><Blank width="5px" /> <SettingIcon mode="bar" /></>}
       </div>
     </div>
   );
