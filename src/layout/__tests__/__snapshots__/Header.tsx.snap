@@ -97,6 +97,19 @@ exports[`Header Render generate Header snapshot 1`] = `
               }
             />
           </Blank>
+          <Blank
+            width="8px"
+          >
+            <div
+              style={
+                Object {
+                  "display": "inline-block",
+                  "height": "16px",
+                  "width": "8px",
+                }
+              }
+            />
+          </Blank>
         </div>
       </header>
     </Basic>
