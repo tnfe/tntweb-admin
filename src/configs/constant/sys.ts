@@ -50,6 +50,15 @@ export enum SiderViewTypes {
   HIDDEN = '3',
 };
 
+export enum SiteColorTypes {
+  /** 正常模式 */
+  NORMAL = '1',
+  /** 黑白模式（哀悼模式） */
+  GREY = '2',
+  /** 暗黑模式 */
+  DARK = '3',
+}
+
 export enum LoginStatus {
   LOGGING = '1',
   LOGIN_FAILED = '2',

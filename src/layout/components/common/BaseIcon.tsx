@@ -7,7 +7,7 @@ export type BaseIconMode = 'bar' | 'header' | 'body';
 
 interface IProps {
   mode?: BaseIconMode,
-  onClick: (...args: any[]) => any,
+  onClick?: (...args: any[]) => any,
   Icon: React.ForwardRefExoticComponent<any>,
 }
 

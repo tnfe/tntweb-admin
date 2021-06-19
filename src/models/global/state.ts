@@ -1,7 +1,7 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
 import {
-  SiderViewTypes, TopHeaderTypes, TopNavBarTypes, LoginStatus,
+  SiderViewTypes, TopHeaderTypes, TopNavBarTypes, LoginStatus, SiteColorTypes,
   LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_VER, siteThemeColor,
 } from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
@@ -33,6 +33,8 @@ function getInitialState() {
   const defaultState = {
     activeRoutePaths: [] as IRoutePathInfo[],
     curActiveRoutePath: '',
+    /** 整个站点的色彩模式 */
+    siteColorType: SiteColorTypes.NORMAL,
     /** 启用水印功能 */
     allowWaterMark: true,
     /** 可能含search */

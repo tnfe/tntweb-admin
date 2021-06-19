@@ -5,6 +5,7 @@ import { useC2DefaultMod } from 'services/concent';
 import Logo from './Logo';
 import SettingIcon from './SettingIcon';
 import LogoutIcon from './LogoutIcon';
+import SiteColorIcon from './SiteColorIcon';
 import styles from '../styles/App.module.css';
 
 function AppHeader() {
@@ -19,6 +20,8 @@ function AppHeader() {
         {gst.userName}
         <Blank width="8px" />
         {gcu.iconCtrl.showInHeader && <LogoutIcon mode="header" />}
+        <Blank width="8px" />
+        {gcu.iconCtrl.showInHeader && <SiteColorIcon mode="header" />}
         <Blank width="8px" />
         {gcu.iconCtrl.showInHeader && <SettingIcon mode="header" />}
       </div>

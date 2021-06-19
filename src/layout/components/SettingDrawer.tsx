@@ -7,14 +7,15 @@ import { SketchPicker, ColorResult, SwatchesPicker } from 'react-color';
 import { Blank, VerticalBlank } from 'components/dumb/general';
 import { useSetupCtx } from 'services/concent';
 import { success } from 'services/message';
-import { TopHeaderTypes, TopNavBarTypes, SiderViewTypes } from 'configs/constant/sys';
+import { TopHeaderTypes, TopNavBarTypes, SiderViewTypes, SiteColorTypes } from 'configs/constant/sys';
 import { CtxDe } from 'types/store';
 
 const MySwatchesPicker: any = styled(SwatchesPicker)`
   width: 450px !important;
 `;
-
 const stLoveIcon: React.CSSProperties = { color: 'var(--theme-color)', transform: 'translateY(2px)' };
+const col1Span = 9;
+const col2Span = 15;
 
 export function setup(ctx: CtxDe) {
   const { gr, globalState } = ctx;
@@ -30,6 +31,9 @@ export function setup(ctx: CtxDe) {
     },
     changeTopHeaderType(e: RadioChangeEvent) {
       gr.setState({ topHeaderType: e.target.value });
+    },
+    changeSiteColorType(e: RadioChangeEvent) {
+      gr.setState({ siteColorType: e.target.value });
     },
     changeTopNavBarType(e: RadioChangeEvent) {
       gr.setState({ topNavBarType: e.target.value });
@@ -73,7 +77,7 @@ export function SettingDrawer() {
       onClose={se.closeThemeSettingsDrawer}
     >
       <div style={{ padding: '6px 12px' }}>
-        <Tag color="geekblue">站点主题设置：</Tag>
+        <Tag color="geekblue">站点主题色设置：</Tag>
         <Blank />
         <Radio.Group value={se.state.pickerMode} onChange={se.changePickerMode}>
           <Radio value="fast">快速</Radio>
@@ -92,62 +96,70 @@ export function SettingDrawer() {
         }
         <VerticalBlank />
         <Row gutter={[16, { xs: 8, sm: 12, md: 12, lg: 12 }]}>
-          <Col span="10"><Tag color="geekblue">恢复默认主题：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">恢复默认主题色：</Tag></Col>
+          <Col span={col2Span}>
             <Switch checkedChildren="是" unCheckedChildren="否" checked={gst.isUsingDefaultThemeColor} onChange={se.changeIsUsingDefaultTheme} />
           </Col>
-          <Col span="10"><VerticalBlank height="5px" /><Tag color="geekblue">字体颜色透明度：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">站点色调：</Tag></Col>
+          <Col span={col2Span}>
+            <Radio.Group value={gst.siteColorType} onChange={se.changeSiteColorType}>
+              <Radio value={SiteColorTypes.NORMAL}>正常</Radio>
+              <Radio value={SiteColorTypes.GREY}>黑白</Radio>
+              <Radio value={SiteColorTypes.DARK}>暗夜</Radio>
+            </Radio.Group>
+          </Col>
+          <Col span={col1Span}><VerticalBlank height="5px" /><Tag color="geekblue">字体颜色透明度：</Tag></Col>
+          <Col span={col2Span}>
             <Slider value={gst.fontAlpha} min={0} max={100} onChange={gr.changeFontAlpha} />
           </Col>
-          <Col span="10"><Tag color="geekblue">导航条项目深色背景：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">导航条项目深色背景：</Tag></Col>
+          <Col span={col2Span}>
             <Switch checked={gst.isTabPaneHeavyBg} onChange={se.changeIsTabPaneHeavyBg}
               checkedChildren="深" unCheckedChildren="浅"
             />
           </Col>
-          <Col span="10"><Tag color="geekblue">暗黑边栏：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">暗黑边栏：</Tag></Col>
+          <Col span={col2Span}>
             <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.siderThemeSwitchChecked} onChange={se.onSiderThemeChange} />
           </Col>
-          <Col span="10"><Tag color="geekblue">暗黑顶栏：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">暗黑顶栏：</Tag></Col>
+          <Col span={col2Span}>
             <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gcu.headerThemeSwitchChecked}
               onChange={se.onHeaderThemeChange}
             />
           </Col>
-          <Col span="10"><Tag color="geekblue">显示水印：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">显示水印：</Tag></Col>
+          <Col span={col2Span}>
             <Switch checkedChildren="是" unCheckedChildren="否" checked={gst.allowWaterMark}
               onChange={se.changeAllowWaterMark}
             />
           </Col>
-          <Col span="10"><Tag color="geekblue">顶栏设置：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">顶栏设置：</Tag></Col>
+          <Col span={col2Span}>
             <Radio.Group value={gst.topHeaderType} onChange={se.changeTopHeaderType}>
               <Radio value={TopHeaderTypes.FIXED}>固定</Radio>
               <Radio value={TopHeaderTypes.FLOWED}>随Y轴滚动</Radio>
               <Radio value={TopHeaderTypes.HIDDEN}><HeartOutlined style={stLoveIcon} />隐藏</Radio>
             </Radio.Group>
           </Col>
-          <Col span="10"><Tag color="geekblue">导航条设置：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">导航条设置：</Tag></Col>
+          <Col span={col2Span}>
             <Radio.Group value={gst.topNavBarType} onChange={se.changeTopNavBarType}>
               <Radio value={TopNavBarTypes.FIXED}><HeartOutlined style={stLoveIcon} />固定</Radio>
               <Radio value={TopNavBarTypes.FLOWED}>随Y轴滚动</Radio>
               <Radio value={TopNavBarTypes.HIDDEN}>隐藏</Radio>
             </Radio.Group>
           </Col>
-          <Col span="10"><Tag color="geekblue">边栏设置：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">边栏设置：</Tag></Col>
+          <Col span={col2Span}>
             <Radio.Group value={gst.siderViewType} onChange={se.changeSiderViewType}>
               <Radio value={SiderViewTypes.COLLAPSED}><HeartOutlined style={stLoveIcon} />折叠</Radio>
               <Radio value={SiderViewTypes.NOT_COLLAPSED}>展开</Radio>
               <Radio value={SiderViewTypes.HIDDEN}>隐藏</Radio>
             </Radio.Group>
           </Col>
-          <Col span="10"><Tag color="geekblue">innerMock设置：</Tag></Col>
-          <Col span="14">
+          <Col span={col1Span}><Tag color="geekblue">innerMock设置：</Tag></Col>
+          <Col span={col2Span}>
             <Switch checkedChildren="关闭" unCheckedChildren="开启" checked={gst.isInnerMock}
               onChange={se.onInnerMockChange}
             />

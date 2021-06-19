@@ -11,6 +11,7 @@ import { Blank } from 'components/dumb/general';
 import * as arrUtil from 'utils/arr';
 import SettingIcon from './SettingIcon';
 import LogoutIcon from './LogoutIcon';
+import SiteColorIcon from './SiteColorIcon';
 import styles from '../styles/App.module.css';
 
 const { TabPane } = Tabs;
@@ -39,6 +40,9 @@ function setup(ctx: CtxDe) {
     openThemeSettingsDrawer: () => ctx.setGlobalState({ settingDrawerVisible: true }),
     changeIsTabPaneHeavyBg: (isTabPaneHeavyBg: boolean) => {
       ctx.gr.changeIsTabPaneHeavyBg(isTabPaneHeavyBg);
+    },
+    changeDarkMode: (darkSite: boolean) => {
+      // ctx.gr.setState({ darkSite });
     },
   };
 }
@@ -80,9 +84,9 @@ function QuickNavBar() {
           onClick={se.changeIsTabPaneHeavyBg} checkedChildren="深" unCheckedChildren="浅"
         />
         <Blank width="6px" />
-        {gcu.iconCtrl.showInBar && <LogoutIcon mode="bar" />}
-        <Blank width="6px" />
-        {gcu.iconCtrl.showInBar && <SettingIcon mode="bar" />}
+        {gcu.iconCtrl.showInBar && <><Blank width="6px" /> <SiteColorIcon mode="bar" /></>}
+        {gcu.iconCtrl.showInBar && <><Blank width="6px" /> <LogoutIcon mode="bar" /></>}
+        {gcu.iconCtrl.showInBar && <><Blank width="6px" /> <SettingIcon mode="bar" /></>}
       </div>
     </div>
   );
