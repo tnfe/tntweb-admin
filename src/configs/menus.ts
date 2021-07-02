@@ -19,6 +19,7 @@ export interface IMenuItem {
    */
   authId?: string;
   path: string;
+  /** default: true */
   exact?: boolean;
   /**
    * 默认值：true，
