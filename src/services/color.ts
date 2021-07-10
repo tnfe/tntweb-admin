@@ -17,7 +17,7 @@ export function hex2rgbString(hexColor: string) {
   return `${rgb.r}, ${rgb.g}, ${rgb.b}`;
 }
 
-export function getThemeColorLight(hexColor: string, lighten: number = 0.8) {
+export function getThemeColorLight(hexColor: string, lighten: number = 0.6) {
   const c = new Color(hexColor);
   const themeColorLight = c.lighten(lighten).hex();
   return themeColorLight;
@@ -33,4 +33,8 @@ export function changeThemeColorLight(themeColorLight: string) {
 
 export function changeThemeColorRGB(themeColorRGB: string) {
   privSetColor('--theme-color-rgb', themeColorRGB);
+}
+
+export function changeFontAlpha(alpha: number) {
+  privSetColor('--theme-color-text', `rgba(0, 0, 0, ${alpha / 100})`);
 }

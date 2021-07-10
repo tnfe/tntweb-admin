@@ -1,25 +1,61 @@
 import React from 'react';
-import { Button, Card, Row, Col } from 'antd';
-import { GithubOutlined } from '@ant-design/icons';
+import { Button, Card, Row, Col, Tooltip, Radio, RadioChangeEvent } from 'antd';
+import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { RouteComponentProps } from 'react-router-dom';
 import { history } from 'react-router-concent';
 import { routerPath } from 'configs/constant';
+import { TopHeaderTypes, TopNavBarTypes, SiderViewTypes } from 'configs/constant/sys';
 import * as mods from 'configs/c2Mods';
 import { useC2Mod, typeCtxM } from 'services/concent';
-import { VerticalBlank, AsyncButton } from 'components/dumb/general';
+import { VerticalBlank, AsyncButton, Blank } from 'components/dumb/general';
+import { AuthView } from 'components';
 import Bar from 'components/Charts/Bar';
 import { Trans } from '@lingui/macro';
 
+const layoutOptions = [
+  { label: '折叠边栏，仅显示快捷导航条', value: '1' },
+  { label: '展开边栏，仅显示快捷导航条', value: '2' },
+  { label: '隐藏边栏，显示顶栏信息和快捷导航条', value: '3' },
+];
+
 function setup(c: any) {
   const ctx = typeCtxM(mods.HOME, {}, c);
-  ctx.effect(() => {
+  const { effect, gr, globalState } = ctx;
+  effect(() => {
     const t = setInterval(ctx.mr.ranBarData, 3000);
     return () => clearInterval(t);
   }, []);
+
+  return {
+    changeTopViewType(e: RadioChangeEvent) {
+      const layout = e.target.value;
+      const argMap: Record<string, [SiderViewTypes, TopHeaderTypes, TopNavBarTypes]> = {
+        1: [SiderViewTypes.COLLAPSED, TopHeaderTypes.HIDDEN, TopNavBarTypes.FIXED],
+        2: [SiderViewTypes.NOT_COLLAPSED, TopHeaderTypes.HIDDEN, TopNavBarTypes.FIXED],
+        3: [SiderViewTypes.HIDDEN, TopHeaderTypes.FIXED, TopNavBarTypes.FIXED],
+      };
+      const [siderViewType, topHeaderType, topNavBarType] = argMap[layout];
+      gr.setState({ siderViewType, topHeaderType, topNavBarType });
+    },
+    addAuthId() {
+      const { authIds } = globalState;
+      if (!authIds.includes('key_1')) {
+        authIds.push('key_1');
+        gr.setState({ authIds });
+      }
+    },
+    delAuthId() {
+      const { authIds } = globalState;
+      if (authIds.indexOf('key_1') >= 0) {
+        authIds.splice(authIds.indexOf('key_1'), 1);
+        gr.setState({ authIds });
+      }
+    },
+  };
 }
 
 function Home(props: RouteComponentProps) {
-  const { state: homeState, mr: homeMr } = useC2Mod(mods.HOME, { setup });
+  const { state: homeState, mr: homeMr, settings: se } = useC2Mod(mods.HOME, { setup });
   const { state, mr } = useC2Mod(mods.COUNTER);
 
   return (
@@ -34,7 +70,28 @@ function Home(props: RouteComponentProps) {
           </a>
         </Col>
       </Row>
-      <VerticalBlank />
+      <VerticalBlank height="32px" />
+      <AuthView authId="key_1"><h1>you can not see me if you have not auth</h1></AuthView>
+      <Button type="primary" onClick={se.addAuthId}>
+        点击此按钮，将看到一个带权限控制的视图
+      </Button>
+      <Blank />
+      <Button type="primary" onClick={se.delAuthId}>
+        移出权限
+      </Button>
+      <VerticalBlank height="32px" />
+      <div>
+        <Tooltip title="更多布局点击右上角设置按钮查看">
+          <span>选择一个喜欢的布局吧<QuestionCircleOutlined /> : </span>
+        </Tooltip>
+        <Blank />
+        <Radio.Group options={layoutOptions} onChange={se.changeTopViewType} />
+      </div>
+      <VerticalBlank height="32px" />
+      <Button type="primary" onClick={() => history.push(`/counter?a=${Date.now()}`)}>
+        跳转到一个带随机参的Counter页面
+      </Button>
+      <VerticalBlank height="32px" />
       <Row>
         <Col span="8">
           <Card

@@ -7,14 +7,14 @@ import { MenuMode, SelectInfo } from 'rc-menu/lib/interface';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
 import { path2menuGroup, homePageFullPath, showingMenus } from 'configs/derived/menus';
-import { siderViewTypes } from 'configs/constant/sys';
-import { getRelativeRootPath } from 'services/appPath';
+import { SiderViewTypes } from 'configs/constant/sys';
+import { getRelativeRootPath, extractPathAndSearch } from 'services/appPath';
 import { useSetupCtx, getGlobalComputed } from 'services/concent';
 import * as arrUtil from 'utils/arr';
 import { EmptyView } from 'components/dumb/general';
-import Logo from './dumb/Logo';
-import './resetMenu.css';
-import styles from './App.module.css';
+import Logo from './Logo';
+import '../styles/resetMenu.css';
+import styles from '../styles/App.module.css';
 
 const { SubMenu, Item: MenuItem } = Menu;
 let firstCallGetOpenKeys = true;
@@ -26,8 +26,8 @@ function iState() {
   if (path === '/') path = homePageFullPath;
 
   let openKeys: string[] = [];
-  // 当边栏可见时，才计算 openKeys
-  if (getGlobalComputed().siderInfo.showSider && path2menuGroup[path]) {
+  // 当边栏展开时，才计算 openKeys
+  if (getGlobalComputed().siderInfo.isUnfold && path2menuGroup[path]) {
     openKeys = [path2menuGroup[path].key];
   }
 
@@ -37,11 +37,22 @@ function iState() {
   };
 }
 
+let prevPathName = getRelativeRootPath();
+let prevSearch = extractPathAndSearch(window.location.href).search;
+
 function setup(ctx: CtxDe) {
   const ins = ctx.initState(iState);
-  ctx.on(getUrlChangedEvName(), () => {
+  ctx.on(getUrlChangedEvName(), (param: any) => {
+    const { pathname, search } = param;
+    if (prevPathName === pathname && search !== prevSearch) {
+      // 刷新同一个key挂载的路由组件
+      ctx.emit('refreshRouterGuard');
+    }
+    prevPathName = pathname;
+    prevSearch = search;
     const newState = iState();
-    if (newState.selectedKeys[0] !== ctx.globalState.curActiveRoutePath) {
+    // 重新计算的值和实例上维护的不一样时，才触发 Sider 重渲染
+    if (newState.selectedKeys[0] !== ins.state.selectedKeys[0]) {
       // 保持原来的菜单展开状态, 同时也让新的能够正确展开
       newState.openKeys = arrUtil.merge(newState.openKeys, ins.state.openKeys);
       ctx.setState(newState);
@@ -50,7 +61,8 @@ function setup(ctx: CtxDe) {
   });
 
   const setActiveRoutePath = (path: string) => {
-    ctx.gr.addActiveRoutePath({ path, search: window.location.search });
+    let search = extractPathAndSearch(window.location.href).search;
+    ctx.gr.addActiveRoutePath({ path, search });
   };
   setActiveRoutePath(ins.state.selectedKeys[0]);
 
@@ -59,9 +71,10 @@ function setup(ctx: CtxDe) {
     // 展开时才获取真正的openKeys，否则会突兀的出现悬浮导航菜单
     getOpenKeys: () => {
       if (
-        Date.now() - ctx.globalState.siderViewToNarrowTime < 300
-        || (firstCallGetOpenKeys && ctx.globalState.siderViewType === siderViewTypes.NARROW_SIDER)
+        Date.now() - ctx.globalState.siderViewToCollapsedTime < 300
+        || (firstCallGetOpenKeys && ctx.globalState.siderViewType === SiderViewTypes.NOT_COLLAPSED)
       ) {
+        firstCallGetOpenKeys = false;
         setTimeout(() => {
           ins.setState({});
         }, 300);
@@ -87,13 +100,14 @@ function setup(ctx: CtxDe) {
     },
   };
 }
+
 interface ISiderMenusProps {
   mode?: MenuMode;
   style?: React.CSSProperties;
 }
 export function SiderMenus(props: ISiderMenusProps) {
   const { mode = 'inline', style = { height: '100%', borderRight: 0 } } = props;
-  const { settings: se, globalState, globalComputed: gcu } = useSetupCtx(setup, { tag: 'Sider' });
+  const { settings: se, globalState, globalComputed: gcu } = useSetupCtx(setup, { tag: 'SiderMenus' });
   // 垂直在左侧布局时，才读siderTheme，否则主题色应和 headerTheme 相同
   const theme = mode === 'inline' ? globalState.siderTheme : globalState.headerTheme;
 
@@ -129,14 +143,13 @@ export function SiderMenus(props: ISiderMenusProps) {
 }
 
 
-
 function AppSider() {
   const { globalComputed: gcu, settings } = useSetupCtx(setup, { tag: 'Sider' });
-  if (!gcu.siderInfo.showSider) return <EmptyView />
+  if (!gcu.siderInfo.showSider) return <EmptyView />;
 
   return (
     <div style={gcu.siderStyle} className={styles.siderWrap}>
-      <Logo long={gcu.siderInfo.isUnfold} />
+      <Logo />
       <SiderMenus />
       <Button type="primary" onClick={settings.toggleCollapsed} style={{ width: '100%', border: 'none' }}>
         {gcu.siderInfo.isUnfold ? <DoubleLeftOutlined /> : <DoubleRightOutlined />}

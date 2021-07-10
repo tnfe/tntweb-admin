@@ -1,14 +1,29 @@
 
 import { SiderTheme } from 'antd/lib/layout/Sider';
-import { topViewTypes, topViewType2Label, siderViewTypes, LS_C2PRO_SETTINGS, siteThemeColor } from 'configs/constant/sys';
+import {
+  SiderViewTypes, TopHeaderTypes, TopNavBarTypes, LoginStatus, SiteColorTypes,
+  LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_VER, siteThemeColor,
+} from 'configs/constant/sys';
 import { path2menuItem } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
-import { safeParse } from 'utils/obj';
-import { removeTargetItem } from 'utils/arr';
+import { safeParse, inEnum } from 'utils/obj';
 interface IRoutePathInfo {
   path: string;
   search: string;
+}
+
+const curSettingKeyVer = '11';
+
+function needCachedSettings() {
+  const cachedKeyVer = localStorage.getItem(LS_C2PRO_SETTINGS_VER);
+  const isKeyVerEqual = cachedKeyVer === curSettingKeyVer;
+  if (!isKeyVerEqual) {
+    localStorage.setItem(LS_C2PRO_SETTINGS_VER, curSettingKeyVer);
+  }
+  // key版本相同，才需要取缓存的主题配置，意味着如果想每次发版让store里默认的配置生效，
+  // 修改一下 curSettingKeyVer 的值即可
+  return isKeyVerEqual;
 }
 
 function getInitialState() {
@@ -18,15 +33,26 @@ function getInitialState() {
   const defaultState = {
     activeRoutePaths: [] as IRoutePathInfo[],
     curActiveRoutePath: '',
-    topViewType: topViewTypes.FIXED_HEADER_FIXED_BAR,
-    siderViewType: siderViewTypes.WIDE_SIDER,
-    siderViewToNarrowTime: 0,
+    /** 整个站点的色彩模式 */
+    siteColorType: SiteColorTypes.NORMAL,
+    /** 启用水印功能 */
+    allowWaterMark: true,
+    /** 可能含search */
+    curActiveRouteFullPath: '',
+    /** 快捷导航条项目是否用深色背景 */
+    isTabPaneHeavyBg: false,
+    /** 站点的字体色值透明度，值越大，字体颜色越深 */
+    fontAlpha: 75,
+    topHeaderType: TopHeaderTypes.HIDDEN,
+    topNavBarType: TopNavBarTypes.FIXED,
+    siderViewType: SiderViewTypes.COLLAPSED,
+    siderViewToCollapsedTime: 0,
     /** 当sider从无到有时，用于还原原来的折叠情况 */
-    siderViewTypeWhenUnfold: siderViewTypes.WIDE_SIDER,
+    siderViewTypeBackup: SiderViewTypes.COLLAPSED,
     /** 常用设置抽屉是否可见 */
     settingDrawerVisible: false,
     siderTheme: 'dark' as SiderTheme,
-    headerTheme: 'dark' as SiderTheme,
+    headerTheme: 'light' as SiderTheme,
     isUsingDefaultThemeColor: true,
     /** 个性化设置的站点的主题颜色 */
     custThemeColor: themeColor,
@@ -36,6 +62,9 @@ function getInitialState() {
     themeColorLight: colorServ.getThemeColorLight(themeColor),
     someInfo: 'overWrite built-in module global\'s state',
 
+    /** 登录状态，默认是正在执行登录中 */
+    loginStatus: LoginStatus.LOGGING,
+    loginBtnLoading: false,
     /** 系统是否准备就绪，包括登录、配置数据拉取等动作完成才是就绪 */
     isAppReady: false,
     userName: '',
@@ -51,25 +80,42 @@ function getInitialState() {
     ] as string[],
   };
 
+  if (!needCachedSettings()) {
+    return defaultState;
+  }
+
   // 还原用户最近一次设置数据
   const cachedSettings = safeParse(localStorage.getItem(LS_C2PRO_SETTINGS) || '', defaultState);
   const final = { ...defaultState, ...cachedSettings };
   const { activeRoutePaths } = final;
 
   // 确保path数据是正确的
-  let validActiveRoutePaths = activeRoutePaths.slice();
-  activeRoutePaths.forEach((v) => {
-    if (!v || typeof v !== 'object') return;
-    if (!path2menuItem[v.path]) {
-      validActiveRoutePaths = removeTargetItem(validActiveRoutePaths, item => item.path === v.path);
-    }
-  });
-  final.activeRoutePaths = validActiveRoutePaths;
+  try {
+    const validActiveRoutePaths: IRoutePathInfo[] = [];
+    activeRoutePaths.forEach((v) => {
+      if (!v || typeof v !== 'object') return;
+      if (v.path && path2menuItem[v.path]) {
+        validActiveRoutePaths.push(v);
+      }
+    });
+    final.activeRoutePaths = validActiveRoutePaths;
+  } catch (err) {
+    final.activeRoutePaths = [];
+  }
 
   // 未使用默认默认主题色，需要修改 isUsingDefaultThemeColor 为 false
   if (final.themeColor !== siteThemeColor) final.isUsingDefaultThemeColor = false;
-  // 修正可能错误的 topViewType 值
-  if (!topViewType2Label[final.topViewType]) final.topViewType = topViewTypes.NO_HEADER_FIXED_BAR;
+  // 修正可能错误的 topHeaderType, topNavBarType 值
+  if (!inEnum(final.topHeaderType, TopHeaderTypes)) {
+    final.topHeaderType = defaultState.topHeaderType;
+  }
+  if (!inEnum(final.topNavBarType, TopNavBarTypes)) {
+    final.topNavBarType = defaultState.topNavBarType;
+  }
+  if (!inEnum(final.siderViewType, SiderViewTypes)) {
+    final.siderViewType = defaultState.siderViewType;
+    final.siderViewTypeBackup = defaultState.siderViewTypeBackup;
+  }
 
   return final;
 }

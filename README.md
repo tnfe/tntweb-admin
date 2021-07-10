@@ -59,9 +59,115 @@ git push (触发 husky钩子 pre-commit: npm run test)
 `src/pages`目录下添加页面组件
 > 可参考 `src/pages/_DemoTempalte`查看示例代码，启动项目后 访问 localhost:3000/template可以访问该组件页面
 
+## 添加模块
+模块可在`src/models`目录下添加，也可以在pages/XxxComp里就近添加业务模块，需注意都要在`src/models/index.ts`文件里暴露出去，
+模块名统一维护在`src/configs/c2Mods.ts`文件
+
+- 添加模块名
+```
+// src/configs/c2Mods.ts文件
+export const HELLO = modName('Hello');
+export type T_HELLO = typeof HELLO;
+```
+- 添加多文件模块
+在`src/models`下添加目录`hello`，将模块的`state`,`reducer`,`computed`拆开写
+```txt
+|____models              
+| |____hello             
+| | |____state.ts
+| | |____reducer.ts
+| | |____computed.ts
+| | |____index.ts
+```
+
+定义状态【必需】
+```ts
+function getInitialState() {
+  return {
+    str: '',
+    loading: false,
+  };
+}
+export type St = ReturnType<typeof getInitialState>;
+export default getInitialState;
+```
+
+定义方法【可选】
+```ts
+import { St } from './state';
+import { VoidPayload, AC } from 'types/store';
+import { T_HELLO } from 'configs/c2Mods';
+import { delay } from 'utils/timer';
+
+type IAC = AC<T_HELLO>;
+
+export function simpleChange(payload:string, moduleState:St, ac:IAC){
+    return {str:payload};
+}
+
+export async function complexChange(payload:string, moduleState:St, ac:IAC){
+    await ac.setState({loading:true});
+    await delay(2000);
+    // 下面两句可合写为：return {str:payload, loading: false};
+    ac.dispatch(simpleChange, payload); // 当前文件内复用其他reducer逻辑
+    return { loading: false };
+}
+```
+
+定义计算【可选】
+```ts
+import { St } from './state';
+
+// only value change will triiger this function to execute again
+export function reversedStr({ str }: St) {
+  return str.split('').reverse().join('');
+}
+```
+
+`src/models/hello/index.ts`文件暴露模块
+```ts
+import { HELLO } from 'configs/c2Mods';
+import state from './state';
+import * as computed from './computed';
+import * as reducer from './reducer';
+
+export default {
+  [HELLO]: {
+    state,
+    computed,
+    reducer,
+  }
+};
+ 
+```
+
+`src/models/index.ts`文件引入模块合并到根模块
+```
+import global from './global'; // 覆写concent内置的$$global模块
+import Hello from './hello';
+
+const toExport = {
+  ...Hello,
+  ...global,
+};
+
+export default toExport;
+```
+
+任务组件使用`useC2Mod`消费模块数据，使用模块方法
+```ts
+import { useC2Mod } from 'services/concent';
+import { HELLO } from 'configs/c2Mods';
+
+export function SomeComp(){
+    // state:数据，mr:方法
+    const { state, mr } = useC2Mod(HELLO);
+}
+```
+
 
 ## 编码建议
-1 pages里拆分的组件如不涉及到跨页面复用，推荐就近放置，如后期复用在移到`components/**`下
+1 pages里拆分的组件如不涉及到跨页面复用，推荐就近放置，如后期复用在移到`components/**`下   
 2 page模块状态推荐就近放置
 
 ## 技术栈
@@ -92,9 +198,6 @@ git push (触发 husky钩子 pre-commit: npm run test)
 
 ## src目录结构
 ```
-|____runConcent.js      # run concent script
-|____App.css            # App css file
-|____App.js             # app root component
 |____configs
 | |____constant           # 各种常量定义处目录
 | |____runConcent.ts      # 启动concent
@@ -115,17 +218,11 @@ git push (触发 husky钩子 pre-commit: npm run test)
 | |____...
 | |
 |____components           # [[多个页面复用的基础组件集合]]
-| |____dumb               # 展示型组件（通常会基于UI库定制一些可复用组合）
-| |____...                # 其他通用的业务组件
 |
-|____pages                # [[router component]]
+|____pages                # [[页面组件，通常也是路由组件]]
 | |____PageFoo
 |   |____ model           # 当前页面的model定义，方便就近打开就近查看（定义可见models/global）
 |   |____ dumb            # 当前页面的一些业务笨组件（如果出现多个页面重用则可以进一步调整到components/dumb下）
-|   |____ HeaderArea.tsx  
-|   |____ BodyArea.tsx
-|   |____ SearchArea.tsx
-|   |____ index..tsx      # 页面组件导出文件，注意第一行需要 import ./model 触发model配置
 |
 |____types                # 类型定义目录
 | |____store              # store相关的各种类型推导文件(这是一个固定的文件，无需用户改动)

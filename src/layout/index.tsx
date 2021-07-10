@@ -2,43 +2,48 @@
 import React from 'react';
 import { ConnectRouter } from 'react-router-concent';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
-import { Layout } from 'antd';
-import { cst } from 'concent';
+import { Layout, ConfigProvider } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
 // +++ project modules +++
 import { CtxDe } from 'types/store';
-import SiderSwitchIcon from 'components/dumb/SiderSwitchIcon';
 import { getBasename } from 'services/appPath';
-import { useC2Mod } from 'services/concent';
+import { useC2DefaultMod } from 'services/concent';
+import { LoginStatus } from 'configs/constant/sys';
 // +++ local modules +++
-import Sider from './Sider';
-import Footer from './Footer';
+import TopContent from './TopContent';
 import MainContent from './MainContent';
-import Header from './Header';
-import QuickNavBar from './QuickNavBar';
-import SettingDrawer from './SettingDrawer';
+import LeftContent from './LeftContent';
+import Footer from './Footer';
+import SettingDrawer from './components/SettingDrawer';
+import Login from './components/Login';
+import WaterMark from './components/WaterMark';
 
 function setup({ effect, globalReducer }: CtxDe) {
   effect(() => {
-    globalReducer.prepareApp();
+    // 执行一次自动登录流程
+    globalReducer.loginByCookie();
   }, []);
 }
 
 function App() {
-  const { globalReducer, globalComputed } = useC2Mod(cst.MODULE_DEFAULT, { setup, tag: 'App' });
+  const { globalState: gst } = useC2DefaultMod({ setup, tag: 'App' });
+
+  // 仅当是登录失败时，才渲染登录页
+  if (gst.loginStatus === LoginStatus.LOGIN_FAILED) {
+    return <Login />;
+  }
+
   return (
-    <Layout>
+    <ConfigProvider locale={zhCN}>
       <Layout>
-        <Header />
-        <QuickNavBar />
+        <WaterMark />
+        <TopContent />
+        <LeftContent />
+        <MainContent />
+        <Footer />
+        <SettingDrawer />
       </Layout>
-      <Layout>
-        <SiderSwitchIcon des={globalComputed.siderInfo.iconDes} onClick={globalReducer.toggleSiderVisible} />
-        <Sider />
-      </Layout>
-      <MainContent />
-      <Footer />
-      <SettingDrawer />
-    </Layout>
+    </ConfigProvider>
   );
 }
 

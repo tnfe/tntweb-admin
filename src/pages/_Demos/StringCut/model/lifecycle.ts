@@ -1,5 +1,5 @@
 import { IDispatch } from 'concent';
-import * as reducer from './reducer';
+// import * as reducer from './reducer';
 
 // export async function initState(){}
 

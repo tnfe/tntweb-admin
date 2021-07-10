@@ -46,7 +46,8 @@ const jestConfig = {
 const testMatch = process.env.testMatch;
 if (testMatch) {
   console.log('------ found cutomized testMatch, start compute ------');
-  let prefixedTestMatch = '';
+  let prefixedTestMatch = testMatch;
+
   if (!testMatch.startsWith('<rootDir>')) {
     if (testMatch.startsWith('/')) prefixedTestMatch = `<rootDir>${testMatch}`;
     else prefixedTestMatch = `<rootDir>/${testMatch}`;
@@ -64,8 +65,8 @@ if (testMatch) {
   }
 } else {
   console.log('开始载入jest配置文件，如果是本地执行，想缩小单测范围，可加上testMatch前缀执行，形如');
-  // 执行类似命令，缩小测试范围：testMatch='src/pages/_DemoTodoList/__tests__/*.{ts,tsx}' npm run test
-  console.log('testMatch=\'src/pages/_DemoTodoList/__tests__/*.{ts,tsx}\' npm run test');
+  // 执行类似命令，缩小测试范围：testMatch='src/pages/xxxComp/__tests__/*.{ts,tsx}' npm run test
+  console.log('testMatch=\'src/pages/xxxComp/__tests__/*.{ts,tsx}\' npm run test');
 }
 
 module.exports = jestConfig;

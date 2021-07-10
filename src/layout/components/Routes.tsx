@@ -11,17 +11,14 @@ import { Layout } from 'antd';
 import { flattedMenus } from 'configs/derived/menus';
 import { IMenuItem } from 'configs/menus';
 import Error403 from 'components/dumb/Error403';
+import Error404 from 'components/dumb/Error404';
 import * as typeUtil from 'utils/type';
 import { decideVal } from 'utils/obj';
-import NotFound from 'pages/NotFound';
 import { CtxDe } from 'types/store';
-import styles from './App.module.css';
+import SkeletonScreen from './SkeletonScreen';
+import styles from '../styles/App.module.css';
 
 const { Content } = Layout;
-
-const Fallback = () => {
-  return <div>Loading...</div>;
-};
 
 let key = 0;
 function setup(ctx: CtxDe) {
@@ -40,7 +37,7 @@ function setup(ctx: CtxDe) {
 
 const RouterGuard = React.memo((props: { Comp: React.ComponentType<any>, routerProps: RouteComponentProps }) => {
   const settings = useSetup(setup);
-  return <props.Comp key={settings.state.key} {...props.routerProps} />
+  return <props.Comp key={settings.state.key} {...props.routerProps} />;
 });
 
 class Routes extends React.Component {
@@ -118,7 +115,9 @@ class Routes extends React.Component {
       }
     }
 
-    let { ui: uiCompWrapContent, layoutStyle } = this.cachedUiCompWrapContent[item.path] || {};
+    const ret = this.cachedUiCompWrapContent[item.path] || {};
+    let { ui: uiCompWrapContent } = ret;
+    const { layoutStyle } = ret;
     // layout 没变才返回缓存
     if (uiCompWrapContent && layoutStyle === contentLayoutStyle) return uiCompWrapContent;
 
@@ -165,7 +164,7 @@ class Routes extends React.Component {
     }
 
     // 第二位参数传递 true， 让404 页面包裹一下 content layout
-    const CompNotFoundWrap = this.makeCompWrap({ Component: NotFound, path: '', label: '' }, true);
+    const CompNotFoundWrap = this.makeCompWrap({ Component: Error404, path: '', label: '' }, true);
     const uiNotFoundRoute = <Route component={CompNotFoundWrap} />;
 
     this.cachedUi = { uiRoutes, uiHomeRoute, uiNotFoundRoute };
@@ -178,7 +177,7 @@ class Routes extends React.Component {
     }
     const { uiRoutes, uiHomeRoute, uiNotFoundRoute } = this.buildRouteUi();
     return (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<SkeletonScreen label="页面加载中..." />}>
         <Switch>
           {uiRoutes}
           {uiHomeRoute}

@@ -285,3 +285,7 @@ export function decideVal<T extends any>(firstVal: any, secondVal: T): T {
   if (!isNull(firstVal)) return firstVal;
   return secondVal;
 }
+
+export function inEnum(val: string | number, enumObj: Record<string, string | number>) {
+  return Object.values(enumObj).includes(val);
+}

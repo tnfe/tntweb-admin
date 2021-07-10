@@ -19,6 +19,7 @@ export interface IMenuItem {
    */
   authId?: string;
   path: string;
+  /** default: true */
   exact?: boolean;
   /**
    * 默认值：true，
@@ -44,7 +45,7 @@ export interface IMenuItem {
    */
   setContentLayout?: boolean;
   label: string;
-  Icon?: React.SFC;
+  Icon?: React.SFC<{ style?: React.CSSProperties }>;
   /** 是否是首页，匹配路径 / 时也能访问，默认 false */
   isHomePage?: boolean;
 }
@@ -53,7 +54,7 @@ export interface IMenuGroup {
   /** 用于辅助计算 menu是否展开 */
   key: string;
   label: string;
-  Icon?: React.SFC;
+  Icon?: React.SFC<{ style?: React.CSSProperties }>;
   children: IMenuItem[];
 }
 
@@ -95,6 +96,13 @@ const menus: Array<IMenuItem | IMenuGroup> = [
     label: '计数器',
     path: '/counter',
     Icon: PlusCircleOutlined,
+    Component: lazy(() => import('pages/Counter')),
+  },
+  {
+    label: '计数器2',
+    path: '/counter2',
+    Icon: PlusCircleOutlined,
+    setContentLayout: false,
     Component: lazy(() => import('pages/Counter')),
   },
   {

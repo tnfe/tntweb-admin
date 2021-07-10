@@ -5,15 +5,24 @@
   --theme-color-light: #91d5ff;
   --theme-color-bg: #e6f8fe;
   --theme-color-grey: #f0f2f5;
+  --theme-color-text: rgba(0, 0, 0, 0.75);
 }
+
+html {
+  /* transition: color 300ms, background-color 300ms; */
+  /* filter: grayscale(1); */
+}
+
 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--theme-color-grey) !important;
+  /* filter: invert(.9) hue-rotate(200deg); */
 }
 
 code {
