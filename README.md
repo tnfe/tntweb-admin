@@ -198,9 +198,6 @@ export function SomeComp(){
 
 ## src目录结构
 ```
-|____runConcent.js      # run concent script
-|____App.css            # App css file
-|____App.js             # app root component
 |____configs
 | |____constant           # 各种常量定义处目录
 | |____runConcent.ts      # 启动concent
@@ -221,17 +218,11 @@ export function SomeComp(){
 | |____...
 | |
 |____components           # [[多个页面复用的基础组件集合]]
-| |____dumb               # 展示型组件（通常会基于UI库定制一些可复用组合）
-| |____...                # 其他通用的业务组件
 |
-|____pages                # [[router component]]
+|____pages                # [[页面组件，通常也是路由组件]]
 | |____PageFoo
 |   |____ model           # 当前页面的model定义，方便就近打开就近查看（定义可见models/global）
 |   |____ dumb            # 当前页面的一些业务笨组件（如果出现多个页面重用则可以进一步调整到components/dumb下）
-|   |____ HeaderArea.tsx  
-|   |____ BodyArea.tsx
-|   |____ SearchArea.tsx
-|   |____ index..tsx      # 页面组件导出文件，注意第一行需要 import ./model 触发model配置
 |
 |____types                # 类型定义目录
 | |____store              # store相关的各种类型推导文件(这是一个固定的文件，无需用户改动)
