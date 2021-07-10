@@ -1,0 +1,1 @@
+/*eslint-disable*/module.exports={messages:{"\u6B22\u8FCE\u4E86\u89E3\u4E0E\u4F7F\u7528 Concent-pro":"welcome, have fun with Concent-pro"}};

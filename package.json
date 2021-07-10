@@ -51,7 +51,9 @@
     "lint": "eslint ./src --ext ts,tsx",
     "lintfix": "eslint ./src --ext ts,tsx --fix",
     "test": "jest",
-    "snap": "jest -u"
+    "snap": "jest -u",
+    "extract": "lingui extract",
+    "compile": "lingui compile"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -74,6 +76,9 @@
     ]
   },
   "devDependencies": {
+    "@lingui/cli": "latest",
+    "@lingui/loader": "latest",
+    "@lingui/macro": "latest",
     "@babel/core": "7.9.0",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",

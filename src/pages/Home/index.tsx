@@ -10,6 +10,7 @@ import { useC2Mod, typeCtxM } from 'services/concent';
 import { VerticalBlank, AsyncButton, Blank } from 'components/dumb/general';
 import { AuthView } from 'components';
 import Bar from 'components/Charts/Bar';
+import { Trans } from '@lingui/macro';
 
 const layoutOptions = [
   { label: '折叠边栏，仅显示快捷导航条', value: '1' },
@@ -61,7 +62,7 @@ function Home(props: RouteComponentProps) {
     <div style={{ paddingTop: '15px' }}>
       <Row>
         <Col>
-          <AsyncButton>欢迎了解与使用 Concent-pro </AsyncButton>
+          <AsyncButton><Trans>欢迎了解与使用 Concent-pro</Trans></AsyncButton>
         </Col>
         <Col>
           <a style={{ marginLeft: '12px' }} href="https://github.com/tnfe/concent-pro" target="blank">
