@@ -6,6 +6,7 @@ export { default as $$global } from './global'; // 覆写concent内置的$$globa
 export { default as Counter } from './counter';
 export { default as TodoList } from './todolist';
 export { default as Demo } from './_demo';
+export { default as singleFile } from './singleFile';
 
 // 暴露为 Home 命名空间挂到全局store上
 export const Home = HomeModel.Home;

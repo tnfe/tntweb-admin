@@ -62,7 +62,9 @@ function Home(props: RouteComponentProps) {
     <div style={{ paddingTop: '15px' }}>
       <Row>
         <Col>
-          <AsyncButton><Trans>欢迎了解与使用 Concent-pro</Trans></AsyncButton>
+          <AsyncButton><Trans>welcomeLabel</Trans></AsyncButton>
+          {/* 或者写为 */}
+          {/* <AsyncButton><Trans id="welcomeLabel"></Trans></AsyncButton> */}
         </Col>
         <Col>
           <a style={{ marginLeft: '12px' }} href="https://github.com/tnfe/concent-pro" target="blank">
@@ -71,6 +73,7 @@ function Home(props: RouteComponentProps) {
         </Col>
       </Row>
       <VerticalBlank height="32px" />
+      <Trans>anotherLabel</Trans>
       <AuthView authId="key_1"><h1>you can not see me if you have not auth</h1></AuthView>
       <Button type="primary" onClick={se.addAuthId}>
         点击此按钮，将看到一个带权限控制的视图

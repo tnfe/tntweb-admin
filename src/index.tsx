@@ -6,12 +6,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'layout';
 import * as serviceWorker from './serviceWorker';
-import { i18n } from '@lingui/core'
-import { I18nProvider } from '@lingui/react'
-import { messages } from './locales/en/messages.js'
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import { messages } from './locales/en/messages.js';
 
-i18n.load('en', messages)
-i18n.activate('en')
+i18n.load('en', messages);
+i18n.activate('en');
 
 function getHostNode(id = 'root') {
   let node = document.getElementById(id);
