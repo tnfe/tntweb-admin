@@ -49,7 +49,7 @@
     "api": "mocker ./mock",
     "app": "cross-env node scripts/start.js",
     "build": "node scripts/build.js",
-    "build_gh_page": "cross-env GENERATE_SOURCEMAP=false PUBLIC_URL=https://tnfe.github.io/concent-pro/ node scripts/build.js",
+    "build_gh_page": "cross-env GENERATE_SOURCEMAP=false PUBLIC_URL=https://tnfe.github.io/tntweb-admin/ node scripts/build.js",
     "cp_gh_page": "rm -rf ./gh_page/* && cp -r ./build/* ./gh_page",
     "lint": "eslint ./src --ext ts,tsx",
     "lintfix": "eslint ./src --ext ts,tsx --fix",
