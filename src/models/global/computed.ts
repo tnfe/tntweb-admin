@@ -13,13 +13,21 @@ const viewType2LeftValue = {
   [COLLAPSED]: '48px',
   [NOT_COLLAPSED]: siderWidthPx,
 };
+// const logoKey2ImgUrlList = {
+//   [`light_${SiderViewTypes.COLLAPSED}`]: [collapsedLogoImg, collapsedLogoImgOfDark],
+//   [`light_${SiderViewTypes.NOT_COLLAPSED}`]: [notCollapsedLogoImg, notCollapsedLogoImgOfDark],
+//   [`light_${SiderViewTypes.HIDDEN}`]: [notCollapsedLogoImg, notCollapsedLogoImgOfDark],
+//   [`dark_${SiderViewTypes.COLLAPSED}`]: [collapsedLogoImgOfDark, collapsedLogoImg],
+//   [`dark_${SiderViewTypes.NOT_COLLAPSED}`]: [notCollapsedLogoImgOfDark, notCollapsedLogoImg],
+//   [`dark_${SiderViewTypes.HIDDEN}`]: [notCollapsedLogoImgOfDark, notCollapsedLogoImg],
+// };
 const logoKey2ImgUrlList = {
   [`light_${SiderViewTypes.COLLAPSED}`]: [collapsedLogoImg, collapsedLogoImgOfDark],
-  [`light_${SiderViewTypes.NOT_COLLAPSED}`]: [notCollapsedLogoImg, notCollapsedLogoImgOfDark],
-  [`light_${SiderViewTypes.HIDDEN}`]: [notCollapsedLogoImg, notCollapsedLogoImgOfDark],
+  [`light_${SiderViewTypes.NOT_COLLAPSED}`]: [collapsedLogoImg, collapsedLogoImgOfDark],
+  [`light_${SiderViewTypes.HIDDEN}`]: [collapsedLogoImgOfDark, collapsedLogoImgOfDark],
   [`dark_${SiderViewTypes.COLLAPSED}`]: [collapsedLogoImgOfDark, collapsedLogoImg],
-  [`dark_${SiderViewTypes.NOT_COLLAPSED}`]: [notCollapsedLogoImgOfDark, notCollapsedLogoImg],
-  [`dark_${SiderViewTypes.HIDDEN}`]: [notCollapsedLogoImgOfDark, notCollapsedLogoImg],
+  [`dark_${SiderViewTypes.NOT_COLLAPSED}`]: [collapsedLogoImgOfDark, collapsedLogoImg],
+  [`dark_${SiderViewTypes.HIDDEN}`]: [collapsedLogoImgOfDark, collapsedLogoImg],
 };
 const paddingTopMap = {
   [`${th.FIXED}_${tn.FIXED}`]: '80px',

@@ -19,4 +19,4 @@ msgstr ""
 
 #: src/pages/Home/index.tsx:65
 msgid "welcomeLabel"
-msgstr "welcome, have fun with Concent-pro"
+msgstr "welcome, have fun with TNTWeb-admin"

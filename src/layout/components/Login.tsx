@@ -18,7 +18,7 @@ const bgThemes = [
   'square','cobweb', 'color', 'ball',  'polygon', 'lines', 'thick', 'circle',
   'tadpole', 'fountain', 'random', 'list', 'custom',
 ] as const;
-const uiLoginAreaTitle = <img width="200px" alt="concent-pro"
+const uiLoginAreaTitle = <img width="200px" alt="tntweb-admin"
   src="https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png"
 />;
 

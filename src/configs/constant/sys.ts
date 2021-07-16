@@ -6,18 +6,18 @@ export const buttomBgColor = '#f0f2f5';
 export const contentBgColor = '#fff';
 export const siteThemeColor = '#1976d2';
 /** 水印文案 */
-export const waterMarkLabel = 'concent-pro';
+export const waterMarkLabel = 'TNTWeb-admin';
 
-const img1 = 'https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/c2pro-banner.png';
+const imgLong = 'https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/tnt-long.png';
 // 展开时两种主题色的logo长图设置，可按实际情况填写不同的url，如无素材填写0长字符串，保证 notCollapsedLogoLabel 有文案即可
 /** 展开时浅色主题长图 */
-export const notCollapsedLogoImg = img1;
+export const notCollapsedLogoImg = imgLong;
 /** 展开时深色主题长图 */
-export const notCollapsedLogoImgOfDark = img1;
+export const notCollapsedLogoImgOfDark = imgLong;
 /** 无 notCollapsedLogoImg 或 notCollapsedLogoImgOfDark 时，系统兜底采用的短文案，用于折叠边栏时显示 */
 export const notCollapsedLogoLabel = 'xxx系统';
 
-const img2 = 'https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/short_logo.png';
+const img2 = 'https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/tnt-short.png';
 // 折叠时两种主题色的logo短图设置，可按实际情况填写不同的url，如无素材填写0长字符串，保证 collapsedLogoLabel 有文案即可
 /** 折叠时浅色主题短图 */
 export const collapsedLogoImg = img2;

@@ -67,7 +67,7 @@ function Home(props: RouteComponentProps) {
           {/* <AsyncButton><Trans id="welcomeLabel"></Trans></AsyncButton> */}
         </Col>
         <Col>
-          <a style={{ marginLeft: '12px' }} href="https://github.com/tnfe/concent-pro" target="blank">
+          <a style={{ marginLeft: '12px' }} href="https://github.com/tnfe/tntweb-admin" target="blank">
             <GithubOutlined style={{ fontSize: '52px' }} />
           </a>
         </Col>

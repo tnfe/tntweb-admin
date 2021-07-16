@@ -19,4 +19,4 @@ msgstr "anotherLabel"
 
 #: src/pages/Home/index.tsx:65
 msgid "welcomeLabel"
-msgstr "欢迎了解与使用 Concent-pro!"
+msgstr "欢迎了解与使用 TNTWeb-admin!"

@@ -1,1 +1,1 @@
-/*eslint-disable*/module.exports={messages:{"welcomeLabel":"welcome, have fun with Concent-pro"}};
+/*eslint-disable*/module.exports={messages:{"anotherLabel":"anotherLabel","welcomeLabel":"welcome, have fun with TNTWeb-admin"}};

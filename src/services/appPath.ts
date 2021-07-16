@@ -7,8 +7,8 @@ const cachedApiHost = localStorage.getItem('someApiHostKey');
  */
 export function getBasename() {
   const { hostname, pathname } = window.location;
-  // concent-pro 站点走特殊的basename，以符合 gh-pages 目录结构
-  if (hostname.includes('github.io') && pathname.includes('concent-pro')) return '';
+  // tntweb-admin 站点走特殊的basename，以符合 gh-pages 目录结构
+  if (hostname.includes('github.io') && pathname.includes('tntweb-admin')) return '';
   return cachedAppName || '';
 }
 

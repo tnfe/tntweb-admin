@@ -4,7 +4,7 @@ import styles from './styles/App.module.css';
 
 const Footer = () => (
   <div className={styles.footerWrap}>
-    © 2021 <a href="https://github.com/tnfe/concent-pro" target="blank">Concent Pro</a>
+    © 2021 <a href="https://github.com/tnfe/tntweb-admin" target="blank">Concent Pro</a>
     , powered by <a href="https://github.com/concentjs/concent" target="blank">Concent </a>
     <a href="https://github.com/concentjs/concent" target="blank">
       <GithubOutlined />
