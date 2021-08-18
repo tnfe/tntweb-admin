@@ -17,7 +17,7 @@ export function hex2rgbString(hexColor: string) {
   return `${rgb.r}, ${rgb.g}, ${rgb.b}`;
 }
 
-export function getThemeColorLight(hexColor: string, lighten: number = 0.6) {
+export function getThemeColorLight(hexColor: string, lighten: number = 0.2) {
   const c = new Color(hexColor);
   const themeColorLight = c.lighten(lighten).hex();
   return themeColorLight;

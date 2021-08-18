@@ -10,7 +10,6 @@ import { useC2Mod, typeCtxM } from 'services/concent';
 import { VerticalBlank, AsyncButton, Blank } from 'components/dumb/general';
 import { AuthView } from 'components';
 import Bar from 'components/Charts/Bar';
-import { Trans } from '@lingui/macro';
 
 const layoutOptions = [
   { label: '折叠边栏，仅显示快捷导航条', value: '1' },
@@ -62,7 +61,7 @@ function Home(props: RouteComponentProps) {
     <div style={{ paddingTop: '15px' }}>
       <Row>
         <Col>
-          <AsyncButton><Trans>welcomeLabel</Trans></AsyncButton>
+          <AsyncButton>欢迎访问与了解tntweb-admin</AsyncButton>
           {/* 或者写为 */}
           {/* <AsyncButton><Trans id="welcomeLabel"></Trans></AsyncButton> */}
         </Col>
@@ -72,8 +71,6 @@ function Home(props: RouteComponentProps) {
           </a>
         </Col>
       </Row>
-      <VerticalBlank height="32px" />
-      <Trans>anotherLabel</Trans>
       <AuthView authId="key_1"><h1>you can not see me if you have not auth</h1></AuthView>
       <Button type="primary" onClick={se.addAuthId}>
         点击此按钮，将看到一个带权限控制的视图
