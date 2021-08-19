@@ -101,6 +101,12 @@ function setup(ctx: CtxDe) {
   };
 }
 
+// 根据 mode 换 key，防止边栏宽窄变化时出现动画导致字体抖动
+const mode2key = {
+  trueInlineCollapsed: '1',
+  falseInlineCollapsed: '2',
+};
+
 interface ISiderMenusProps {
   mode?: MenuMode;
   style?: React.CSSProperties;
@@ -110,10 +116,13 @@ export function SiderMenus(props: ISiderMenusProps) {
   const { settings: se, globalState, globalComputed: gcu } = useSetupCtx(setup, { tag: 'SiderMenus' });
   // 垂直在左侧布局时，才读siderTheme，否则主题色应和 headerTheme 相同
   const theme = mode === 'inline' ? globalState.siderTheme : globalState.headerTheme;
+  // @ts-ignore
+  const key = mode2key[`${gcu.siderInfo.isUnfold}InlineCollapsed`];
 
   return (
     <div className={`${styles.siderMenusWrap} smallScBar`} style={{ width: gcu.siderStyle.width }}>
       <Menu
+        key={key}
         theme={theme}
         mode={mode}
         selectedKeys={se.insState.selectedKeys}
