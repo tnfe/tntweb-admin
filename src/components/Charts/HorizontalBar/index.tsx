@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chart } from '@antv/g2';
 
+
 const getChart = (data: any, container: string) => {
   const chart = new Chart({
     container,
@@ -9,37 +10,32 @@ const getChart = (data: any, container: string) => {
   });
   chart.data(data);
   chart.axis(false);
-  chart.scale('value', {
-    alias: '销售额(万)',
-    nice: true,
+  chart.legend({
+    position: 'top',
   });
-
-  // chart.tooltip({
-  //   showMarkers: false
-  // });
+  chart.coordinate('rect').transpose();
+  chart.tooltip({
+    shared: true,
+    showMarkers: false,
+  });
   chart.interaction('active-region');
-
-  chart.interval().position('time*value')
-    .style('time', val => {
-      if (val === '13:00-14:00') {
-        return {
-          fillOpacity: 0.4,
-          lineWidth: 1,
-          stroke: '#636363',
-          lineDash: [3, 2]
-        }
+  chart
+    .interval()
+    .adjust('stack')
+    .position('city*value')
+    .color('type*city', (type, city) => {
+      if (type === '城市人口') {
+        return '#1890ff';
       }
-      return {
-        fillOpacity: 1,
-        lineWidth: 0,
-        stroke: '#636363',
-        lineDash: [3, 2]
-      };
-    });
+      return '#c0c0c0';
+    })
+    .size(26);
 
   chart.render();
+
   return chart;
 }
+
 
 interface IProps {
   data: any[], height?: string, width?: string
@@ -47,8 +43,7 @@ interface IProps {
 
 export default function (props: IProps) {
   const chartInfo = React.useRef<{ ins: Chart | null }>({ ins: null });
-  const containerId = React.useRef(`${Date.now()}`);
-  console.log(`containerId.current ${containerId.current}`);
+  const containerId = React.useRef(`h_${Date.now()}`);
 
   React.useEffect(() => {
     let ins = chartInfo.current.ins;

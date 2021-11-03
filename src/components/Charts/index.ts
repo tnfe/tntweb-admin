@@ -1,1 +1,4 @@
 export { default as Bar } from './Bar';
+export { default as Area } from './Area';
+export { default as Scatter } from './Scatter';
+export { default as HorizontalBar } from './HorizontalBar';

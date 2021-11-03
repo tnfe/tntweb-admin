@@ -1,45 +1,52 @@
 import React from 'react';
 import { Chart } from '@antv/g2';
 
+
 const getChart = (data: any, container: string) => {
   const chart = new Chart({
     container,
     autoFit: true,
-    height: 500,
+    height: 500
   });
+  // 数据格式： [{"gender":"female","height":161.2,"weight":51.6}]
   chart.data(data);
   chart.axis(false);
-  chart.scale('value', {
-    alias: '销售额(万)',
-    nice: true,
+  chart.scale({
+    height: { nice: true },
+    weight: { nice: true },
   });
-
-  // chart.tooltip({
-  //   showMarkers: false
-  // });
-  chart.interaction('active-region');
-
-  chart.interval().position('time*value')
-    .style('time', val => {
-      if (val === '13:00-14:00') {
-        return {
-          fillOpacity: 0.4,
-          lineWidth: 1,
-          stroke: '#636363',
-          lineDash: [3, 2]
-        }
-      }
+  chart.tooltip({
+    showTitle: false,
+    showCrosshairs: true,
+    crosshairs: {
+      type: 'xy',
+    },
+    itemTpl: '<li class="g2-tooltip-list-item" data-index={index} style="margin-bottom:4px;">'
+      + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
+      + '{name}<br/>'
+      + '{value}'
+      + '</li>'
+  });
+  chart
+    .point()
+    .position('height*weight')
+    .color('gender')
+    .shape('circle')
+    .tooltip('gender*height*weight', (gender, height, weight) => {
       return {
-        fillOpacity: 1,
-        lineWidth: 0,
-        stroke: '#636363',
-        lineDash: [3, 2]
+        name: gender,
+        value: height + '(cm), ' + weight + '(kg)'
       };
+    })
+    .style({
+      fillOpacity: 0.85
     });
-
+  chart.interaction('legend-highlight');
   chart.render();
+
   return chart;
 }
+
 
 interface IProps {
   data: any[], height?: string, width?: string
@@ -47,7 +54,7 @@ interface IProps {
 
 export default function (props: IProps) {
   const chartInfo = React.useRef<{ ins: Chart | null }>({ ins: null });
-  const containerId = React.useRef(`${Date.now()}`);
+  const containerId = React.useRef(`s_${Date.now()}`);
   console.log(`containerId.current ${containerId.current}`);
 
   React.useEffect(() => {

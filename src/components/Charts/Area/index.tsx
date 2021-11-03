@@ -1,45 +1,37 @@
 import React from 'react';
 import { Chart } from '@antv/g2';
 
+
 const getChart = (data: any, container: string) => {
   const chart = new Chart({
     container,
     autoFit: true,
     height: 500,
   });
+
   chart.data(data);
-  chart.axis(false);
-  chart.scale('value', {
-    alias: '销售额(万)',
-    nice: true,
+  chart.scale({
+    value: {
+      min: 10000,
+      nice: true,
+    },
+    year: {
+      range: [0, 1],
+    },
   });
+  chart.tooltip({
+    showCrosshairs: true,
+    shared: true,
+  });
+  chart.axis(false);
 
-  // chart.tooltip({
-  //   showMarkers: false
-  // });
-  chart.interaction('active-region');
-
-  chart.interval().position('time*value')
-    .style('time', val => {
-      if (val === '13:00-14:00') {
-        return {
-          fillOpacity: 0.4,
-          lineWidth: 1,
-          stroke: '#636363',
-          lineDash: [3, 2]
-        }
-      }
-      return {
-        fillOpacity: 1,
-        lineWidth: 0,
-        stroke: '#636363',
-        lineDash: [3, 2]
-      };
-    });
-
+  chart.area().position('year*value');
+  chart.line().position('year*value');
   chart.render();
+
   return chart;
 }
+
 
 interface IProps {
   data: any[], height?: string, width?: string

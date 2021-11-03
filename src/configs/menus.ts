@@ -67,6 +67,7 @@ const menus: Array<IMenuItem | IMenuGroup> = [
     path: routerPath.DEMO,
     Component: HomePage,
     isHomePage: true,
+    setContentLayout: false,
   },
   {
     key: 'listExamples',

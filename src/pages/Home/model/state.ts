@@ -4,6 +4,9 @@ function getInitialState() {
     value: 0,
     bigValue: 100,
     barData: [] as any[],
+    areaData: [] as any[],
+    scatterData: [] as any[],
+    horizontalBarData: [] as any[],
   };
 }
 
