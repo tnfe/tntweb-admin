@@ -650,7 +650,7 @@ exports[`App Render generate App snapshot 1`] = `
       href="https://github.com/tnfe/tntweb-admin"
       target="blank"
     >
-      Concent Pro
+      TNTWeb-admin
     </a>
     , powered by 
     <a
