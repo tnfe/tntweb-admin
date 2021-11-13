@@ -78,7 +78,7 @@ export async function fetchAppIdInfo(p: VoidPayload, moduleState: St, ac: IAC) {
     const ret = await appService.fetchAppDetail(appId);
     const { appDetail } = ret;
     return { appDetail, checkAppIdBtnLoading: false };
-  } catch (err) {
+  } catch (err: any) {
     msgService.error(err.message);
     return { checkAppIdBtnLoading: false };
   }

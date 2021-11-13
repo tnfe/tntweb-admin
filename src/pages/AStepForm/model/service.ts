@@ -39,7 +39,7 @@ export const oriCheckers = {
     let json = null;
     try {
       json = JSON.parse(value);
-    } catch (err) {
+    } catch (err: any) {
       error = '示例数据json格式不合法';
     }
 

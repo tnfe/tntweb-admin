@@ -33,7 +33,7 @@ export async function callTarget<T extends any = any>(callerParams: CallTargetPa
       const { fnName, payload, renderKey, delay } = callerParams;
       ret = await ac.dispatch(fnName, payload, renderKey, delay) as unknown as any;
     }
-  } catch (err) {
+  } catch (err: any) {
     if (errHandler) errHandler(err);
     throw err;
   }

@@ -209,7 +209,7 @@ async function sendRequest(method: string, url: string, data?: DataParams, optio
     }
 
     return checkCode(reply, url, { returnLogicData, check });
-  } catch (err) {
+  } catch (err: any) {
     return handleError(err, options, defaultValue);
   }
 }
@@ -252,7 +252,7 @@ async function sendXForm(method: string, url: string, data: DataParams, options 
 
     const reply = await cute[method](attachPrefixAndData(url, '', bizServiceName), qs.stringify(_data), mergedOpt);
     return checkCode(reply, url, { returnLogicData, check });
-  } catch (err) {
+  } catch (err: any) {
     return handleError(err, options, defaultValue);
   }
 }
@@ -273,7 +273,7 @@ async function multiGet(urls: string[], options: IReqOptions = {}) {
     const _urls = urls.map(url => attachPrefixAndData(url, '', bizServiceName));
     const replyList: any[] = await cute.multiGet(_urls, { ...generalOptions, ...cuteOptions });
     return replyList.map((r, idx) => checkCode(r, _urls[idx], { returnLogicData, check }));
-  } catch (err) {
+  } catch (err: any) {
     return handleError(err, options, defaultValue);
   }
 }
@@ -287,7 +287,7 @@ async function multiPost(items: MultiItem[], options: IReqOptions = {}) {
     items.forEach(item => item.url = attachPrefixAndData(item.url, '', bizServiceName));
     const replyList: any[] = await cute.multiPost(items, { ...generalOptions, ...cuteOptions });
     return replyList.map((r, idx) => checkCode(r, items[idx].url, { returnLogicData, check }));
-  } catch (err) {
+  } catch (err: any) {
     return handleError(err, options, defaultValue);
   }
 }
@@ -319,7 +319,7 @@ async function postFormData(url: string, data: DataParams, options: IReqOptions)
   try {
     const reply = await instance.post(finalUrl, formData, cuteOptions);
     return checkCode(reply, url, { returnLogicData, check });
-  } catch (err) {
+  } catch (err: any) {
     return handleError(err, options, defaultValue);
   }
 }

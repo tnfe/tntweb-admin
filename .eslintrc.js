@@ -24,6 +24,10 @@ module.exports = {
     camelcase: 0,
     '@typescript-eslint/explicit-member-accessibility': 0,
     '@typescript-eslint/prefer-optional-chain': 0,
+    /**
+     * 允许定义函数接口时使用 void 作为返回类型
+     */
+    '@typescript-eslint/no-invalid-void-type': 0,
     'react/display-name': 0,
     'no-param-reassign': 0,
     'import/prefer-default-export': 0,

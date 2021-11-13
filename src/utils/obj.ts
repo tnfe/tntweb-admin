@@ -58,7 +58,7 @@ export function safeAssign(obj: Record<string, any>, toMod: Record<string, any> 
 export function safeParse<T = any>(jsonStr: string, defaultValue?: T, errMsg?: string): T {
   try {
     return JSON.parse(jsonStr);
-  } catch (err) {
+  } catch (err: any) {
     if (defaultValue) return defaultValue;
     if (errMsg) throw new Error(errMsg);
     throw err;

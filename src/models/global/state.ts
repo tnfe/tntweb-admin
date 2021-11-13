@@ -99,7 +99,7 @@ function getInitialState() {
       }
     });
     final.activeRoutePaths = validActiveRoutePaths;
-  } catch (err) {
+  } catch (err: any) {
     final.activeRoutePaths = [];
   }
 
