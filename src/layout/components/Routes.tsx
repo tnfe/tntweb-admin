@@ -7,7 +7,7 @@ import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { register, cst } from 'concent';
 import { useSetup } from 'services/concent';
 import { getUrlChangedEvName } from 'react-router-concent';
-import { Layout } from 'antd';
+import { Layout, Result } from 'antd';
 import { flattedMenus } from 'configs/derived/menus';
 import { IMenuItem } from 'configs/menus';
 import Error403 from 'components/dumb/Error403';
@@ -69,10 +69,7 @@ class Routes extends React.Component {
   public renderCrashTip = () => {
     return (
       <Layout style={this.ctx.globalComputed.contentLayoutStyle}>
-        <h1 style={{ color: 'red', padding: '64px' }}>
-          当前路由页面崩溃，请联系 xxx 开发者 做进一步跟踪，如果是开发者，可打开console查看具体错误,
-          如想继续访问当前页面，可刷新浏览器重试。
-        </h1>
+        <Result status="500" title="渲染错误" subTitle="当前页面出现渲染错误，请联系相关人员 xxx 排查" />
       </Layout>
     );
   }
@@ -96,7 +93,6 @@ class Routes extends React.Component {
   }
 
   public renderChildren = (item: IMenuItem, props: RouteComponentProps, inputSetContentLayout?: boolean) => {
-    console.warn('Render CompWrap');
     const setContentLayout = decideVal(inputSetContentLayout, item.setContentLayout);
     const { contentLayoutStyle } = this.ctx.globalComputed;
 
@@ -134,7 +130,6 @@ class Routes extends React.Component {
 
   // 创建一个渲染包含有【路由组件】的组件
   public makeCompWrap = (item: IMenuItem, setContentLayout?: boolean) => {
-    console.warn('makeCompWrap');
     return (props: RouteComponentProps) => {
       return this.renderChildren(item, props, setContentLayout);
     };
