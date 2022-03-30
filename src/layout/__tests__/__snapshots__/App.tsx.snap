@@ -277,13 +277,16 @@ exports[`App Render generate App snapshot 1`] = `
       style="width:48px"
     >
       <ul
-        class="ant-menu ant-menu-dark ant-menu-inline-collapsed layout-sider ant-menu-root ant-menu-vertical"
+        class="ant-menu ant-menu-root ant-menu-vertical ant-menu-dark layout-sider ant-menu-inline-collapsed"
+        data-menu-list="true"
         role="menu"
         style="height:100%;border-right:0"
+        tabindex="0"
       >
         <li
           class="ant-menu-item ant-menu-item-selected"
           role="menuitem"
+          tabindex="-1"
         >
           <span
             aria-label="form"
@@ -307,7 +310,9 @@ exports[`App Render generate App snapshot 1`] = `
               />
             </svg>
           </span>
-          <span>
+          <span
+            class="ant-menu-title-content"
+          >
             <a
               href="/demo"
             >
@@ -317,17 +322,18 @@ exports[`App Render generate App snapshot 1`] = `
         </li>
         <li
           class="ant-menu-submenu ant-menu-submenu-vertical"
-          role="menuitem"
+          role="none"
         >
           <div
             aria-expanded="false"
             aria-haspopup="true"
             class="ant-menu-submenu-title"
-            role="button"
+            role="menuitem"
+            tabindex="-1"
           >
             <span
               aria-label="ordered-list"
-              class="anticon anticon-ordered-list"
+              class="anticon anticon-ordered-list ant-menu-item-icon"
               role="img"
             >
               <svg
@@ -344,7 +350,9 @@ exports[`App Render generate App snapshot 1`] = `
                 />
               </svg>
             </span>
-            <span>
+            <span
+              class="ant-menu-title-content"
+            >
               list示例集合
             </span>
             <i
@@ -355,6 +363,7 @@ exports[`App Render generate App snapshot 1`] = `
         <li
           class="ant-menu-item"
           role="menuitem"
+          tabindex="-1"
         >
           <span
             aria-label="question"
@@ -375,7 +384,9 @@ exports[`App Render generate App snapshot 1`] = `
               />
             </svg>
           </span>
-          <span>
+          <span
+            class="ant-menu-title-content"
+          >
             <a
               href="/template"
             >
@@ -386,6 +397,7 @@ exports[`App Render generate App snapshot 1`] = `
         <li
           class="ant-menu-item"
           role="menuitem"
+          tabindex="-1"
         >
           <span
             aria-label="plus-circle"
@@ -409,7 +421,9 @@ exports[`App Render generate App snapshot 1`] = `
               />
             </svg>
           </span>
-          <span>
+          <span
+            class="ant-menu-title-content"
+          >
             <a
               href="/counter"
             >
@@ -420,6 +434,7 @@ exports[`App Render generate App snapshot 1`] = `
         <li
           class="ant-menu-item"
           role="menuitem"
+          tabindex="-1"
         >
           <span
             aria-label="plus-circle"
@@ -443,7 +458,9 @@ exports[`App Render generate App snapshot 1`] = `
               />
             </svg>
           </span>
-          <span>
+          <span
+            class="ant-menu-title-content"
+          >
             <a
               href="/counter2"
             >
@@ -454,6 +471,7 @@ exports[`App Render generate App snapshot 1`] = `
         <li
           class="ant-menu-item"
           role="menuitem"
+          tabindex="-1"
         >
           <span
             aria-label="question"
@@ -474,7 +492,9 @@ exports[`App Render generate App snapshot 1`] = `
               />
             </svg>
           </span>
-          <span>
+          <span
+            class="ant-menu-title-content"
+          >
             <a
               href="/step-form"
             >
@@ -485,6 +505,7 @@ exports[`App Render generate App snapshot 1`] = `
         <li
           class="ant-menu-item"
           role="menuitem"
+          tabindex="-1"
         >
           <span
             aria-label="right-circle"
@@ -508,7 +529,9 @@ exports[`App Render generate App snapshot 1`] = `
               />
             </svg>
           </span>
-          <span>
+          <span
+            class="ant-menu-title-content"
+          >
             <a
               href="/demo-use-setup"
             >
@@ -517,6 +540,10 @@ exports[`App Render generate App snapshot 1`] = `
           </span>
         </li>
       </ul>
+      <div
+        aria-hidden="true"
+        style="display:none"
+      />
     </div>
     <button
       class="ant-btn ant-btn-primary"

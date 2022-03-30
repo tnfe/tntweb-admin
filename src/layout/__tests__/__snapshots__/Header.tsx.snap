@@ -139,26 +139,15 @@ exports[`Header Render generate SettingPanel snapshot 1`] = `
     width="550px"
   >
     <Drawer
-      closable={true}
-      height={256}
-      keyboard={true}
-      level={null}
-      mask={true}
-      maskClosable={true}
       onClose={[Function]}
-      placement="right"
       prefixCls="ant-drawer"
-      push={
-        Object {
-          "distance": 180,
-        }
-      }
       title="常用设置"
       visible={false}
       width="550px"
     >
       <DrawerWrapper
         afterVisibleChange={[Function]}
+        autoFocus={true}
         className=""
         defaultOpen={false}
         duration=".3s"
