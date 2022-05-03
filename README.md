@@ -29,7 +29,7 @@ cd concent-pro
 
 - 安装相关依赖
 ```bash
-npm i
+npm i --registry=https://registry.npmjs.org
 ```  
 
 - 启动与调试项目

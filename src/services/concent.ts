@@ -293,13 +293,23 @@ export function getModelComputed<T extends Modules>(modelName: T) {
 }
 
 /**
- * 获取 global模块的状态
+ * 获取 global模块的计算结果
  * 在已拥有 concent model 上下文、action 上下文的地方，
  * 推荐直接获取，代替调用此函数，因为直接获取数据时组件并不会订阅数据变化
  */
 export function getGlobalComputed() {
   const globalComputed = getComputed<RootCu, MODULE_GLOBAL>(cst.MODULE_GLOBAL);
   return globalComputed;
+}
+
+/**
+ * 获取根计算结果
+ * 在已拥有 concent model 上下文、action 上下文的地方，
+ * 推荐直接获取，代替调用此函数，因为直接获取数据时组件并不会订阅数据变化
+ */
+export function getRootComputed() {
+  const rootComputed = getComputed<RootCu>();
+  return rootComputed;
 }
 
 type EvKeys = keyof EvMap;

@@ -87,7 +87,8 @@ class Routes extends React.Component {
 
   public renderChildrenWithNoContentWrap(children: React.ReactNode) {
     const { contentLayoutStyle } = this.ctx.globalComputed;
-    return <Layout style={contentLayoutStyle}>
+    // className is using only for mark dom position
+    return <Layout className="ChildrenWithNoContentWrap" style={contentLayoutStyle}>
       {children}
     </Layout>;
   }

@@ -17,6 +17,15 @@ const layoutOptions = [
   { label: '隐藏边栏，显示顶栏信息和快捷导航条', value: '3' },
 ];
 
+const responsiveColProps = {
+  xs: 24,
+  sm: 12,
+  md: 12,
+  lg: 12,
+  xl: 6,
+  style: { marginBottom: 24 },
+};
+
 function setup(c: any) {
   const ctx = typeCtxM(mods.HOME, {}, c);
   const { effect, gr, globalState } = ctx;
@@ -53,15 +62,6 @@ function setup(c: any) {
     },
   };
 }
-
-const responsiveColProps = {
-  xs: 24,
-  sm: 12,
-  md: 12,
-  lg: 12,
-  xl: 6,
-  style: { marginBottom: 24 },
-};
 
 
 function Home(props: RouteComponentProps) {
