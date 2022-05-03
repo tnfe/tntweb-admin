@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Form, Input, Button, Checkbox, Card } from 'antd';
+import { Form, Input, Button, Checkbox, Card, Alert } from 'antd';
 import ParticlesBg from "particles-bg";
 import { useSetupCtx } from 'services/concent';
 import { CtxDe } from 'types/store';
-import { Blank } from 'components/dumb/general';
+import { Blank, VerticalBlank } from 'components/dumb/general';
 import Footer from '../Footer';
 import styles from '../styles/App.module.css';
 
@@ -15,7 +15,7 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 const bgThemes = [
-  'square','cobweb', 'color', 'ball',  'polygon', 'lines', 'thick', 'circle',
+  'square', 'cobweb', 'color', 'ball', 'polygon', 'lines', 'thick', 'circle',
   'tadpole', 'fountain', 'random', 'list', 'custom',
 ] as const;
 const uiLoginAreaTitle = <img width="200px" alt="tntweb-admin"
@@ -53,6 +53,8 @@ function Login() {
     <div>
       <ParticlesBg type={bgThemes[se.insState.themeIdx]} bg={true} />
       <Card className={styles.loginCardWrap} title={uiLoginAreaTitle}>
+        <Alert showIcon message="姓名输入 concent，密码输入 pro " />
+        <VerticalBlank />
         <Form
           {...layout}
           name="basic"

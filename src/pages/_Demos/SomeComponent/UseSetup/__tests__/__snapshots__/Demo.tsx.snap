@@ -23,7 +23,9 @@ exports[`Demo Render generate Demo snapshot 1`] = `
         onClick={[Function]}
         type="primary"
       >
-        <Wave>
+        <Wave
+          disabled={false}
+        >
           <button
             className="ant-btn ant-btn-primary"
             onClick={[Function]}
