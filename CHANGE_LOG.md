@@ -1,6 +1,7 @@
 为了打造最易用的`react&concent admin`而撸
 
-
+## 2022-05-03
+锁定`@antd/g2`包为4.1.49，避免升级后运行`npm run snap`报错`Worker is not defined`
 ## 2021-06-19
 - 新增模拟登录登出功能
 - 新增水印功能
