@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "https://tnfe.github.io/tntweb-admin/precache-manifest.3c15d4ccbb3afce6409379136b933755.js"
+  "https://tnfe.github.io/tntweb-admin/precache-manifest.df35bbd2a266c5f1c6b1ed84f837d0e3.js"
 );
 
 self.addEventListener('message', (event) => {

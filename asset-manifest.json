@@ -4,11 +4,11 @@
     "static/js/0.6193b959.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/0.6193b959.chunk.js",
     "static/js/1.2ecebfa4.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/1.2ecebfa4.chunk.js",
     "main.css": "https://tnfe.github.io/tntweb-admin/static/css/main.121e7dba.chunk.css",
-    "main.js": "https://tnfe.github.io/tntweb-admin/static/js/main.db453b6e.chunk.js",
-    "runtime-main.js": "https://tnfe.github.io/tntweb-admin/static/js/runtime-main.d6004520.js",
-    "static/js/4.25b598ec.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/4.25b598ec.chunk.js",
+    "main.js": "https://tnfe.github.io/tntweb-admin/static/js/main.dbb11952.chunk.js",
+    "runtime-main.js": "https://tnfe.github.io/tntweb-admin/static/js/runtime-main.bbe958c2.js",
+    "static/js/4.0ea7fbfb.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/4.0ea7fbfb.chunk.js",
     "static/css/5.6917c20e.chunk.css": "https://tnfe.github.io/tntweb-admin/static/css/5.6917c20e.chunk.css",
-    "static/js/5.03797b73.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/5.03797b73.chunk.js",
+    "static/js/5.6ce0f7a5.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/5.6ce0f7a5.chunk.js",
     "static/css/6.ec20a7bc.chunk.css": "https://tnfe.github.io/tntweb-admin/static/css/6.ec20a7bc.chunk.css",
     "static/js/6.f048a18e.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/6.f048a18e.chunk.js",
     "static/js/7.360c35a0.chunk.js": "https://tnfe.github.io/tntweb-admin/static/js/7.360c35a0.chunk.js",
@@ -21,18 +21,18 @@
     "editor.worker.js": "https://tnfe.github.io/tntweb-admin/editor.worker.js",
     "index.html": "https://tnfe.github.io/tntweb-admin/index.html",
     "json.worker.js": "https://tnfe.github.io/tntweb-admin/json.worker.js",
-    "precache-manifest.3c15d4ccbb3afce6409379136b933755.js": "https://tnfe.github.io/tntweb-admin/precache-manifest.3c15d4ccbb3afce6409379136b933755.js",
+    "precache-manifest.df35bbd2a266c5f1c6b1ed84f837d0e3.js": "https://tnfe.github.io/tntweb-admin/precache-manifest.df35bbd2a266c5f1c6b1ed84f837d0e3.js",
     "service-worker.js": "https://tnfe.github.io/tntweb-admin/service-worker.js",
-    "static/js/4.25b598ec.chunk.js.LICENSE.txt": "https://tnfe.github.io/tntweb-admin/static/js/4.25b598ec.chunk.js.LICENSE.txt",
-    "static/js/5.03797b73.chunk.js.LICENSE.txt": "https://tnfe.github.io/tntweb-admin/static/js/5.03797b73.chunk.js.LICENSE.txt",
+    "static/js/4.0ea7fbfb.chunk.js.LICENSE.txt": "https://tnfe.github.io/tntweb-admin/static/js/4.0ea7fbfb.chunk.js.LICENSE.txt",
+    "static/js/5.6ce0f7a5.chunk.js.LICENSE.txt": "https://tnfe.github.io/tntweb-admin/static/js/5.6ce0f7a5.chunk.js.LICENSE.txt",
     "static/media/codicon.css": "https://tnfe.github.io/tntweb-admin/static/media/codicon.ttf",
     "ts.worker.js": "https://tnfe.github.io/tntweb-admin/ts.worker.js",
     "ts.worker.js.LICENSE.txt": "https://tnfe.github.io/tntweb-admin/ts.worker.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.d6004520.js",
-    "static/js/4.25b598ec.chunk.js",
+    "static/js/runtime-main.bbe958c2.js",
+    "static/js/4.0ea7fbfb.chunk.js",
     "static/css/main.121e7dba.chunk.css",
-    "static/js/main.db453b6e.chunk.js"
+    "static/js/main.dbb11952.chunk.js"
   ]
 }
