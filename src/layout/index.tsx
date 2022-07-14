@@ -26,7 +26,7 @@ function setup({ effect, globalReducer }: CtxDe) {
 }
 
 function App() {
-  const { globalState: gst } = useC2DefaultMod({ setup, tag: 'App' });
+  const { globalState: gst } = useC2DefaultMod({ setup, tag: 'TntWebApp' });
 
   // 仅当是登录失败时，才渲染登录页
   if (gst.loginStatus === LoginStatus.LOGIN_FAILED) {

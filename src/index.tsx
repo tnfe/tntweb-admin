@@ -1,6 +1,8 @@
 
 import './styles/index.css';
 import './styles/antd.css';
+// @ts-ignore
+import CSI from 'csijs';
 import 'configs/runConcent';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -16,6 +18,15 @@ function getHostNode(id = 'root') {
   }
   return node;
 }
+
+// 示例：自定义上报
+const csi = new CSI({
+  feID: 'tntweb', // 项目id，日志区分项目使用
+  report: (lines: any) => {
+    // todo 自定义你的上报逻辑
+    console.log('error lins', lines);
+  },
+});
 
 ReactDOM.render(<App />, getHostNode('root'));
 
