@@ -46,11 +46,11 @@ export type RootInfo = { state: RootState, computed: RootCu };
 /** 用于描述 reducer 函数第3位参数 actionCtx 的类型 */
 export type IAC = IModActionCtx<RootInfo, ModelDesc>;
 
-/** 
+/**
  * 用于描述 setup 函数的第一位参数类型
  * 如需描述props的类型，可在组件文件内部使用 CtxPre 时透传 Props 类型
  */
-export type CtxPre<Props = IAnyObj, RefCu = IAnyObj, Extra = IAnyObj> = IRefCtxM<RootInfo, Props, ModelDesc, IAnyObj, RefCu, Extra>;
+export type CtxPre<Props extends IAnyObj = IAnyObj, RefCu = IAnyObj, Extra = IAnyObj> = IRefCtxM<RootInfo, Props, ModelDesc, IAnyObj, RefCu, Extra>;
 
 /**
  * 辅助单测文件 getRef 接口定义具体的返回类型

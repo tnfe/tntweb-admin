@@ -30,7 +30,7 @@ export type RootInfo = { state: RootState, computed: RootCu };
 // export type RootInfo = { state: {}, computed: {} };
 /** 用于描述 reducer 函数第3位参数 actionCtx 的类型 */
 export type IAC = IModActionCtx<RootInfo, ModelDesc>;
-export type CtxPre<Props = IAnyObj, RefCu = IAnyObj, Extra = IAnyObj> = IRefCtxM<RootInfo, Props, ModelDesc, IAnyObj, RefCu, Extra>;
+export type CtxPre<Props extends IAnyObj = IAnyObj, RefCu = IAnyObj, Extra = IAnyObj> = IRefCtxM<RootInfo, Props, ModelDesc, IAnyObj, RefCu, Extra>;
 type ValidSetup = (ctx: ICtxBase) => IAnyObj | void;
 export type Ctx<Setup extends ValidSetup> = IRefCtxM<RootInfo, {}, ModelDesc, SettingsType<Setup>>;
 
