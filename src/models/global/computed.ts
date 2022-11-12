@@ -30,15 +30,15 @@ const logoKey2ImgUrlList = {
 //   [`dark_${SiderViewTypes.HIDDEN}`]: [collapsedLogoImgOfDark, collapsedLogoImg],
 // };
 const paddingTopMap = {
-  [`${th.FIXED}_${tn.FIXED}`]: '80px',
-  [`${th.FIXED}_${tn.FLOWED}`]: '0',
-  [`${th.FIXED}_${tn.HIDDEN}`]: '48px',
-  [`${th.FLOWED}_${tn.FIXED}`]: '0',
-  [`${th.FLOWED}_${tn.FLOWED}`]: '0',
-  [`${th.FLOWED}_${tn.HIDDEN}`]: '0',
-  [`${th.HIDDEN}_${tn.FIXED}`]: '32px',
-  [`${th.HIDDEN}_${tn.FLOWED}`]: '0',
-  [`${th.HIDDEN}_${tn.HIDDEN}`]: '0',
+  [`${th.FIXED}_${tn.FIXED}`]: 80,
+  [`${th.FIXED}_${tn.FLOWED}`]: 0,
+  [`${th.FIXED}_${tn.HIDDEN}`]: 48,
+  [`${th.FLOWED}_${tn.FIXED}`]: 0,
+  [`${th.FLOWED}_${tn.FLOWED}`]: 0,
+  [`${th.FLOWED}_${tn.HIDDEN}`]: 0,
+  [`${th.HIDDEN}_${tn.FIXED}`]: 32,
+  [`${th.HIDDEN}_${tn.FLOWED}`]: 0,
+  [`${th.HIDDEN}_${tn.HIDDEN}`]: 0,
 };
 const headerStyleMap = {
   [`${th.FIXED}_${tn.FIXED}`]: { zIndex: 6, position: 'fixed' as const, left: '0', right: '0' },
@@ -75,12 +75,19 @@ export function isHeaderAboveNavBar(n: St) {
 /**
  * MainContent 组件根节点样式
  */
-export function contentLayoutStyle(n: St): React.CSSProperties {
+export function contentLayoutStyle(n: St): { hasPadding: React.CSSProperties, hasNoPadding: React.CSSProperties } {
   const { siderViewType, topHeaderType, topNavBarType } = n;
   // 给一个最小高度，确保路由组件在异步加载过程中，Footer出现在底部
   const minHeight = 'calc(100vh - 45px)';
   const paddingTop = paddingTopMap[`${topHeaderType}_${topNavBarType}`];
-  return { marginLeft: viewType2LeftValue[siderViewType], paddingTop, minHeight, overflowX: 'auto' };
+  const contentPadding = 20;
+  const padding = `${paddingTop + contentPadding}px ${contentPadding}px ${contentPadding}px`;
+
+  const baseStyle: React.CSSProperties = { marginLeft: viewType2LeftValue[siderViewType], minHeight, overflowX: 'auto' };
+  return {
+    hasPadding: { ...baseStyle, padding },
+    hasNoPadding: { ...baseStyle, paddingTop: `${paddingTop}px` },
+  };
 }
 
 /**

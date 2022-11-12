@@ -2,6 +2,7 @@
 ## 替换规则
 #1890ff  ---> var(--theme-color)
 #40a9ff ---> var(--theme-color-light)
+#096dd9 ---> var(--theme-color-active)
 #096dd9 ---> var(--theme-color-heavy) todo
 
 ## 动画关闭

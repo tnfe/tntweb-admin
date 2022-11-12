@@ -68,7 +68,7 @@ class Routes extends React.Component {
   // 提示当前路由页崩溃
   public renderCrashTip = () => {
     return (
-      <Layout style={this.ctx.globalComputed.contentLayoutStyle}>
+      <Layout style={this.ctx.globalComputed.contentLayoutStyle.hasPadding}>
         <Result status="500" title="渲染错误" subTitle="当前页面出现渲染错误，请联系相关人员 xxx 排查" />
       </Layout>
     );
@@ -76,19 +76,17 @@ class Routes extends React.Component {
 
   public renderChildrenWithContentWrap(children: React.ReactNode) {
     const { contentLayoutStyle } = this.ctx.globalComputed;
-    return <Layout style={contentLayoutStyle}>
-      <Layout style={{ padding: '24px' }}>
-        <Content className={styles.contentWrap}>
-          {children}
-        </Content>
-      </Layout>
+    return <Layout style={contentLayoutStyle.hasPadding}>
+      <Content className={styles.contentWrap}>
+        {children}
+      </Content>
     </Layout>;
   }
 
   public renderChildrenWithNoContentWrap(children: React.ReactNode) {
     const { contentLayoutStyle } = this.ctx.globalComputed;
-    // className is using only for mark dom position
-    return <Layout className="ChildrenWithNoContentWrap" style={contentLayoutStyle}>
+    // className is only for marking dom position
+    return <Layout className="ChildrenWithNoContentWrap" style={contentLayoutStyle.hasNoPadding}>
       {children}
     </Layout>;
   }
