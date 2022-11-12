@@ -6,59 +6,70 @@ exports[`Demo Render generate Demo snapshot 1`] = `
   location={Object {}}
   match={Object {}}
 >
-  <DemoUseSetup>
-    <div>
-      <input
-        onChange={[Function]}
-        value="xx"
-      />
-      <h1>
-        reverse: 
-        xx
-      </h1>
-      <h1>
-        2
-      </h1>
-      <Button
-        onClick={[Function]}
-        type="primary"
+  <ForwardRef>
+    <div
+      className="ant-card ant-card-bordered"
+    >
+      <div
+        className="ant-card-body"
+        style={Object {}}
       >
-        <Wave
-          disabled={false}
-        >
-          <button
-            className="ant-btn ant-btn-primary"
-            onClick={[Function]}
-            type="button"
-          >
-            <LoadingIcon
-              existIcon={false}
-              loading={false}
-              prefixCls="ant-btn"
+        <DemoUseSetup>
+          <div>
+            <input
+              onChange={[Function]}
+              value="xx"
+            />
+            <h1>
+              reverse: 
+              xx
+            </h1>
+            <h1>
+              2
+            </h1>
+            <Button
+              onClick={[Function]}
+              type="primary"
             >
-              <CSSMotion
-                motionName="ant-btn-loading-icon-motion"
-                onAppearActive={[Function]}
-                onAppearStart={[Function]}
-                onEnterActive={[Function]}
-                onEnterStart={[Function]}
-                onLeaveActive={[Function]}
-                onLeaveStart={[Function]}
-                removeOnLeave={true}
-                visible={false}
+              <Wave
+                disabled={false}
               >
-                <DomWrapper />
-              </CSSMotion>
-            </LoadingIcon>
-            <span
-              key=".0"
-            >
-              toogleIsOk true
-            </span>
-          </button>
-        </Wave>
-      </Button>
+                <button
+                  className="ant-btn ant-btn-primary"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <LoadingIcon
+                    existIcon={false}
+                    loading={false}
+                    prefixCls="ant-btn"
+                  >
+                    <CSSMotion
+                      motionName="ant-btn-loading-icon-motion"
+                      onAppearActive={[Function]}
+                      onAppearStart={[Function]}
+                      onEnterActive={[Function]}
+                      onEnterStart={[Function]}
+                      onLeaveActive={[Function]}
+                      onLeaveStart={[Function]}
+                      removeOnLeave={true}
+                      visible={false}
+                    >
+                      <DomWrapper />
+                    </CSSMotion>
+                  </LoadingIcon>
+                  <span
+                    key=".0"
+                  >
+                    toogleIsOk true
+                  </span>
+                </button>
+              </Wave>
+            </Button>
+          </div>
+        </DemoUseSetup>
+      </div>
     </div>
-  </DemoUseSetup>
+  </ForwardRef>
 </Memo(DemoPageTodoList)>
 `;

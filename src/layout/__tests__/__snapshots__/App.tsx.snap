@@ -573,7 +573,7 @@ exports[`App Render generate App snapshot 1`] = `
   </div>
   <section
     class="ant-layout"
-    style="margin-left:48px;padding-top:32px;min-height:calc(100vh - 45px);overflow-x:auto"
+    style="margin-left:48px;min-height:calc(100vh - 45px);overflow-x:auto;padding:52px 20px 20px"
   >
     <div
       style="padding:64px"
