@@ -57,7 +57,13 @@ export function safeAssign(obj: Record<string, any>, toMod: Record<string, any> 
  */
 export function safeParse<T = any>(jsonStr: string, defaultValue?: T, errMsg?: string): T {
   try {
-    return JSON.parse(jsonStr);
+    // 防止用户传递了非 string 参数进来
+    if (defaultValue && typeof jsonStr === typeof defaultValue) {
+      return jsonStr as unknown as T;
+    }
+
+    const result = JSON.parse(jsonStr); // 避免 JSON.parse('null') ---> null
+    return result || defaultValue;
   } catch (err: any) {
     if (defaultValue) return defaultValue;
     if (errMsg) throw new Error(errMsg);

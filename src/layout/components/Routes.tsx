@@ -8,7 +8,7 @@ import { register, cst } from 'concent';
 import { useSetup } from 'services/concent';
 import { getUrlChangedEvName } from 'react-router-concent';
 import { Layout, Result } from 'antd';
-import { flattedMenus } from 'configs/derived/menus';
+import { getMenuData } from 'configs/derived/menus';
 import { IMenuItem } from 'configs/menus';
 import Error403 from 'components/dumb/Error403';
 import Error404 from 'components/dumb/Error404';
@@ -35,9 +35,21 @@ function setup(ctx: CtxDe) {
   };
 }
 
-const RouterGuard = React.memo((props: { Comp: React.ComponentType<any>, routerProps: RouteComponentProps }) => {
+/**
+ * menu 里配置的路由组件透传的props类型
+ */
+export interface IMenuRouterCompProps {
+  extraData?: Record<string, any>;
+  routerProps: RouteComponentProps;
+}
+interface IRouterGuardProps extends IMenuRouterCompProps {
+  Comp: React.ComponentType<any>;
+}
+const RouterGuard = React.memo((props: IRouterGuardProps) => {
   const settings = useSetup(setup);
-  return <props.Comp key={settings.state.key} {...props.routerProps} />;
+  const passProps = { ...props.routerProps, extraData: props.extraData || {} };
+  // @ts-ignore
+  return <props.Comp key={settings.state.key} {...passProps} />;
 });
 
 class Routes extends React.Component {
@@ -92,45 +104,45 @@ class Routes extends React.Component {
   }
 
   public renderChildren = (item: IMenuItem, props: RouteComponentProps, inputSetContentLayout?: boolean) => {
-    const setContentLayout = decideVal(inputSetContentLayout, item.setContentLayout);
-    const { contentLayoutStyle } = this.ctx.globalComputed;
 
-    // check auth
-    if (item.authId && !this.ctx.globalState.authIds.includes(item.authId)) {
-      return this.renderChildrenWithContentWrap(<Error403 />);
-    }
-
-    // beforeComponentMount 可能返回一个替换的视图
-    let uiReplaceRouteComp: React.ReactNode | void = '';
-    const executed = React.useRef(false);
-    if (!executed.current) {
-      executed.current = true;
-      if (item.beforeComponentMount) {
-        uiReplaceRouteComp = item.beforeComponentMount(props);
-      }
-    }
-
-    const ret = this.cachedUiCompWrapContent[item.path] || {};
-    let { ui: uiCompWrapContent } = ret;
-    const { layoutStyle } = ret;
-    // layout 没变才返回缓存
-    if (uiCompWrapContent && layoutStyle === contentLayoutStyle) return uiCompWrapContent;
-
-    const uiTargetComp = uiReplaceRouteComp || <RouterGuard Comp={item.Component} routerProps={props} />;
-    if (setContentLayout) {
-      uiCompWrapContent = this.renderChildrenWithContentWrap(uiTargetComp);
-    } else {
-      uiCompWrapContent = this.renderChildrenWithNoContentWrap(uiTargetComp);
-    }
-
-    this.cachedUiCompWrapContent[item.path] = { ui: uiCompWrapContent, layoutStyle: contentLayoutStyle };
-    return uiCompWrapContent;
   }
 
   // 创建一个渲染包含有【路由组件】的组件
-  public makeCompWrap = (item: IMenuItem, setContentLayout?: boolean) => {
+  public makeCompWrap = (item: IMenuItem, inputSetContentLayout?: boolean) => {
     return (props: RouteComponentProps) => {
-      return this.renderChildren(item, props, setContentLayout);
+      const setContentLayout = decideVal(inputSetContentLayout, item.setContentLayout);
+      const { contentLayoutStyle } = this.ctx.globalComputed;
+
+      // check auth
+      if (item.authId && !this.ctx.globalState.authIds.includes(item.authId)) {
+        return this.renderChildrenWithContentWrap(<Error403 />);
+      }
+
+      // beforeComponentMount 可能返回一个替换的视图
+      let uiReplaceRouteComp: React.ReactNode | void = '';
+      const executed = React.useRef(false);
+      if (!executed.current) {
+        executed.current = true;
+        if (item.beforeComponentMount) {
+          uiReplaceRouteComp = item.beforeComponentMount(props);
+        }
+      }
+
+      const ret = this.cachedUiCompWrapContent[item.path] || {};
+      let { ui: uiCompWrapContent } = ret;
+      const { layoutStyle } = ret;
+      // layout 没变才返回缓存
+      if (uiCompWrapContent && layoutStyle === contentLayoutStyle) return uiCompWrapContent;
+
+      const uiTargetComp = uiReplaceRouteComp || <RouterGuard Comp={item.Component} routerProps={props} />;
+      if (setContentLayout) {
+        uiCompWrapContent = this.renderChildrenWithContentWrap(uiTargetComp);
+      } else {
+        uiCompWrapContent = this.renderChildrenWithNoContentWrap(uiTargetComp);
+      }
+
+      this.cachedUiCompWrapContent[item.path] = { ui: uiCompWrapContent, layoutStyle: contentLayoutStyle };
+      return uiCompWrapContent;
     };
   }
 
@@ -139,22 +151,17 @@ class Routes extends React.Component {
     if (this.cachedUi.uiRoutes) return this.cachedUi;
 
     let homeMenuItem: IMenuItem | null = null;
-    const uiRoutes = flattedMenus.map((item) => {
+    const uiRoutes = getMenuData().flattedMenus.map((item) => {
       if (item.isHomePage) homeMenuItem = item;
       const CompWrap = this.makeCompWrap(item);
       // todo: keepalive
       return <Route key={item.path} exact={item.exact} path={item.path} component={CompWrap} />;
-      // return <Route key={item.path} exact={item.exact} path={item.path}
-      //   children={(props: RouteComponentProps) => this.renderChildren(item, props)}
-      // />;
     });
 
     let uiHomeRoute: React.ReactNode = '';
     if (homeMenuItem) {
-      // let item = homeMenuItem;
       const CompWrap = this.makeCompWrap(homeMenuItem);
       uiHomeRoute = <Route exact={true} path={'/'} component={CompWrap} />;
-      // uiHomeRoute = <Route exact={true} path={'/'} children={(props: RouteComponentProps) => this.renderChildren(item, props)} />;
     }
 
     // 第二位参数传递 true， 让404 页面包裹一下 content layout

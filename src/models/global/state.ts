@@ -4,7 +4,7 @@ import {
   SiderViewTypes, TopHeaderTypes, TopNavBarTypes, LoginStatus, SiteColorTypes,
   LS_C2PRO_SETTINGS, LS_C2PRO_SETTINGS_VER, siteThemeColor,
 } from 'configs/constant/sys';
-import { path2menuItem } from 'configs/derived/menus';
+import { getMenuData } from 'configs/derived/menus';
 import * as colorServ from 'services/color';
 import * as commonUtil from 'utils/common';
 import { safeParse, inEnum } from 'utils/obj';
@@ -72,7 +72,7 @@ function getInitialState() {
     /** 当前登录者是否是管理员 */
     isAdmin: false,
     /** 当前用户拥有的权限列表 */
-    authIds: [] as string[],
+    authIds: [] as Array<string | number>,
     /** 处于innerMock时，httpService的请求结果会直接从模拟文件获取（同时还会配合 excludedMockApis 名单），注意此时不会从浏览器发出请求 */
     isInnerMock: commonUtil.isLocalMode(),
     /** isInnerMock 为 true 时，只要实现了的mock函数，如果没有在 excludedMockApis 名单里， 都会去被调用 */
@@ -94,7 +94,7 @@ function getInitialState() {
     const validActiveRoutePaths: IRoutePathInfo[] = [];
     activeRoutePaths.forEach((v) => {
       if (!v || typeof v !== 'object') return;
-      if (v.path && path2menuItem[v.path]) {
+      if (v.path && getMenuData().path2menuItem[v.path]) {
         validActiveRoutePaths.push(v);
       }
     });

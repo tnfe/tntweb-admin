@@ -9,7 +9,7 @@ import NextOrPrev from './NextOrPrev';
 
 function Home(props: RouteComponentProps) {
   return (
-    <div style={{ paddingTop: '60px' }}>
+    <div style={{ padding: '80px 20px 20px' }}>
       <Steps />
       <Step1 step={1} />
       <Step2 step={2} />

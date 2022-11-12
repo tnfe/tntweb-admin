@@ -6,7 +6,7 @@ export const buttomBgColor = '#f0f2f5';
 export const contentBgColor = '#fff';
 export const siteThemeColor = '#1976d2';
 /** 水印文案 */
-export const waterMarkLabel = 'TNTWeb-admin';
+export const waterMarkLabel = 'hel-react-app';
 
 const imgLong = 'https://raw.githubusercontent.com/fantasticsoul/assets/master/c2pro/tnt-long.png';
 // 展开时两种主题色的logo长图设置，可按实际情况填写不同的url，如无素材填写0长字符串，保证 notCollapsedLogoLabel 有文案即可

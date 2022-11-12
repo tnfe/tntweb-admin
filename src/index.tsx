@@ -1,37 +1,38 @@
+async function checkCdnBaseLibs() {
+  // 极低的概率可能 cdn 服务请求异常：ERR_HTTP2_PROTOCOL_ERROR，导致 concent 库挂载失败
+  // if (!window.Hub_Concent) {
+  //   const { delay } = await import('./utils/timer');
+  //   await delay(1000);
+  // }
 
-import './styles/index.css';
-import './styles/antd.css';
-// @ts-ignore
-import CSI from 'csijs';
-import 'configs/runConcent';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from 'layout';
-import * as serviceWorker from './serviceWorker';
-
-function getHostNode(id = 'root') {
-  let node = document.getElementById(id);
-  if (!node) {
-    node = document.createElement('div');
-    node.id = id;
-    document.body.appendChild(node);
-  }
-  return node;
+  // if (!window.Hub_Concent || !window.LEAH_React || !window.antd) {
+  //   throw new Error('load base libs from cdn fail!');
+  // }
 }
 
-// 示例：自定义上报
-const csi = new CSI({
-  feID: 'tntweb', // 项目id，日志区分项目使用
-  report: (lines: any) => {
-    // todo 自定义你的上报逻辑
-    console.log('error lins', lines);
-  },
+async function main() {
+  await checkCdnBaseLibs();
+  // 启动 concent
+  await import('./configs/runConcent');
+  // app 上下文相关的预备工作
+  const appContext = await import('./configs/appContext');
+  appContext.extractCustomizedConfig();
+  // 拉取基座的配置
+  const rainbow = await import('./services/confCenter');
+  const hubConfig = await rainbow.initHubConfig();
+
+  // 初始化 icon 资源
+  const { loadIconByUrl } = await import('./components/dumb/icons');
+  loadIconByUrl(hubConfig.iconAssetsUrl);
+
+  // 开始渲染整个应用
+  await import('./loadApp');
+}
+
+
+main().catch((err) => {
+  console.error(err);
+  alert(`网络异常，可尝试刷新解决，err: ${err.message}`);
 });
 
-ReactDOM.render(<App />, getHostNode('root'));
-
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+export const DESC = 'hel-react-app entry file';

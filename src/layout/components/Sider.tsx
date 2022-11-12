@@ -6,7 +6,7 @@ import { getUrlChangedEvName } from 'react-router-concent';
 import { MenuMode, SelectInfo } from 'rc-menu/lib/interface';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
-import { path2menuGroup, homePageFullPath, showingMenus } from 'configs/derived/menus';
+import { getMenuData } from 'configs/derived/menus';
 import { SiderViewTypes } from 'configs/constant/sys';
 import { getRelativeRootPath, extractPathAndSearch } from 'services/appPath';
 import { useSetupCtx, getGlobalComputed } from 'services/concent';
@@ -20,6 +20,7 @@ const { SubMenu, Item: MenuItem } = Menu;
 let firstCallGetOpenKeys = true;
 
 function iState() {
+  const { path2menuGroup, homePageFullPath } = getMenuData();
   // 获取路由参数，确定展开的菜单
   let path = getRelativeRootPath();
   // 确保home页时左侧菜单能够正确的点亮
@@ -58,6 +59,9 @@ function setup(ctx: CtxDe) {
       ctx.setState(newState);
     }
     setActiveRoutePath(newState.selectedKeys[0]);
+  });
+  ctx.on('refreshSider', () => {
+    ctx.reactForceUpdate();
   });
 
   const setActiveRoutePath = (path: string) => {
@@ -118,6 +122,8 @@ export function SiderMenus(props: ISiderMenusProps) {
   const theme = mode === 'inline' ? globalState.siderTheme : globalState.headerTheme;
   // @ts-ignore
   const key = mode2key[`${gcu.siderInfo.isUnfold}InlineCollapsed`];
+  const { visibleSiderMenusOfLeft, visibleSiderMenus } = getMenuData();
+  console.log('visibleSiderMenusOfLeft', visibleSiderMenusOfLeft, visibleSiderMenus);
 
   return (
     <div className={`${styles.siderMenusWrap} smallScBar`} style={{ width: gcu.siderStyle.width }}>
@@ -133,13 +139,13 @@ export function SiderMenus(props: ISiderMenusProps) {
         onSelect={se.changeSelectedKeys}
         inlineCollapsed={!gcu.siderInfo.isUnfold}
       >
-        {showingMenus.map((item) => {
+        {visibleSiderMenusOfLeft.map((item) => {
           const groupItem = item as IMenuGroup;
           if (groupItem.children) {
             const uiGroupItemIon = groupItem.Icon ? <groupItem.Icon /> : <QuestionOutlined />;
             return (
               <SubMenu key={groupItem.key} icon={uiGroupItemIon} title={groupItem.label}>
-                {groupItem.children.map(childItem => se.renderMenuItem(childItem))}
+                {groupItem.children.map(childItem => se.renderMenuItem(childItem as IMenuItem))}
               </SubMenu>
             );
           }

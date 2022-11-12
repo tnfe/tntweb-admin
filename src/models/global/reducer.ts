@@ -1,6 +1,7 @@
 import { VoidPayload } from 'concent';
 import { siteThemeColor, SiderViewTypes, LoginStatus } from 'configs/constant/sys';
-import { path2menuItem } from 'configs/derived/menus';
+import { getMenuData } from 'configs/derived/menus';
+import prepareMenuData from 'configs/remoteMenus/prepareMenuData';
 import { delay } from 'utils/timer';
 import * as colorServ from 'services/color';
 import { getSearchPath } from 'services/appPath';
@@ -15,6 +16,7 @@ const fakeLoginData = {
   isAdmin: true,
   token: 'xxxyyy',
   isLogin: true,
+  authIds: [],
 }
 
 export function toggleCollapsedBtn(payload: VoidPayload, moduleState: St) {
@@ -43,7 +45,7 @@ export function addActiveRoutePath(payload: { path: string, search?: string }, m
 
   // 打开下面逻辑：带search参数路由不写标签页
   // if (search) { return toSet; }
-
+  const { path2menuItem } = getMenuData();
   const menuItem = path2menuItem[path];
   if (!menuItem) { return toSet; }
 
@@ -161,18 +163,23 @@ export function changeIsInnerMock(checked: boolean): PSt {
 export async function loginByCookie(payload: VoidPayload, moduleState: St, ac: IAC): Promise<PSt> {
   await ac.setState({ loginStatus: LoginStatus.LOGGING });
   await delay(300);
+  let toSet: PSt = {};
 
   // 需自己实现使用站点的cookie或者token去验证登录信息，这里仅模拟接口自动登录
   const loginDeadline = parseInt(localStorage.getItem('C2_loginDeadline') || '0');
   if (Date.now() - loginDeadline < 24 * 60 * 60 * 1000) {
     const loginData = await Promise.resolve(fakeLoginData);
-    const toSet: PSt = { ...loginData, isAppReady: true, loginStatus: LoginStatus.LOGIN_SUCCESS };
-    return toSet;
+    toSet = { ...loginData, isAppReady: true, loginStatus: LoginStatus.LOGIN_SUCCESS };
+  } else {
+    // TODO 执行登录，获取权限 id 列表
+    // const authIds = await someService.fetchAuthIds();
+    const authIds: string[] = [];
+    toSet = { loginStatus: LoginStatus.LOGIN_FAILED, authIds };
   }
-  // todo 写 authId 到 state里
-  // toSet.authIds = await someService.fetchAuthIds();
 
-  return { loginStatus: LoginStatus.LOGIN_FAILED };
+  prepareMenuData(toSet.authIds || []);
+  ac.refCtx.emit('refreshSider');
+  return toSet;
 }
 
 /**

@@ -6,7 +6,7 @@ import { useSetupCtx } from 'services/concent';
 import { getSearchPath, extractPathAndSearch } from 'services/appPath';
 import { CtxDe } from 'types/store';
 import { IMenuGroup, IMenuItem } from 'configs/menus';
-import { path2menuItem, path2menuGroup } from 'configs/derived/menus';
+import { getMenuData } from 'configs/derived/menus';
 import { Blank } from 'components/dumb/general';
 import * as arrUtil from 'utils/arr';
 import SettingIcon from './SettingIcon';
@@ -30,6 +30,7 @@ function setup(ctx: CtxDe) {
       }
     },
     getNavMenus: (path: string) => {
+      const { path2menuItem, path2menuGroup } = getMenuData();
       const navMenus: Array<IMenuGroup | IMenuItem> = [];
       const menuItem = path2menuItem[path];
       menuItem && navMenus.unshift(menuItem);
